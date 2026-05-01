@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BotCoin Ойын Алаңы</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface2: #1a1a24;
+  --surface3: #22222f;
+  --accent: #7c5cfc;
+  --accent2: #a78bfa;
+  --gold: #f59e0b;
+  --gold2: #fcd34d;
+  --text: #f0f0ff;
+  --text2: #9898b8;
+  --text3: #5a5a7a;
+  --border: #2a2a3a;
+  --green: #10b981;
+  --red: #ef4444;
+  --blue: #3b82f6;
+  --epic: #a855f7;
+  --rare: #3b82f6;
+  --legendary: #f59e0b;
+  --common: #6b7280;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 20% 20%, rgba(124,92,252,0.08) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 80%, rgba(167,139,250,0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+h1, h2, h3 { font-family: 'Unbounded', sans-serif; }
+
+/* NAV */
+nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0 16px;
+  z-index: 100;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.2s;
+  padding: 4px 12px;
+}
+
+.nav-btn.active { color: var(--accent2); }
+.nav-btn svg { width: 22px; height: 22px; }
+
+/* HEADER */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  z-index: 99;
+}
+
+.logo {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.coin-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+}
+
+.coin-icon {
+  width: 20px;
+  height: 20px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #000;
+}
+
+.coin-amount {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--gold2);
+}
+
+/* PAGES */
+.page {
+  display: none;
+  padding: 80px 20px 100px;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.page.active { display: block; }
+
+/* MENU */
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.game-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 16px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.game-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(124,92,252,0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.game-card:hover::before { opacity: 1; }
+
+.game-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--surface2);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 26px;
+}
+
+.game-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.game-reward {
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+.section-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.section-sub {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 24px;
+}
+
+/* MEMORY GAME */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.memory-card {
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  transition: all 0.3s;
+  position: relative;
+  user-select: none;
+}
+
+.memory-card.flipped {
+  background: var(--surface2);
+  border-color: var(--accent);
+}
+
+.memory-card.matched {
+  background: rgba(16,185,129,0.15);
+  border-color: var(--green);
+}
+
+.memory-card .card-back {
+  font-size: 22px;
+  color: var(--text3);
+}
+
+.memory-card .card-front {
+  display: none;
+  font-size: 28px;
+}
+
+.memory-card.flipped .card-front,
+.memory-card.matched .card-front { display: flex; }
+
+.memory-card.flipped .card-back,
+.memory-card.matched .card-back { display: none; }
+
+.game-stats {
+  display: flex;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+}
+
+.stat-item { text-align: center; }
+.stat-val { font-size: 20px; font-weight: 700; color: var(--accent2); font-family: 'Unbounded', sans-serif; }
+.stat-lbl { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+/* QUIZ GAME */
+.quiz-question {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.quiz-options { display: grid; gap: 10px; }
+
+.quiz-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: var(--text);
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.quiz-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--surface2);
+}
+
+.quiz-btn.correct {
+  background: rgba(16,185,129,0.15);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.quiz-btn.wrong {
+  background: rgba(239,68,68,0.15);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.progress-bar {
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 3px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 3px;
+  transition: width 0.4s;
+}
+
+/* MATH GAME */
+.math-display {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.math-expr {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.math-sub {
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.math-answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.math-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: 'Unbounded', sans-serif;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.math-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--surface2);
+}
+
+.math-btn.correct {
+  background: rgba(16,185,129,0.2);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.math-btn.wrong {
+  background: rgba(239,68,68,0.2);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* PUZZLE GAME */
+.puzzle-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  max-width: 300px;
+  margin: 0 auto 24px;
+}
+
+.puzzle-tile {
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Unbounded', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--text);
+}
+
+.puzzle-tile:hover:not(.empty) {
+  border-color: var(--accent);
+  background: var(--surface2);
+}
+
+.puzzle-tile.empty {
+  background: var(--bg);
+  border-color: var(--border);
+  cursor: default;
+}
+
+/* WORD SCRAMBLE */
+.word-display {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.scrambled-word {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 28px;
+  letter-spacing: 8px;
+  color: var(--accent2);
+  margin-bottom: 8px;
+}
+
+.word-hint {
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.word-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 16px;
+  color: var(--text);
+  font-family: 'Unbounded', sans-serif;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.word-input:focus { border-color: var(--accent); }
+
+/* BUTTONS */
+.btn {
+  background: var(--accent);
+  border: none;
+  border-radius: 12px;
+  padding: 14px 24px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 20px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover { border-color: var(--accent); color: var(--accent2); }
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), #e08a00);
+  color: #000;
+}
+
+/* SHOP */
+.shop-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.shop-tab {
+  flex: 1;
+  padding: 10px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+
+.shop-tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.case-grid { display: grid; gap: 14px; }
+
+.case-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.case-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+
+.case-visual {
+  width: 70px;
+  height: 70px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.case-info { flex: 1; }
+.case-name { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.case-desc { font-size: 12px; color: var(--text2); margin-bottom: 10px; }
+
+.case-odds {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.badge-legendary { background: rgba(245,158,11,0.2); color: var(--gold); }
+.badge-epic { background: rgba(168,85,247,0.2); color: var(--epic); }
+.badge-rare { background: rgba(59,130,246,0.2); color: var(--rare); }
+.badge-common { background: rgba(107,114,128,0.2); color: var(--common); }
+
+.case-price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--gold);
+  font-family: 'Unbounded', sans-serif;
+}
+
+/* PROMO */
+.promo-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.promo-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.promo-input:focus { border-color: var(--accent); }
+
+.promo-result {
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  display: none;
+  margin-top: 10px;
+}
+
+.promo-result.success { background: rgba(16,185,129,0.15); color: var(--green); display: block; }
+.promo-result.error { background: rgba(239,68,68,0.15); color: var(--red); display: block; }
+
+/* ICONS GRID */
+.icons-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.icon-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.icon-item:hover { border-color: var(--accent); }
+.icon-item.owned { border-color: var(--green); }
+.icon-item.equipped { border-color: var(--gold); background: rgba(245,158,11,0.08); }
+
+.icon-img { font-size: 36px; margin-bottom: 6px; }
+.icon-name { font-size: 10px; color: var(--text2); margin-bottom: 4px; }
+.icon-price { font-size: 12px; color: var(--gold); font-weight: 600; }
+.icon-rarity { font-size: 10px; font-weight: 600; }
+
+/* PROFILE */
+.profile-header {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.avatar-wrapper {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 16px;
+}
+
+.avatar-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 3px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.avatar-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-edit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid var(--bg);
+}
+
+.profile-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.profile-rank {
+  font-size: 13px;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.p-stat {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.p-stat-val {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent2);
+}
+
+.p-stat-lbl { font-size: 10px; color: var(--text2); margin-top: 2px; }
+
+.inventory-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.inv-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.inv-slot {
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  position: relative;
+}
+
+.inv-slot .rarity-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.rarity-legendary { background: var(--legendary); }
+.rarity-epic { background: var(--epic); }
+.rarity-rare { background: var(--rare); }
+.rarity-common { background: var(--common); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 28px;
+  width: 100%;
+  max-width: 380px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.coin-earn {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  background: var(--gold);
+  color: #000;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  z-index: 300;
+  opacity: 0;
+  transform: translateY(0);
+  pointer-events: none;
+}
+
+.coin-earn.show {
+  animation: coinFloat 1.5s ease forwards;
+}
+
+@keyframes coinFloat {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-60px); }
+}
+
+/* CASE OPEN MODAL */
+.case-reveal {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.reveal-item {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  margin: 0 auto 16px;
+  animation: revealPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes revealPop {
+  from { transform: scale(0.3) rotate(-15deg); opacity: 0; }
+  to { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+.reveal-rarity {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.reveal-name {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+
+/* NAME INPUT */
+.name-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+}
+
+.name-input:focus { border-color: var(--accent); }
+
+/* AVATAR PICKER */
+.avatar-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.avatar-opt {
+  aspect-ratio: 1;
+  background: var(--surface2);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.avatar-opt:hover { border-color: var(--accent); }
+.avatar-opt.selected { border-color: var(--accent2); background: rgba(124,92,252,0.15); }
+
+.file-upload-btn {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  color: var(--text2);
+  font-size: 13px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+
+.file-upload-btn:hover { border-color: var(--accent); color: var(--accent2); }
+
+#fileInput { display: none; }
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--text2);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.2s;
+}
+
+.back-btn:hover { color: var(--text); }
+
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 12px 20px;
+  font-size: 13px;
+  z-index: 400;
+  opacity: 0;
+  transition: opacity 0.3s;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.toast.show { opacity: 1; }
+
+</style>
+</head>
+<body>
+
+<!-- COIN FLOAT -->
+<div class="coin-earn" id="coinFloat">+0 BC</div>
+<div class="toast" id="toast"></div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="logo">BotCoin</div>
+  <div class="coin-display">
+    <div class="coin-icon">B</div>
+    <div class="coin-amount" id="coinDisplay">0</div>
+    <span style="font-size:11px;color:var(--text2)">BC</span>
+  </div>
+</div>
+
+<!-- PAGES -->
+
+<!-- MENU -->
+<div class="page active" id="page-menu">
+  <div class="section-title">Ойын алаңы</div>
+  <div class="section-sub">Ойнап BotCoin жина</div>
+  <div class="menu-grid">
+    <div class="game-card" onclick="openGame('memory')">
+      <div class="game-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg>
+      </div>
+      <div class="game-title">Карта ойыны</div>
+      <div class="game-reward">+10 BC / жұп</div>
+    </div>
+    <div class="game-card" onclick="openGame('quiz')">
+      <div class="game-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+      </div>
+      <div class="game-title">Қазақ тілі</div>
+      <div class="game-reward">+15 BC / дұрыс</div>
+    </div>
+    <div class="game-card" onclick="openGame('math')">
+      <div class="game-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+      </div>
+      <div class="game-title">Математика</div>
+      <div class="game-reward">+12 BC / дұрыс</div>
+    </div>
+    <div class="game-card" onclick="openGame('puzzle')">
+      <div class="game-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="8" height="8" rx="1"/></svg>
+      </div>
+      <div class="game-title">Пазл</div>
+      <div class="game-reward">+25 BC / шешу</div>
+    </div>
+    <div class="game-card" onclick="openGame('word')" style="grid-column: span 2;">
+      <div class="game-icon" style="width:56px;height:56px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--epic)" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <div class="game-title">Сөз табу</div>
+      <div class="game-reward">+20 BC / сөз</div>
+    </div>
+  </div>
+</div>
+
+<!-- MEMORY GAME -->
+<div class="page" id="page-memory">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Артқа
+  </button>
+  <div class="section-title">Карта ойыны</div>
+  <div class="section-sub">Бірдей карталарды тауып жұпта</div>
+  <div class="game-stats">
+    <div class="stat-item"><div class="stat-val" id="memMoves">0</div><div class="stat-lbl">Қадам</div></div>
+    <div class="stat-item"><div class="stat-val" id="memMatches">0</div><div class="stat-lbl">Жұп</div></div>
+    <div class="stat-item"><div class="stat-val" id="memCoins">0</div><div class="stat-lbl">BC</div></div>
+  </div>
+  <div class="memory-grid" id="memoryGrid"></div>
+  <br>
+  <button class="btn" onclick="initMemory()">Жаңадан бастау</button>
+</div>
+
+<!-- QUIZ GAME -->
+<div class="page" id="page-quiz">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Артқа
+  </button>
+  <div class="section-title">Қазақ тілі тесті</div>
+  <div class="section-sub" id="quizScore">Сұрақ 1 / 10</div>
+  <div class="progress-bar"><div class="progress-fill" id="quizProgress" style="width:10%"></div></div>
+  <div class="quiz-question" id="quizQuestion">Жүктелуде...</div>
+  <div class="quiz-options" id="quizOptions"></div>
+</div>
+
+<!-- MATH GAME -->
+<div class="page" id="page-math">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Артқа
+  </button>
+  <div class="section-title">Математика</div>
+  <div class="section-sub">Дұрыс жауапты тап</div>
+  <div class="game-stats">
+    <div class="stat-item"><div class="stat-val" id="mathScore">0</div><div class="stat-lbl">Ұпай</div></div>
+    <div class="stat-item"><div class="stat-val" id="mathStreak">0</div><div class="stat-lbl">Қатар</div></div>
+    <div class="stat-item"><div class="stat-val" id="mathCoins">0</div><div class="stat-lbl">BC</div></div>
+  </div>
+  <div class="math-display">
+    <div class="math-expr" id="mathExpr">?</div>
+    <div class="math-sub">Жауапты тап</div>
+  </div>
+  <div class="math-answers" id="mathAnswers"></div>
+</div>
+
+<!-- PUZZLE GAME -->
+<div class="page" id="page-puzzle">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Артқа
+  </button>
+  <div class="section-title">Пазл</div>
+  <div class="section-sub">Сандарды ретке келтір</div>
+  <div class="game-stats">
+    <div class="stat-item"><div class="stat-val" id="puzzleMoves">0</div><div class="stat-lbl">Қадам</div></div>
+    <div class="stat-item"><div class="stat-val" id="puzzleTimer">0</div><div class="stat-lbl">Секунд</div></div>
+    <div class="stat-item"><div class="stat-val" id="puzzleCoins">0</div><div class="stat-lbl">BC</div></div>
+  </div>
+  <div class="puzzle-board" id="puzzleBoard"></div>
+  <button class="btn" onclick="initPuzzle()">Жаңадан бастау</button>
+</div>
+
+<!-- WORD GAME -->
+<div class="page" id="page-word">
+  <button class="back-btn" onclick="goBack()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Артқа
+  </button>
+  <div class="section-title">Сөз табу</div>
+  <div class="section-sub">Шатастырылған әріптен сөз жаса</div>
+  <div class="game-stats">
+    <div class="stat-item"><div class="stat-val" id="wordScore">0</div><div class="stat-lbl">Дұрыс</div></div>
+    <div class="stat-item"><div class="stat-val" id="wordSkips">3</div><div class="stat-lbl">Өткізу</div></div>
+    <div class="stat-item"><div class="stat-val" id="wordCoins">0</div><div class="stat-lbl">BC</div></div>
+  </div>
+  <div class="word-display">
+    <div class="scrambled-word" id="scrambledWord">-</div>
+    <div class="word-hint" id="wordHint">Кеңес: -</div>
+  </div>
+  <input type="text" class="word-input" id="wordInput" placeholder="СӨЗДІ ЖАЗ..." maxlength="15" oninput="checkWord()">
+  <div style="display:flex;gap:10px">
+    <button class="btn-outline" style="flex:1" onclick="skipWord()">Өткізу</button>
+    <button class="btn" style="flex:2" onclick="submitWord()">Тексеру</button>
+  </div>
+</div>
+
+<!-- SHOP -->
+<div class="page" id="page-shop">
+  <div class="section-title">Дүкен</div>
+  <div class="section-sub">BotCoin жұмса</div>
+  <div class="shop-tabs">
+    <button class="shop-tab active" onclick="switchShopTab('cases',this)">Кейстер</button>
+    <button class="shop-tab" onclick="switchShopTab('icons',this)">Иконкалар</button>
+    <button class="shop-tab" onclick="switchShopTab('promo',this)">Промокод</button>
+  </div>
+
+  <!-- CASES -->
+  <div id="shop-cases">
+    <div class="case-grid">
+      <div class="case-card" onclick="openCase('bronze')">
+        <div class="case-visual" style="background:linear-gradient(135deg,#78350f,#92400e)">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        </div>
+        <div class="case-info">
+          <div class="case-name">Қола кейс</div>
+          <div class="case-desc">Стандартты кейс</div>
+          <div class="case-odds">
+            <span class="badge badge-common">Қарапайым 60%</span>
+            <span class="badge badge-rare">Сирек 30%</span>
+            <span class="badge badge-epic">Эпик 9%</span>
+            <span class="badge badge-legendary">Леги 1%</span>
+          </div>
+        </div>
+        <div>
+          <div class="case-price">
+            <div class="coin-icon" style="width:16px;height:16px;font-size:9px">B</div>
+            100
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card" onclick="openCase('silver')">
+        <div class="case-visual" style="background:linear-gradient(135deg,#374151,#4b5563)">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e5e7eb" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
+        </div>
+        <div class="case-info">
+          <div class="case-name">Күміс кейс</div>
+          <div class="case-desc">Жақсыртылған шанстар</div>
+          <div class="case-odds">
+            <span class="badge badge-common">Қарапайым 40%</span>
+            <span class="badge badge-rare">Сирек 35%</span>
+            <span class="badge badge-epic">Эпик 20%</span>
+            <span class="badge badge-legendary">Леги 5%</span>
+          </div>
+        </div>
+        <div>
+          <div class="case-price">
+            <div class="coin-icon" style="width:16px;height:16px;font-size:9px">B</div>
+            250
+          </div>
+        </div>
+      </div>
+
+      <div class="case-card" onclick="openCase('gold')">
+        <div class="case-visual" style="background:linear-gradient(135deg,#78350f,#d97706)">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fef08a" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/><circle cx="12" cy="12" r="2" fill="#fef08a"/></svg>
+        </div>
+        <div class="case-info">
+          <div class="case-name">Алтын кейс</div>
+          <div class="case-desc">Ең жоғары леги шансы</div>
+          <div class="case-odds">
+            <span class="badge badge-common">Қарапайым 20%</span>
+            <span class="badge badge-rare">Сирек 35%</span>
+            <span class="badge badge-epic">Эпик 30%</span>
+            <span class="badge badge-legendary">Леги 15%</span>
+          </div>
+        </div>
+        <div>
+          <div class="case-price">
+            <div class="coin-icon" style="width:16px;height:16px;font-size:9px">B</div>
+            500
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ICONS -->
+  <div id="shop-icons" style="display:none">
+    <div class="icons-grid" id="iconsGrid"></div>
+  </div>
+
+  <!-- PROMO -->
+  <div id="shop-promo" style="display:none">
+    <div class="promo-box">
+      <div style="font-family:'Unbounded',sans-serif;font-size:14px;font-weight:600;margin-bottom:8px">Промокод</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:16px">Промокод енгіз және BotCoin жина</div>
+      <input class="promo-input" id="promoInput" placeholder="ПРОМОКОДТЫ ЕНГІЗ">
+      <button class="btn" onclick="redeemPromo()">Активтендіру</button>
+      <div class="promo-result" id="promoResult"></div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:12px">
+      <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:12px">ЖҰМЫС ІСТЕЙТІН ПРОМОКОДТАР</div>
+      <div style="display:grid;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px">
+          <span style="font-family:'Unbounded',sans-serif;font-size:12px;letter-spacing:2px">BOTCOIN100</span>
+          <span style="font-size:12px;color:var(--gold)">+100 BC</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px">
+          <span style="font-family:'Unbounded',sans-serif;font-size:12px;letter-spacing:2px">QAZAQ50</span>
+          <span style="font-size:12px;color:var(--gold)">+50 BC</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px">
+          <span style="font-family:'Unbounded',sans-serif;font-size:12px;letter-spacing:2px">WELCOME200</span>
+          <span style="font-size:12px;color:var(--gold)">+200 BC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="page" id="page-profile">
+  <div class="section-title">Профиль</div>
+  <div class="section-sub" style="margin-bottom:16px">Менің аккаунтым</div>
+
+  <div class="profile-header">
+    <div class="avatar-wrapper">
+      <div class="avatar-circle" id="profileAvatar" onclick="openAvatarModal()">
+        <span id="avatarContent">?</span>
+      </div>
+      <div class="avatar-edit" onclick="openAvatarModal()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </div>
+    </div>
+    <div class="profile-name" id="profileName">Қолданушы</div>
+    <div class="profile-rank" id="profileRank">Жаңадан бастаушы</div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px">
+      <div class="coin-display" style="display:inline-flex">
+        <div class="coin-icon">B</div>
+        <div class="coin-amount" id="profileCoins">0</div>
+        <span style="font-size:11px;color:var(--text2)">BC</span>
+      </div>
+    </div>
+    <div class="profile-stats">
+      <div class="p-stat"><div class="p-stat-val" id="pGames">0</div><div class="p-stat-lbl">Ойын</div></div>
+      <div class="p-stat"><div class="p-stat-val" id="pWins">0</div><div class="p-stat-lbl">Жеңіс</div></div>
+      <div class="p-stat"><div class="p-stat-val" id="pItems">0</div><div class="p-stat-lbl">Зат</div></div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px">
+    <div class="inventory-title">Менің инвентарым</div>
+    <div class="inv-grid" id="inventoryGrid">
+      <div style="grid-column:span 4;text-align:center;padding:20px;color:var(--text3);font-size:13px">Зат жоқ. Дүкеннен сатып ал!</div>
+    </div>
+  </div>
+
+  <button class="btn-outline" style="width:100%" onclick="openNameModal()">Атымды өзгерту</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-btn active" id="nav-menu" onclick="switchPage('menu',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Басты
+  </button>
+  <button class="nav-btn" id="nav-shop" onclick="switchPage('shop',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    Дүкен
+  </button>
+  <button class="nav-btn" id="nav-profile" onclick="switchPage('profile',this);updateProfile()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Профиль
+  </button>
+</nav>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="winModal">
+  <div class="modal">
+    <div class="modal-title" id="winTitle">Керемет!</div>
+    <div style="text-align:center;padding:20px 0">
+      <div style="font-size:48px;margin-bottom:12px">🏆</div>
+      <div id="winMsg" style="font-size:14px;color:var(--text2);margin-bottom:8px"></div>
+      <div id="winCoins" style="font-size:24px;font-weight:700;color:var(--gold);font-family:'Unbounded',sans-serif"></div>
+    </div>
+    <button class="btn btn-gold" onclick="closeModal('winModal')">Жарайды!</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="caseModal">
+  <div class="modal">
+    <div class="modal-title">Кейс ашылуда...</div>
+    <div class="case-reveal" id="caseReveal"></div>
+    <button class="btn" onclick="closeModal('caseModal')">Алу</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="nameModal">
+  <div class="modal">
+    <div class="modal-title">Атымды өзгерту</div>
+    <input class="name-input" id="nameInput" placeholder="Атыңды енгіз" maxlength="20">
+    <div style="display:flex;gap:10px">
+      <button class="btn-outline" style="flex:1" onclick="closeModal('nameModal')">Бас тарту</button>
+      <button class="btn" style="flex:2" onclick="saveName()">Сақтау</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="avatarModal">
+  <div class="modal">
+    <div class="modal-title">Аватар таңда</div>
+    <div class="avatar-options" id="avatarOptions"></div>
+    <div class="file-upload-btn" onclick="document.getElementById('fileInput').click()">
+      Суретті жүктеу (Галерея)
+    </div>
+    <input type="file" id="fileInput" accept="image/*" onchange="uploadAvatar(event)">
+    <div style="display:flex;gap:10px">
+      <button class="btn-outline" style="flex:1" onclick="closeModal('avatarModal')">Бас тарту</button>
+      <button class="btn" style="flex:2" onclick="saveAvatar()">Сақтау</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== STATE ==========
+let state = {
+  coins: 0,
+  name: 'Қолданушы',
+  avatar: '?',
+  avatarImg: null,
+  gamesPlayed: 0,
+  wins: 0,
+  inventory: [],
+  equippedIcon: null,
+  usedPromos: []
+};
+
+const AVATARS = ['🦁','🐯','🦅','🐺','🦊','🐲','🦋','🐋','🦄','🐉','🦑','🦁'];
+let selectedAvatar = null;
+
+// ========== UTILS ==========
+function saveState() { localStorage.setItem('botcoin_state', JSON.stringify(state)); }
+
+function loadState() {
+  const s = localStorage.getItem('botcoin_state');
+  if (s) { state = JSON.parse(s); updateCoinDisplay(); updateProfile(); }
+}
+
+function addCoins(amount) {
+  state.coins += amount;
+  updateCoinDisplay();
+  saveState();
+  showCoinFloat(amount);
+}
+
+function updateCoinDisplay() {
+  document.getElementById('coinDisplay').textContent = state.coins;
+}
+
+function showCoinFloat(amount) {
+  const el = document.getElementById('coinFloat');
+  el.textContent = '+' + amount + ' BC';
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function showWin(title, msg, coins) {
+  document.getElementById('winTitle').textContent = title;
+  document.getElementById('winMsg').textContent = msg;
+  document.getElementById('winCoins').textContent = '+' + coins + ' BC';
+  document.getElementById('winModal').classList.add('open');
+  addCoins(coins);
+  state.wins++;
+  state.gamesPlayed++;
+  saveState();
+}
+
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function switchPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function openGame(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  state.gamesPlayed++;
+  saveState();
+  if (name === 'memory') initMemory();
+  if (name === 'quiz') initQuiz();
+  if (name === 'math') initMath();
+  if (name === 'puzzle') initPuzzle();
+  if (name === 'word') initWord();
+}
+
+function goBack() { switchPage('menu', document.getElementById('nav-menu')); }
+
+// ========== MEMORY GAME ==========
+const SYMBOLS = ['A','K','Q','J','10','9','8','7'];
+let memCards = [], memFlipped = [], memMatched = 0, memMoves = 0, memLock = false, memEarned = 0;
+
+function initMemory() {
+  const pairs = [...SYMBOLS, ...SYMBOLS];
+  pairs.sort(() => Math.random() - 0.5);
+  memCards = pairs;
+  memFlipped = [];
+  memMatched = 0;
+  memMoves = 0;
+  memEarned = 0;
+  memLock = false;
+  document.getElementById('memMoves').textContent = 0;
+  document.getElementById('memMatches').textContent = 0;
+  document.getElementById('memCoins').textContent = 0;
+  renderMemory();
+}
+
+function renderMemory() {
+  const grid = document.getElementById('memoryGrid');
+  grid.innerHTML = '';
+  memCards.forEach((sym, i) => {
+    const card = document.createElement('div');
+    card.className = 'memory-card';
+    card.innerHTML = `<span class="card-back">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="3"/></svg>
+    </span><span class="card-front">${sym}</span>`;
+    card.dataset.index = i;
+    card.dataset.sym = sym;
+    card.onclick = () => flipMemCard(card, i);
+    grid.appendChild(card);
+  });
+}
+
+function flipMemCard(card, idx) {
+  if (memLock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  memFlipped.push({card, idx, sym: memCards[idx]});
+  if (memFlipped.length === 2) {
+    memMoves++;
+    document.getElementById('memMoves').textContent = memMoves;
+    memLock = true;
+    setTimeout(() => {
+      const [a, b] = memFlipped;
+      if (a.sym === b.sym) {
+        a.card.classList.add('matched'); a.card.classList.remove('flipped');
+        b.card.classList.add('matched'); b.card.classList.remove('flipped');
+        memMatched++;
+        memEarned += 10;
+        document.getElementById('memMatches').textContent = memMatched;
+        document.getElementById('memCoins').textContent = memEarned;
+        addCoins(10);
+        if (memMatched === SYMBOLS.length) {
+          setTimeout(() => showWin('Тамаша!', 'Барлық жұптарды таптың!', 50), 300);
+        }
+      } else {
+        a.card.classList.remove('flipped');
+        b.card.classList.remove('flipped');
+      }
+      memFlipped = [];
+      memLock = false;
+    }, 800);
+  }
+}
+
+// ========== QUIZ GAME ==========
+const QUIZ_QUESTIONS = [
+  { q: '"Мектеп" сөзінің мағынасы қандай?', opts: ['Оқу орны', 'Дүкен', 'Ауруxана', 'Кітапхана'], a: 0 },
+  { q: 'Қазақстанның астанасы қай қала?', opts: ['Алматы', 'Шымкент', 'Астана', 'Ақтөбе'], a: 2 },
+  { q: '"Достық" сөзінің антонимі?', opts: ['Сүйіспеншілік', 'Жаулық', 'Бірлік', 'Татулық'], a: 1 },
+  { q: 'Қазақ тілінде "су" сөзі нені білдіреді?', opts: ['От', 'Жер', 'Су', 'Ауа'], a: 2 },
+  { q: '"Батыр" сөзінің мағынасы?', opts: ['Қорқақ', 'Ер жүрек', 'Ақылды', 'Жылдам'], a: 1 },
+  { q: 'Қазақ тілінде неше дауысты дыбыс бар?', opts: ['6', '7', '9', '12'], a: 2 },
+  { q: '"Мен" сөзі қай септікте тұр: "Менің кітабым"?', opts: ['Атау', 'Ілік', 'Барыс', 'Табыс'], a: 1 },
+  { q: '"Қыс" мезгілінің белгісі?', opts: ['Жылы болады', 'Қар жауады', 'Гүл ашады', 'Жапырақ түседі'], a: 1 },
+  { q: 'Қазақ алфавитіндегі әріп саны?', opts: ['32', '36', '42', '28'], a: 2 },
+  { q: '"Кеше" сөзі қай уақытты білдіреді?', opts: ['Ертең', 'Биыл', 'Өткен күн', 'Бүгін'], a: 2 },
+  { q: '"Сәлем" сөзінің мағынасы?', opts: ['Хош бол', 'Амандасу', 'Рахмет', 'Кешір'], a: 1 },
+  { q: 'Қазақ тілінде "апа" кімді білдіреді?', opts: ['Інің', 'Сіңліңің', 'Үлкен қарындасың немесе әйел ағаң', 'Анаң'], a: 2 },
+];
+
+let quizIdx = 0, quizAnswered = false, quizOrder = [];
+
+function initQuiz() {
+  quizOrder = [...Array(QUIZ_QUESTIONS.length).keys()].sort(() => Math.random() - 0.5).slice(0, 10);
+  quizIdx = 0;
+  quizAnswered = false;
+  showQuizQuestion();
+}
+
+function showQuizQuestion() {
+  if (quizIdx >= quizOrder.length) {
+    showWin('Тест аяқталды!', 'Барлық сұрақтарға жауап бердің!', 50);
+    setTimeout(() => initQuiz(), 500);
+    return;
+  }
+  const q = QUIZ_QUESTIONS[quizOrder[quizIdx]];
+  quizAnswered = false;
+  document.getElementById('quizScore').textContent = `Сұрақ ${quizIdx + 1} / ${quizOrder.length}`;
+  document.getElementById('quizProgress').style.width = ((quizIdx + 1) / quizOrder.length * 100) + '%';
+  document.getElementById('quizQuestion').textContent = q.q;
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuiz(i, q.a, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(selected, correct, btn) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const btns = document.querySelectorAll('.quiz-btn');
+  btns.forEach(b => b.disabled = true);
+  if (selected === correct) {
+    btn.classList.add('correct');
+    addCoins(15);
+    showToast('Дұрыс! +15 BC');
+  } else {
+    btn.classList.add('wrong');
+    btns[correct].classList.add('correct');
+    showToast('Қате жауап');
+  }
+  setTimeout(() => { quizIdx++; showQuizQuestion(); }, 1500);
+}
+
+// ========== MATH GAME ==========
+let mathScore = 0, mathStreak = 0, mathCoins = 0;
+
+function initMath() {
+  mathScore = 0; mathStreak = 0; mathCoins = 0;
+  document.getElementById('mathScore').textContent = 0;
+  document.getElementById('mathStreak').textContent = 0;
+  document.getElementById('mathCoins').textContent = 0;
+  genMath();
+}
+
+function genMath() {
+  const ops = ['+', '-', '*'];
+  const op = ops[Math.floor(Math.random() * ops.length)];
+  let a, b, ans;
+  if (op === '+') { a = Math.floor(Math.random()*50)+1; b = Math.floor(Math.random()*50)+1; ans = a+b; }
+  if (op === '-') { a = Math.floor(Math.random()*50)+20; b = Math.floor(Math.random()*a)+1; ans = a-b; }
+  if (op === '*') { a = Math.floor(Math.random()*12)+1; b = Math.floor(Math.random()*12)+1; ans = a*b; }
+  const opLabel = op === '*' ? '×' : op;
+  document.getElementById('mathExpr').textContent = `${a} ${opLabel} ${b} = ?`;
+  const wrongs = new Set([ans]);
+  while (wrongs.size < 4) {
+    const w = ans + (Math.floor(Math.random()*20)-10);
+    if (w !== ans && w >= 0) wrongs.add(w);
+  }
+  const choices = [...wrongs].sort(() => Math.random() - 0.5);
+  const div = document.getElementById('mathAnswers');
+  div.innerHTML = '';
+  choices.forEach(ch => {
+    const btn = document.createElement('button');
+    btn.className = 'math-btn';
+    btn.textContent = ch;
+    btn.onclick = () => answerMath(ch, ans, btn);
+    div.appendChild(btn);
+  });
+}
+
+function answerMath(chosen, correct, btn) {
+  const btns = document.querySelectorAll('.math-btn');
+  btns.forEach(b => b.disabled = true);
+  if (chosen === correct) {
+    btn.classList.add('correct');
+    mathStreak++;
+    mathScore++;
+    const earn = 12 + (mathStreak > 3 ? 8 : 0);
+    mathCoins += earn;
+    addCoins(earn);
+    document.getElementById('mathScore').textContent = mathScore;
+    document.getElementById('mathStreak').textContent = mathStreak;
+    document.getElementById('mathCoins').textContent = mathCoins;
+    showToast(mathStreak > 3 ? 'Серия! +' + earn + ' BC' : '+' + earn + ' BC');
+    setTimeout(genMath, 1000);
+  } else {
+    btn.classList.add('wrong');
+    btns.forEach(b => { if (parseInt(b.textContent) === correct) b.classList.add('correct'); });
+    mathStreak = 0;
+    document.getElementById('mathStreak').textContent = 0;
+    showToast('Қате! Серия үзілді');
+    setTimeout(genMath, 1500);
+  }
+}
+
+// ========== PUZZLE GAME ==========
+let puzzleTiles = [], puzzleMoves = 0, puzzleTimer = 0, puzzleInterval = null, puzzleCoins = 0, puzzleSolved = false;
+
+function initPuzzle() {
+  puzzleTiles = [1,2,3,4,5,6,7,8,0];
+  do { puzzleTiles.sort(() => Math.random() - 0.5); } while (!isSolvable(puzzleTiles) || isSolved(puzzleTiles));
+  puzzleMoves = 0; puzzleCoins = 0; puzzleSolved = false;
+  document.getElementById('puzzleMoves').textContent = 0;
+  document.getElementById('puzzleCoins').textContent = 0;
+  clearInterval(puzzleInterval);
+  puzzleTimer = 0;
+  document.getElementById('puzzleTimer').textContent = 0;
+  puzzleInterval = setInterval(() => {
+    if (!puzzleSolved) { puzzleTimer++; document.getElementById('puzzleTimer').textContent = puzzleTimer; }
+  }, 1000);
+  renderPuzzle();
+}
+
+function isSolvable(tiles) {
+  let inv = 0;
+  for (let i = 0; i < 9; i++) for (let j = i+1; j < 9; j++)
+    if (tiles[i] && tiles[j] && tiles[i] > tiles[j]) inv++;
+  return inv % 2 === 0;
+}
+
+function isSolved(tiles) { return tiles.every((v,i) => v === (i === 8 ? 0 : i+1)); }
+
+function renderPuzzle() {
+  const board = document.getElementById('puzzleBoard');
+  board.innerHTML = '';
+  puzzleTiles.forEach((val, i) => {
+    const tile = document.createElement('div');
+    tile.className = 'puzzle-tile' + (val === 0 ? ' empty' : '');
+    tile.textContent = val || '';
+    if (val !== 0) tile.onclick = () => movePuzzle(i);
+    board.appendChild(tile);
+  });
+}
+
+function movePuzzle(idx) {
+  if (puzzleSolved) return;
+  const empty = puzzleTiles.indexOf(0);
+  const valid = [idx-1, idx+1, idx-3, idx+3];
+  const rowDiff = Math.abs(Math.floor(idx/3) - Math.floor(empty/3));
+  const colDiff = Math.abs((idx%3) - (empty%3));
+  if ((rowDiff + colDiff) !== 1) return;
+  [puzzleTiles[idx], puzzleTiles[empty]] = [puzzleTiles[empty], puzzleTiles[idx]];
+  puzzleMoves++;
+  document.getElementById('puzzleMoves').textContent = puzzleMoves;
+  renderPuzzle();
+  if (isSolved(puzzleTiles)) {
+    puzzleSolved = true;
+    clearInterval(puzzleInterval);
+    const bonus = Math.max(25, 100 - puzzleMoves * 2);
+    puzzleCoins = bonus;
+    document.getElementById('puzzleCoins').textContent = bonus;
+    setTimeout(() => showWin('Пазл шешілді!', `${puzzleMoves} қадамда ${puzzleTimer} секундта`, bonus), 300);
+  }
+}
+
+// ========== WORD GAME ==========
+const WORDS = [
+  { word: 'МЕКТЕП', hint: 'Балалар оқитын жер', scramble: () => scramble('МЕКТЕП') },
+  { word: 'КІТАП', hint: 'Оқуға арналған зат', scramble: () => scramble('КІТАП') },
+  { word: 'ДОСТЫҚ', hint: 'Адамдар арасындағы жақсы қарым-қатынас', scramble: () => scramble('ДОСТЫҚ') },
+  { word: 'ҚАЗАҚСТАН', hint: 'Елдің аты', scramble: () => scramble('ҚАЗАҚСТАН') },
+  { word: 'АСТАНА', hint: 'Елдің астанасы', scramble: () => scramble('АСТАНА') },
+  { word: 'БАТЫР', hint: 'Ер жүрек адам', scramble: () => scramble('БАТЫР') },
+  { word: 'МЕКТЕБІМ', hint: 'Менің оқу орным', scramble: () => scramble('МЕКТЕБІМ') },
+  { word: 'ДАЛА', hint: 'Кең жазық жер', scramble: () => scramble('ДАЛА') },
+  { word: 'ЖАЙЛАУ', hint: 'Жаздық шабындық', scramble: () => scramble('ЖАЙЛАУ') },
+  { word: 'АЛТЫН', hint: 'Сары металл', scramble: () => scramble('АЛТЫН') },
+];
+let wordIdx = 0, wordScore = 0, wordSkips = 3, wordCoins = 0, wordOrder = [];
+
+function scramble(word) {
+  const arr = word.split('');
+  do { arr.sort(() => Math.random() - 0.5); } while (arr.join('') === word);
+  return arr.join('');
+}
+
+function initWord() {
+  wordOrder = [...Array(WORDS.length).keys()].sort(() => Math.random() - 0.5);
+  wordIdx = 0; wordScore = 0; wordSkips = 3; wordCoins = 0;
+  document.getElementById('wordScore').textContent = 0;
+  document.getElementById('wordSkips').textContent = 3;
+  document.getElementById('wordCoins').textContent = 0;
+  showWord();
+}
+
+function showWord() {
+  const w = WORDS[wordOrder[wordIdx % wordOrder.length]];
+  document.getElementById('scrambledWord').textContent = scramble(w.word);
+  document.getElementById('wordHint').textContent = 'Кеңес: ' + w.hint;
+  document.getElementById('wordInput').value = '';
+  document.getElementById('wordInput').focus();
+}
+
+function checkWord() {
+  const input = document.getElementById('wordInput').value.toUpperCase().trim();
+  const w = WORDS[wordOrder[wordIdx % wordOrder.length]];
+  if (input === w.word) submitWord();
+}
+
+function submitWord() {
+  const input = document.getElementById('wordInput').value.toUpperCase().trim();
+  const w = WORDS[wordOrder[wordIdx % wordOrder.length]];
+  if (input === w.word) {
+    wordScore++; wordCoins += 20;
+    addCoins(20);
+    document.getElementById('wordScore').textContent = wordScore;
+    document.getElementById('wordCoins').textContent = wordCoins;
+    showToast('Дұрыс! +20 BC');
+    wordIdx++;
+    setTimeout(showWord, 600);
+  } else {
+    showToast('Қате жауап, қайта көр');
+    document.getElementById('wordInput').value = '';
+  }
+}
+
+function skipWord() {
+  if (wordSkips <= 0) { showToast('Өткізу аяқталды'); return; }
+  wordSkips--;
+  document.getElementById('wordSkips').textContent = wordSkips;
+  wordIdx++;
+  showWord();
+}
+
+// ========== SHOP ==========
+const SHOP_ICONS = [
+  { id: 1, name: 'Арыстан', icon: '🦁', rarity: 'rare', price: 200, rarityClass: 'rare' },
+  { id: 2, name: 'Қасқыр', icon: '🐺', rarity: 'epic', price: 350, rarityClass: 'epic' },
+  { id: 3, name: 'Бүркіт', icon: '🦅', rarity: 'rare', price: 200, rarityClass: 'rare' },
+  { id: 4, name: 'Айдахар', icon: '🐉', rarity: 'legendary', price: 800, rarityClass: 'legendary' },
+  { id: 5, name: 'Жылан', icon: '🐍', rarity: 'common', price: 80, rarityClass: 'common' },
+  { id: 6, name: 'Жолбарыс', icon: '🐯', rarity: 'epic', price: 400, rarityClass: 'epic' },
+  { id: 7, name: 'Тас бақа', icon: '🐢', rarity: 'common', price: 60, rarityClass: 'common' },
+  { id: 8, name: 'Тілсіз', icon: '🦑', rarity: 'rare', price: 250, rarityClass: 'rare' },
+  { id: 9, name: 'Жарық', icon: '⚡', rarity: 'epic', price: 450, rarityClass: 'epic' },
+];
+
+const RARITY_LABELS = { common: 'Қарапайым', rare: 'Сирек', epic: 'Эпик', legendary: 'Аңыз' };
+
+function renderIcons() {
+  const grid = document.getElementById('iconsGrid');
+  grid.innerHTML = '';
+  SHOP_ICONS.forEach(ic => {
+    const owned = state.inventory.some(i => i.id === ic.id);
+    const equipped = state.equippedIcon === ic.id;
+    const div = document.createElement('div');
+    div.className = 'icon-item' + (owned ? ' owned' : '') + (equipped ? ' equipped' : '');
+    div.innerHTML = `
+      <div class="icon-img">${ic.icon}</div>
+      <div class="icon-name">${ic.name}</div>
+      <div class="icon-rarity" style="color:var(--${ic.rarityClass})">${RARITY_LABELS[ic.rarity]}</div>
+      <div class="icon-price" style="margin-top:4px">${owned ? (equipped ? 'Тағылған' : 'Тағу') : ic.price + ' BC'}</div>
+    `;
+    div.onclick = () => {
+      if (owned) { state.equippedIcon = ic.id; saveState(); renderIcons(); updateProfile(); showToast(ic.name + ' тағылды'); }
+      else buyIcon(ic);
+    };
+    grid.appendChild(div);
+  });
+}
+
+function buyIcon(ic) {
+  if (state.coins < ic.price) { showToast('BC жетіспейді!'); return; }
+  state.coins -= ic.price;
+  state.inventory.push({ id: ic.id, icon: ic.icon, name: ic.name, rarity: ic.rarity });
+  updateCoinDisplay();
+  saveState();
+  renderIcons();
+  updateInventory();
+  showToast(ic.name + ' сатып алынды!');
+}
+
+function switchShopTab(tab, btn) {
+  document.querySelectorAll('.shop-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('shop-cases').style.display = tab === 'cases' ? 'block' : 'none';
+  document.getElementById('shop-icons').style.display = tab === 'icons' ? 'block' : 'none';
+  document.getElementById('shop-promo').style.display = tab === 'promo' ? 'block' : 'none';
+  if (tab === 'icons') renderIcons();
+}
+
+// ========== CASES ==========
+const CASE_CONFIG = {
+  bronze: { odds: [{r:'common',chance:60},{r:'rare',chance:30},{r:'epic',chance:9},{r:'legendary',chance:1}] },
+  silver: { odds: [{r:'common',chance:40},{r:'rare',chance:35},{r:'epic',chance:20},{r:'legendary',chance:5}] },
+  gold:   { odds: [{r:'common',chance:20},{r:'rare',chance:35},{r:'epic',chance:30},{r:'legendary',chance:15}] },
+};
+const CASE_PRICES = { bronze: 100, silver: 250, gold: 500 };
+
+const CASE_ITEMS = {
+  common: [{icon:'🌿',name:'Шөп'},{icon:'🪨',name:'Тас'},{icon:'🍂',name:'Жапырақ'}],
+  rare:   [{icon:'🌊',name:'Толқын'},{icon:'⚡',name:'Найзағай'},{icon:'🌙',name:'Ай'}],
+  epic:   [{icon:'🔥',name:'От'},{icon:'💎',name:'Бриллиант'},{icon:'🌟',name:'Жұлдыз'}],
+  legendary: [{icon:'🏆',name:'Кубок'},{icon:'👑',name:'Тәж'},{icon:'🐉',name:'Айдахар'}],
+};
+
+function openCase(type) {
+  const price = CASE_PRICES[type];
+  if (state.coins < price) { showToast('BC жетіспейді!'); return; }
+  state.coins -= price;
+  updateCoinDisplay();
+  const cfg = CASE_CONFIG[type];
+  const roll = Math.random() * 100;
+  let cum = 0, rarity = 'common';
+  for (const o of cfg.odds) { cum += o.chance; if (roll < cum) { rarity = o.r; break; } }
+  const items = CASE_ITEMS[rarity];
+  const item = items[Math.floor(Math.random() * items.length)];
+  state.inventory.push({ id: Date.now(), icon: item.icon, name: item.name, rarity });
+  saveState();
+  updateInventory();
+  const rarityColors = { common: '#6b7280', rare: '#3b82f6', epic: '#a855f7', legendary: '#f59e0b' };
+  const rarityBg = { common: 'rgba(107,114,128,0.2)', rare: 'rgba(59,130,246,0.2)', epic: 'rgba(168,85,247,0.2)', legendary: 'rgba(245,158,11,0.2)' };
+  document.getElementById('caseReveal').innerHTML = `
+    <div class="reveal-item" style="background:${rarityBg[rarity]};border:2px solid ${rarityColors[rarity]}">${item.icon}</div>
+    <div class="reveal-rarity" style="color:${rarityColors[rarity]}">${RARITY_LABELS[rarity].toUpperCase()}</div>
+    <div class="reveal-name">${item.name}</div>
+  `;
+  document.getElementById('caseModal').classList.add('open');
+}
+
+// ========== PROMO ==========
+const PROMOS = { 'BOTCOIN100': 100, 'QAZAQ50': 50, 'WELCOME200': 200 };
+
+function redeemPromo() {
+  const code = document.getElementById('promoInput').value.trim().toUpperCase();
+  const result = document.getElementById('promoResult');
+  if (!code) { result.className = 'promo-result error'; result.textContent = 'Промокод енгіз'; return; }
+  if (state.usedPromos.includes(code)) { result.className = 'promo-result error'; result.textContent = 'Бұл промокод қолданылды'; return; }
+  if (PROMOS[code]) {
+    addCoins(PROMOS[code]);
+    state.usedPromos.push(code);
+    saveState();
+    result.className = 'promo-result success';
+    result.textContent = '+' + PROMOS[code] + ' BC есептелді!';
+    document.getElementById('promoInput').value = '';
+  } else {
+    result.className = 'promo-result error';
+    result.textContent = 'Жарамсыз промокод';
+  }
+}
+
+// ========== PROFILE ==========
+function updateProfile() {
+  document.getElementById('profileName').textContent = state.name;
+  document.getElementById('profileCoins').textContent = state.coins;
+  document.getElementById('pGames').textContent = state.gamesPlayed;
+  document.getElementById('pWins').textContent = state.wins;
+  document.getElementById('pItems').textContent = state.inventory.length;
+  const ranks = [{min:0,name:'Жаңадан бастаушы'},{min:100,name:'Тәжірибелі'},{min:500,name:'Шебер'},{min:1000,name:'Батыр'},{min:5000,name:'Аңыз'}];
+  let rank = ranks[0].name;
+  for (const r of ranks) { if (state.coins >= r.min) rank = r.name; }
+  document.getElementById('profileRank').textContent = rank;
+  const av = document.getElementById('avatarContent');
+  if (state.avatarImg) {
+    document.getElementById('profileAvatar').innerHTML = `<img src="${state.avatarImg}" id="avatarContent">`;
+  } else {
+    av.textContent = state.avatar || state.name[0] || '?';
+  }
+  updateInventory();
+}
+
+function updateInventory() {
+  const grid = document.getElementById('inventoryGrid');
+  if (state.inventory.length === 0) {
+    grid.innerHTML = '<div style="grid-column:span 4;text-align:center;padding:20px;color:var(--text3);font-size:13px">Зат жоқ. Дүкеннен сатып ал!</div>';
+    return;
+  }
+  grid.innerHTML = '';
+  state.inventory.slice(-16).forEach(item => {
+    const slot = document.createElement('div');
+    slot.className = 'inv-slot';
+    slot.innerHTML = `${item.icon}<div class="rarity-dot rarity-${item.rarity}"></div>`;
+    slot.title = item.name;
+    grid.appendChild(slot);
+  });
+}
+
+function openNameModal() {
+  document.getElementById('nameInput').value = state.name;
+  document.getElementById('nameModal').classList.add('open');
+}
+
+function saveName() {
+  const n = document.getElementById('nameInput').value.trim();
+  if (!n) return;
+  state.name = n;
+  saveState();
+  updateProfile();
+  closeModal('nameModal');
+  showToast('Аты сақталды');
+}
+
+function openAvatarModal() {
+  selectedAvatar = state.avatar;
+  const opts = document.getElementById('avatarOptions');
+  opts.innerHTML = '';
+  AVATARS.forEach(av => {
+    const div = document.createElement('div');
+    div.className = 'avatar-opt' + (av === selectedAvatar ? ' selected' : '');
+    div.textContent = av;
+    div.onclick = () => { selectedAvatar = av; state.avatarImg = null; document.querySelectorAll('.avatar-opt').forEach(d => d.classList.remove('selected')); div.classList.add('selected'); };
+    opts.appendChild(div);
+  });
+  document.getElementById('avatarModal').classList.add('open');
+}
+
+function saveAvatar() {
+  if (!state.avatarImg) state.avatar = selectedAvatar || state.avatar;
+  saveState();
+  updateProfile();
+  closeModal('avatarModal');
+  showToast('Аватар сақталды');
+}
+
+function uploadAvatar(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => { state.avatarImg = e.target.result; document.querySelectorAll('.avatar-opt').forEach(d => d.classList.remove('selected')); showToast('Сурет жүктелді'); };
+  reader.readAsDataURL(file);
+}
+
+// ========== INIT ==========
+loadState();
+initMemory();
+initQuiz();
+initMath();
+initPuzzle();
+initWord();
+
+if (!state.name || state.name === 'Қолданушы') {
+  setTimeout(() => { document.getElementById('nameModal').classList.add('open'); }, 800);
+}
+</script>
+</body>
+</html>
