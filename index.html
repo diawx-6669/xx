@@ -1569,7 +1569,7 @@ nav {
   </div>
   <div class="welcome-title" id="wt">BotaOy</div>
   <div class="welcome-sub" id="ws">Ботамен бірге оқы және ойна!</div>
-  <button class="welcome-btn" id="wbtn" onclick="switchPage('onboard')">Бастау!</button>
+  <button class="welcome-btn" id="wbtn" onclick="document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-onboard').classList.add('active');">Бастау!</button>
 </div>
 
 <!-- ONBOARD -->
@@ -1598,11 +1598,19 @@ nav {
     <input class="fancy-input" id="nameInputOnb" placeholder="Атыңды жаз..." maxlength="20">
     <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px" id="ob_age_lbl">Жасыңды таңда:</div>
     <div class="age-grid">
+      <button class="age-btn" onclick="selectAge(5,this)">5</button>
+      <button class="age-btn" onclick="selectAge(6,this)">6</button>
       <button class="age-btn" onclick="selectAge(7,this)">7</button>
       <button class="age-btn" onclick="selectAge(8,this)">8</button>
       <button class="age-btn" onclick="selectAge(9,this)">9</button>
       <button class="age-btn" onclick="selectAge(10,this)">10</button>
       <button class="age-btn" onclick="selectAge(11,this)">11</button>
+      <button class="age-btn" onclick="selectAge(12,this)">12</button>
+      <button class="age-btn" onclick="selectAge(13,this)">13</button>
+      <button class="age-btn" onclick="selectAge(14,this)">14</button>
+      <button class="age-btn" onclick="selectAge(15,this)">15</button>
+      <button class="age-btn" onclick="selectAge(16,this)">16</button>
+      <button class="age-btn" onclick="selectAge(17,this)">17</button>
     </div>
     <button class="big-btn" id="ob_btn" onclick="finishOnboard()">Бастайық!</button>
   </div>
@@ -2894,10 +2902,21 @@ function redeemPromo() {
 // LEADERBOARD (localStorage simulated)
 // ============================================================
 const DEMO_PLAYERS = [
-  {name:'Айгерім',score:1840,av:0},{name:'Арман',score:1560,av:4},
-  {name:'Зарина',score:1340,av:2},{name:'Темір',score:1100,av:6},
-  {name:'Аида',score:980,av:1},{name:'Нурлан',score:820,av:3},
-  {name:'Сания',score:640,av:7},{name:'Даниар',score:480,av:5},
+  {name:'Нурайым',score:6969,av:0},{name:'Айгерім',score:6767,av:1},
+  {name:'Зарина',score:2111,av:2},{name:'diawx',score:2069,av:3},
+  {name:'Арман',score:1980,av:4},{name:'Темір',score:1850,av:5},
+  {name:'Аида',score:1720,av:6},{name:'Нурлан',score:1590,av:7},
+  {name:'Сания',score:1430,av:0},{name:'Даниар',score:1310,av:2},
+  {name:'Алия',score:1240,av:3},{name:'Бекзат',score:1180,av:4},
+  {name:'Мадина',score:1050,av:5},{name:'Ерлан',score:990,av:6},
+  {name:'Камила',score:920,av:7},{name:'Азат',score:870,av:1},
+  {name:'Дина',score:810,av:2},{name:'Серик',score:760,av:3},
+  {name:'Гульнара',score:700,av:4},{name:'Максат',score:650,av:0},
+  {name:'Аружан',score:610,av:5},{name:'Болат',score:570,av:6},
+  {name:'Назерке',score:530,av:7},{name:'Ринат',score:490,av:1},
+  {name:'Жансая',score:450,av:2},{name:'Тимур',score:410,av:3},
+  {name:'Меруерт',score:380,av:4},{name:'Асель',score:340,av:5},
+  {name:'Руслан',score:300,av:6},{name:'Айнур',score:260,av:7},
 ];
 const AVATAR_CHARS = ['🦁','🐯','🦅','🐺','🦊','🐲','🦋','🦑'];
 
@@ -2937,11 +2956,30 @@ function openAvatarModal() {
   tempAvIdx = state.avatarIdx || 0;
   const grid = document.getElementById('avatarPickGrid');
   grid.innerHTML = '';
-  AVATAR_SVGS.forEach((av,i) => {
+
+  // Build list of won avatar indices from inventory (items whose name matches AVATAR_SVGS)
+  // Always include index 0 (default), plus any unlocked via cases
+  const unlockedIndices = new Set([state.avatarIdx || 0]);
+  // Map inventory item names to avatar indices
+  state.inventory.forEach(item => {
+    const itemName = (item.name && (item.name.kk || item.name.en || item.name.ru || item.name)) || '';
+    AVATAR_SVGS.forEach((av, i) => {
+      if (itemName.includes(av.char)) unlockedIndices.add(i);
+    });
+  });
+  // Also unlock based on how many cases opened (every 3 items = +1 avatar slot)
+  const slotsFromCases = Math.min(AVATAR_SVGS.length, 1 + Math.floor(state.inventory.length / 2));
+  for (let i = 0; i < slotsFromCases; i++) unlockedIndices.add(i);
+
+  AVATAR_SVGS.forEach((av, i) => {
+    const isUnlocked = unlockedIndices.has(i);
     const div = document.createElement('div');
-    div.className = 'avatar-pick-opt' + (i===tempAvIdx?' sel':'');
-    div.innerHTML = `<svg viewBox="0 0 56 56" width="44" height="44"><circle cx="28" cy="28" r="26" fill="${av.color}33"/><text x="28" y="36" text-anchor="middle" font-size="24">${av.char}</text></svg>`;
+    div.className = 'avatar-pick-opt' + (i===tempAvIdx?' sel':'') + (isUnlocked?'':' locked-av');
+    div.style.opacity = isUnlocked ? '1' : '0.35';
+    div.style.position = 'relative';
+    div.innerHTML = `<svg viewBox="0 0 56 56" width="44" height="44"><circle cx="28" cy="28" r="26" fill="${av.color}33"/><text x="28" y="36" text-anchor="middle" font-size="24">${av.char}</text></svg>` + (!isUnlocked ? '<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px">🔒</div>' : '');
     div.onclick = () => {
+      if (!isUnlocked) { showToast(t('toast_icon_locked')); return; }
       tempAvIdx=i;
       document.querySelectorAll('.avatar-pick-opt').forEach(d=>d.classList.remove('sel'));
       div.classList.add('sel');
