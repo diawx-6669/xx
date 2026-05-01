@@ -3,371 +3,660 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BotCoin Ойын Алаңы</title>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<title>BotaOy — Баян Сұлу</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a0f;
-  --surface: #13131a;
-  --surface2: #1a1a24;
-  --surface3: #22222f;
-  --accent: #7c5cfc;
-  --accent2: #a78bfa;
-  --gold: #f59e0b;
-  --gold2: #fcd34d;
-  --text: #f0f0ff;
-  --text2: #9898b8;
-  --text3: #5a5a7a;
-  --border: #2a2a3a;
-  --green: #10b981;
-  --red: #ef4444;
-  --blue: #3b82f6;
-  --epic: #a855f7;
-  --rare: #3b82f6;
-  --legendary: #f59e0b;
-  --common: #6b7280;
+  --bg: #FFF9F0;
+  --surface: #FFFFFF;
+  --surface2: #FFF3E0;
+  --primary: #FF6B35;
+  --primary2: #FF8C5A;
+  --secondary: #4ECDC4;
+  --secondary2: #7EDDD8;
+  --gold: #FFD700;
+  --gold2: #FFA500;
+  --purple: #9B59B6;
+  --purple2: #C39BD3;
+  --green: #27AE60;
+  --green2: #58D68D;
+  --blue: #2980B9;
+  --blue2: #5DADE2;
+  --red: #E74C3C;
+  --border: #FFE0B2;
+  --text: #2C3E50;
+  --text2: #7F8C8D;
+  --shadow: 0 4px 20px rgba(255,107,53,0.15);
+  --shadow2: 0 8px 32px rgba(255,107,53,0.25);
+
+  --legendary: #FFD700;
+  --epic: #9B59B6;
+  --rare: #2980B9;
+  --common: #95A5A6;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
 }
 
+/* DECORATIVE BACKGROUND */
 body::before {
   content: '';
   position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(ellipse at 20% 20%, rgba(124,92,252,0.08) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 80%, rgba(167,139,250,0.05) 0%, transparent 50%);
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255,107,53,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(78,205,196,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255,215,0,0.04) 0%, transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
 
-h1, h2, h3 { font-family: 'Unbounded', sans-serif; }
-
-/* NAV */
-nav {
+/* FLOATING STARS */
+.stars-bg {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-around;
-  padding: 12px 0 16px;
-  z-index: 100;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
 }
 
-.nav-btn {
-  background: none;
-  border: none;
-  color: var(--text3);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  font-family: 'Inter', sans-serif;
-  transition: color 0.2s;
-  padding: 4px 12px;
+.star {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation: floatStar linear infinite;
+  opacity: 0.4;
 }
 
-.nav-btn.active { color: var(--accent2); }
-.nav-btn svg { width: 22px; height: 22px; }
+@keyframes floatStar {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
 
-/* HEADER */
+/* TOP BAR */
 .top-bar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  top: 0; left: 0; right: 0;
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
   z-index: 99;
+  box-shadow: 0 4px 20px rgba(255,107,53,0.4);
 }
 
-.logo {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--accent), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.logo-text {
+  font-family: 'Fredoka One', cursive;
+  font-size: 24px;
+  color: white;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.15);
+  letter-spacing: 1px;
 }
 
-.coin-display {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 20px;
+.logo-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.8);
+  display: block;
+  margin-top: -2px;
+}
+
+.coin-pill {
+  background: rgba(255,255,255,0.25);
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 30px;
   padding: 6px 14px;
-}
-
-.coin-icon {
-  width: 20px;
-  height: 20px;
-  background: var(--gold);
-  border-radius: 50%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: #000;
+  gap: 6px;
+  backdrop-filter: blur(10px);
 }
 
-.coin-amount {
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--gold2);
+.coin-star {
+  width: 22px;
+  height: 22px;
+}
+
+.coin-count {
+  font-size: 16px;
+  font-weight: 900;
+  color: white;
+  font-family: 'Fredoka One', cursive;
+}
+
+/* LANG SWITCHER */
+.lang-bar {
+  position: fixed;
+  top: 66px;
+  right: 12px;
+  display: flex;
+  gap: 4px;
+  z-index: 98;
+}
+
+.lang-btn {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text2);
+}
+
+.lang-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
 }
 
 /* PAGES */
 .page {
   display: none;
-  padding: 80px 20px 100px;
-  min-height: 100vh;
+  padding: 130px 16px 100px;
   position: relative;
   z-index: 1;
+  min-height: 100vh;
 }
 
 .page.active { display: block; }
 
-/* MENU */
+/* WELCOME PAGE */
+#page-welcome {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #FF6B35 0%, #FF8C5A 30%, #FFD700 70%, #4ECDC4 100%);
+  text-align: center;
+}
+
+#page-welcome.active { display: flex; }
+
+.welcome-hero {
+  margin-bottom: 32px;
+  animation: bounceIn 0.8s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes bounceIn {
+  from { transform: scale(0.3) translateY(50px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.welcome-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 52px;
+  color: white;
+  text-shadow: 4px 4px 0 rgba(0,0,0,0.15);
+  margin-bottom: 8px;
+  animation: slideDown 0.6s ease 0.2s both;
+}
+
+.welcome-sub {
+  font-size: 18px;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 40px;
+  font-weight: 700;
+  animation: slideDown 0.6s ease 0.4s both;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.welcome-btn {
+  background: white;
+  color: var(--primary);
+  border: none;
+  border-radius: 30px;
+  padding: 18px 48px;
+  font-size: 22px;
+  font-weight: 900;
+  font-family: 'Fredoka One', cursive;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  transition: all 0.2s;
+  animation: slideUp 0.6s ease 0.6s both;
+  letter-spacing: 1px;
+}
+
+.welcome-btn:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 16px 40px rgba(0,0,0,0.25); }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* CAMBOT SVG */
+.cambot-svg {
+  width: 160px;
+  height: 160px;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,0.2));
+}
+
+/* NAME INPUT SCREEN */
+#page-onboard {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #4ECDC4, #FFD700 60%, #FF6B35);
+  text-align: center;
+}
+
+#page-onboard.active { display: flex; }
+
+.onboard-card {
+  background: white;
+  border-radius: 28px;
+  padding: 36px 32px;
+  max-width: 340px;
+  width: 90%;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+}
+
+.onboard-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 26px;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.fancy-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-size: 16px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 16px;
+}
+
+.fancy-input:focus { border-color: var(--primary); }
+
+.age-grid {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.age-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: var(--surface2);
+  border: 3px solid var(--border);
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Fredoka One', cursive;
+  color: var(--text);
+}
+
+.age-btn.selected {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  transform: scale(1.1);
+}
+
+.big-btn {
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  border: none;
+  border-radius: 20px;
+  padding: 16px 32px;
+  font-size: 18px;
+  font-weight: 900;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+  font-family: 'Fredoka One', cursive;
+  box-shadow: 0 6px 20px rgba(255,107,53,0.4);
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.big-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,107,53,0.5); }
+.big-btn:active { transform: translateY(0); }
+
+/* MAIN MENU */
+.section-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 24px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.section-sub {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
 .menu-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .game-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 20px 16px;
+  background: white;
+  border-radius: 22px;
+  padding: 20px 14px;
+  text-align: center;
   cursor: pointer;
   transition: all 0.25s;
-  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border: 3px solid transparent;
   position: relative;
   overflow: hidden;
 }
 
-.game-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-2px);
-}
-
-.game-card::before {
+.game-card::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(124,92,252,0.08), transparent);
-  opacity: 0;
-  transition: opacity 0.25s;
+  background: linear-gradient(135deg, rgba(255,255,255,0) 60%, rgba(255,255,255,0.6));
 }
 
-.game-card:hover::before { opacity: 1; }
+.game-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
 
-.game-icon {
-  width: 56px;
-  height: 56px;
-  background: var(--surface2);
-  border-radius: 14px;
+.game-card.color-1 { border-color: #FF6B35; background: linear-gradient(135deg, #FFF5F2, white); }
+.game-card.color-2 { border-color: #4ECDC4; background: linear-gradient(135deg, #F0FFFD, white); }
+.game-card.color-3 { border-color: #9B59B6; background: linear-gradient(135deg, #FAF0FF, white); }
+.game-card.color-4 { border-color: #27AE60; background: linear-gradient(135deg, #F0FFF7, white); }
+.game-card.color-5 { border-color: #2980B9; background: linear-gradient(135deg, #F0F8FF, white); }
+
+.game-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  margin: 0 auto 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 12px;
-  font-size: 26px;
 }
 
-.game-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 11px;
-  font-weight: 600;
-  margin-bottom: 6px;
+.game-title-card {
+  font-family: 'Fredoka One', cursive;
+  font-size: 14px;
+  margin-bottom: 4px;
   color: var(--text);
 }
 
-.game-reward {
-  font-size: 12px;
-  color: var(--gold);
-  font-weight: 500;
+.game-reward-tag {
+  display: inline-block;
+  background: var(--gold);
+  color: #7a5000;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 10px;
 }
 
-.section-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 6px;
+/* GAME PAGES */
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-bottom: 16px;
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-.section-sub {
-  font-size: 13px;
+.game-header {
+  background: white;
+  border-radius: 20px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+.stat-chip {
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Fredoka One', cursive;
+  font-size: 24px;
+  color: var(--primary);
+  display: block;
+}
+
+.stat-lbl {
+  font-size: 11px;
   color: var(--text2);
-  margin-bottom: 24px;
+  font-weight: 700;
 }
 
 /* MEMORY GAME */
 .memory-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4,1fr);
   gap: 10px;
-  max-width: 400px;
+  max-width: 380px;
   margin: 0 auto;
 }
 
-.memory-card {
+.mem-card {
   aspect-ratio: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 16px;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.mem-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s;
+  border-radius: 16px;
+}
+
+.mem-card.flipped .mem-card-inner { transform: rotateY(180deg); }
+
+.mem-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  backface-visibility: hidden;
+}
+
+.mem-back {
+  background: linear-gradient(135deg, var(--secondary), var(--secondary2));
+  border: 3px solid rgba(255,255,255,0.5);
+}
+
+.mem-front {
+  background: white;
+  border: 3px solid var(--border);
+  transform: rotateY(180deg);
   font-size: 28px;
-  transition: all 0.3s;
-  position: relative;
-  user-select: none;
 }
 
-.memory-card.flipped {
-  background: var(--surface2);
-  border-color: var(--accent);
-}
-
-.memory-card.matched {
-  background: rgba(16,185,129,0.15);
+.mem-card.matched .mem-front {
+  background: linear-gradient(135deg, #ECFFF8, #D5F5E3);
   border-color: var(--green);
+  animation: matchPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
 }
 
-.memory-card .card-back {
-  font-size: 22px;
-  color: var(--text3);
+@keyframes matchPop {
+  0% { transform: rotateY(180deg) scale(0.8); }
+  60% { transform: rotateY(180deg) scale(1.15); }
+  100% { transform: rotateY(180deg) scale(1); }
 }
 
-.memory-card .card-front {
-  display: none;
-  font-size: 28px;
-}
-
-.memory-card.flipped .card-front,
-.memory-card.matched .card-front { display: flex; }
-
-.memory-card.flipped .card-back,
-.memory-card.matched .card-back { display: none; }
-
-.game-stats {
-  display: flex;
-  justify-content: space-between;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 20px;
-  margin-bottom: 20px;
-}
-
-.stat-item { text-align: center; }
-.stat-val { font-size: 20px; font-weight: 700; color: var(--accent2); font-family: 'Unbounded', sans-serif; }
-.stat-lbl { font-size: 11px; color: var(--text2); margin-top: 2px; }
-
-/* QUIZ GAME */
-.quiz-question {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+/* QUIZ */
+.quiz-bubble {
+  background: white;
+  border-radius: 24px;
   padding: 24px;
   margin-bottom: 20px;
-  font-size: 15px;
-  line-height: 1.6;
-  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  position: relative;
 }
 
-.quiz-options { display: grid; gap: 10px; }
+.quiz-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  left: 40px;
+  border: 14px solid transparent;
+  border-top: 14px solid white;
+}
 
-.quiz-btn {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 18px;
+.quiz-q-text {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.5;
   color: var(--text);
-  font-size: 14px;
+}
+
+.quiz-options {
+  margin-top: 20px;
+  display: grid;
+  gap: 10px;
+}
+
+.quiz-opt-btn {
+  background: white;
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
   text-align: left;
   transition: all 0.2s;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.quiz-btn:hover:not(:disabled) {
-  border-color: var(--accent);
+.quiz-opt-btn:hover:not(:disabled) {
+  border-color: var(--secondary);
+  background: #F0FFFD;
+  transform: translateX(4px);
+}
+
+.quiz-opt-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
   background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka One', cursive;
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
-.quiz-btn.correct {
-  background: rgba(16,185,129,0.15);
+.quiz-opt-btn.correct {
   border-color: var(--green);
-  color: var(--green);
+  background: linear-gradient(135deg, #ECFFF8, #D5F5E3);
+  animation: correctShake 0.5s ease;
 }
 
-.quiz-btn.wrong {
-  background: rgba(239,68,68,0.15);
+.quiz-opt-btn.correct .quiz-opt-letter {
+  background: var(--green);
+  color: white;
+}
+
+@keyframes correctShake {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.06) translateX(4px); }
+  50% { transform: scale(1.06) translateX(-4px); }
+  75% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.quiz-opt-btn.wrong {
   border-color: var(--red);
-  color: var(--red);
+  background: linear-gradient(135deg, #FFF5F5, #FFE0E0);
 }
 
-.progress-bar {
-  height: 6px;
-  background: var(--surface2);
-  border-radius: 3px;
-  margin-bottom: 20px;
-  overflow: hidden;
+.quiz-opt-btn.wrong .quiz-opt-letter {
+  background: var(--red);
+  color: white;
 }
 
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  border-radius: 3px;
-  transition: width 0.4s;
-}
-
-/* MATH GAME */
-.math-display {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 40px;
+/* MATH */
+.math-box {
+  background: white;
+  border-radius: 28px;
+  padding: 40px 24px;
   text-align: center;
   margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  border: 3px solid var(--border);
 }
 
 .math-expr {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 32px;
-  font-weight: 700;
+  font-family: 'Fredoka One', cursive;
+  font-size: 40px;
   color: var(--text);
   margin-bottom: 8px;
 }
 
-.math-sub {
-  font-size: 13px;
-  color: var(--text2);
+.math-streak-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #7a5000;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 12px;
 }
 
 .math-answers {
@@ -376,612 +665,749 @@ nav {
   gap: 12px;
 }
 
-.math-btn {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px;
-  font-size: 22px;
-  font-weight: 700;
-  font-family: 'Unbounded', sans-serif;
-  color: var(--text);
+.math-ans-btn {
+  background: white;
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 28px;
   cursor: pointer;
   transition: all 0.2s;
+  color: var(--text);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
 
-.math-btn:hover:not(:disabled) {
-  border-color: var(--accent);
-  background: var(--surface2);
+.math-ans-btn:hover:not(:disabled) {
+  border-color: var(--secondary);
+  background: #F0FFFD;
+  transform: scale(1.05);
 }
 
-.math-btn.correct {
-  background: rgba(16,185,129,0.2);
+.math-ans-btn.correct {
   border-color: var(--green);
+  background: linear-gradient(135deg, #ECFFF8, #D5F5E3);
+  animation: bigPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
   color: var(--green);
 }
 
-.math-btn.wrong {
-  background: rgba(239,68,68,0.2);
+.math-ans-btn.wrong {
   border-color: var(--red);
+  background: linear-gradient(135deg, #FFF5F5, #FFE0E0);
+  animation: shake 0.3s ease;
   color: var(--red);
 }
 
-/* PUZZLE GAME */
-.puzzle-board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  max-width: 300px;
-  margin: 0 auto 24px;
+@keyframes bigPop {
+  0% { transform: scale(0.9); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 
-.puzzle-tile {
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+/* PUZZLE */
+.puzzle-board {
+  display: grid;
+  gap: 6px;
+  margin: 0 auto 20px;
+}
+
+.puzzle-board.size-3 { grid-template-columns: repeat(3,1fr); max-width: 300px; }
+.puzzle-board.size-4 { grid-template-columns: repeat(4,1fr); max-width: 360px; }
+
+.p-tile {
   aspect-ratio: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  background: white;
+  border: 3px solid var(--border);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Fredoka One', cursive;
   font-size: 24px;
-  font-weight: 700;
-  font-family: 'Unbounded', sans-serif;
+  color: var(--text);
   cursor: pointer;
   transition: all 0.15s;
-  color: var(--text);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
-.puzzle-tile:hover:not(.empty) {
-  border-color: var(--accent);
+.p-tile:hover:not(.empty) {
+  border-color: var(--secondary);
+  transform: scale(1.05);
+}
+
+.p-tile.empty {
   background: var(--surface2);
-}
-
-.puzzle-tile.empty {
-  background: var(--bg);
-  border-color: var(--border);
+  border-style: dashed;
   cursor: default;
+  box-shadow: none;
 }
 
-/* WORD SCRAMBLE */
-.word-display {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 30px;
+.p-tile.solved {
+  background: linear-gradient(135deg, #ECFFF8, #D5F5E3);
+  border-color: var(--green);
+  color: var(--green);
+  animation: solvedPop 0.4s ease;
+}
+
+@keyframes solvedPop {
+  0% { transform: scale(0.9); }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.puzzle-levels {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.level-btn {
+  padding: 8px 18px;
+  border-radius: 14px;
+  border: 3px solid var(--border);
+  background: white;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Nunito', sans-serif;
+}
+
+.level-btn.active {
+  background: linear-gradient(135deg, var(--secondary), var(--secondary2));
+  border-color: var(--secondary);
+  color: white;
+}
+
+/* WORD GAME */
+.word-scramble-box {
+  background: white;
+  border-radius: 24px;
+  padding: 28px 20px;
   text-align: center;
   margin-bottom: 20px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  border: 3px solid var(--border);
 }
 
-.scrambled-word {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 28px;
-  letter-spacing: 8px;
-  color: var(--accent2);
-  margin-bottom: 8px;
+.scrambled {
+  font-family: 'Fredoka One', cursive;
+  font-size: 36px;
+  letter-spacing: 10px;
+  color: var(--purple);
+  margin-bottom: 10px;
 }
 
-.word-hint {
+.word-hint-txt {
   font-size: 13px;
   color: var(--text2);
+  font-weight: 600;
 }
 
 .word-input {
   width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 18px;
-  font-size: 16px;
-  color: var(--text);
-  font-family: 'Unbounded', sans-serif;
-  letter-spacing: 4px;
+  background: white;
+  border: 3px solid var(--border);
+  border-radius: 18px;
+  padding: 16px 20px;
+  font-size: 20px;
+  font-family: 'Fredoka One', cursive;
+  letter-spacing: 6px;
   text-transform: uppercase;
-  margin-bottom: 12px;
   outline: none;
+  margin-bottom: 12px;
+  text-align: center;
   transition: border-color 0.2s;
-}
-
-.word-input:focus { border-color: var(--accent); }
-
-/* BUTTONS */
-.btn {
-  background: var(--accent);
-  border: none;
-  border-radius: 12px;
-  padding: 14px 24px;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s;
-  width: 100%;
-}
-
-.btn:hover { opacity: 0.9; transform: translateY(-1px); }
-.btn:active { transform: translateY(0); }
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 20px;
   color: var(--text);
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
 
-.btn-outline:hover { border-color: var(--accent); color: var(--accent2); }
+.word-input:focus { border-color: var(--purple); }
 
-.btn-gold {
-  background: linear-gradient(135deg, var(--gold), #e08a00);
-  color: #000;
+.word-input.correct-input {
+  border-color: var(--green);
+  background: #ECFFF8;
+  animation: bigPop 0.4s ease;
 }
 
 /* SHOP */
 .shop-tabs {
   display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  background: var(--surface);
-  border-radius: 12px;
-  padding: 4px;
+  background: white;
+  border-radius: 18px;
+  padding: 5px;
+  gap: 4px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
 }
 
 .shop-tab {
   flex: 1;
-  padding: 10px;
-  background: none;
+  padding: 10px 6px;
   border: none;
-  border-radius: 8px;
-  color: var(--text2);
-  font-size: 13px;
-  font-weight: 500;
+  border-radius: 13px;
+  font-size: 12px;
+  font-weight: 800;
   cursor: pointer;
   transition: all 0.2s;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Nunito', sans-serif;
+  color: var(--text2);
+  background: transparent;
 }
 
 .shop-tab.active {
-  background: var(--accent);
-  color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  color: white;
+  box-shadow: 0 4px 12px rgba(255,107,53,0.3);
 }
 
-.case-grid { display: grid; gap: 14px; }
-
+/* CASE CARDS */
 .case-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
+  background: white;
+  border-radius: 22px;
   padding: 20px;
   display: flex;
   align-items: center;
   gap: 16px;
   cursor: pointer;
   transition: all 0.25s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  border: 3px solid transparent;
+  margin-bottom: 12px;
 }
 
-.case-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.case-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+}
 
-.case-visual {
-  width: 70px;
-  height: 70px;
-  border-radius: 14px;
+.case-card.bronze { border-color: #CD7F32; }
+.case-card.silver { border-color: #C0C0C0; }
+.case-card.gold-case { border-color: #FFD700; }
+
+.case-icon-box {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
   flex-shrink: 0;
 }
 
-.case-info { flex: 1; }
-.case-name { font-family: 'Unbounded', sans-serif; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.case-desc { font-size: 12px; color: var(--text2); margin-bottom: 10px; }
+.case-icon-box.bronze-bg { background: linear-gradient(135deg, #CD7F32, #E8A45A); }
+.case-icon-box.silver-bg { background: linear-gradient(135deg, #7F8C8D, #BDC3C7); }
+.case-icon-box.gold-bg { background: linear-gradient(135deg, #F39C12, #FFD700); }
 
-.case-odds {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
+.case-name { font-family: 'Fredoka One', cursive; font-size: 17px; margin-bottom: 4px; }
+.case-desc { font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 10px; }
 
-.badge {
+.odds-row { display: flex; gap: 5px; flex-wrap: wrap; }
+
+.odds-badge {
   font-size: 10px;
+  font-weight: 800;
   padding: 3px 8px;
-  border-radius: 6px;
-  font-weight: 600;
+  border-radius: 8px;
 }
 
-.badge-legendary { background: rgba(245,158,11,0.2); color: var(--gold); }
-.badge-epic { background: rgba(168,85,247,0.2); color: var(--epic); }
-.badge-rare { background: rgba(59,130,246,0.2); color: var(--rare); }
-.badge-common { background: rgba(107,114,128,0.2); color: var(--common); }
+.badge-common { background: rgba(149,165,166,0.2); color: var(--common); }
+.badge-rare { background: rgba(41,128,185,0.15); color: var(--blue); }
+.badge-epic { background: rgba(155,89,182,0.15); color: var(--purple); }
+.badge-legendary { background: rgba(255,215,0,0.2); color: #B8860B; }
 
-.case-price {
+.case-price-tag {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-weight: 700;
-  font-size: 15px;
-  color: var(--gold);
-  font-family: 'Unbounded', sans-serif;
+  gap: 4px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 18px;
+  color: #B8860B;
+  white-space: nowrap;
 }
 
-/* PROMO */
-.promo-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 20px;
+/* ICONS SHOP */
+.icons-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
 }
+
+.icon-shop-item {
+  background: white;
+  border-radius: 18px;
+  padding: 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+  border: 3px solid transparent;
+}
+
+.icon-shop-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.icon-shop-item.owned-item { border-color: var(--green); }
+.icon-shop-item.equipped-item { border-color: var(--gold2); background: #FFFBEB; }
+.icon-shop-item.locked-item { opacity: 0.5; cursor: not-allowed; }
+
+.icon-svg-wrap {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 8px;
+}
+
+.icon-shop-name { font-size: 11px; font-weight: 800; margin-bottom: 3px; }
+.icon-shop-rarity { font-size: 10px; font-weight: 800; margin-bottom: 5px; }
+.icon-shop-price { font-size: 12px; font-weight: 900; color: #B8860B; }
+
+/* PROMO */
+.promo-section {
+  background: white;
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+.promo-title { font-family: 'Fredoka One', cursive; font-size: 18px; margin-bottom: 6px; color: var(--text); }
+.promo-desc { font-size: 13px; color: var(--text2); font-weight: 600; margin-bottom: 16px; }
 
 .promo-input {
   width: 100%;
   background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 16px;
-  color: var(--text);
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  letter-spacing: 2px;
+  border: 3px solid var(--border);
+  border-radius: 14px;
+  padding: 13px 16px;
+  font-size: 15px;
+  font-family: 'Fredoka One', cursive;
+  letter-spacing: 3px;
   text-transform: uppercase;
   outline: none;
+  margin-bottom: 10px;
   transition: border-color 0.2s;
-  margin-bottom: 12px;
+  color: var(--text);
 }
 
-.promo-input:focus { border-color: var(--accent); }
+.promo-input:focus { border-color: var(--primary); }
 
-.promo-result {
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 500;
-  display: none;
-  margin-top: 10px;
-}
-
-.promo-result.success { background: rgba(16,185,129,0.15); color: var(--green); display: block; }
-.promo-result.error { background: rgba(239,68,68,0.15); color: var(--red); display: block; }
-
-/* ICONS GRID */
-.icons-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-
-.icon-item {
-  background: var(--surface);
-  border: 1px solid var(--border);
+.promo-msg {
+  padding: 12px 16px;
   border-radius: 12px;
-  padding: 14px 10px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 10px;
+  display: none;
 }
 
-.icon-item:hover { border-color: var(--accent); }
-.icon-item.owned { border-color: var(--green); }
-.icon-item.equipped { border-color: var(--gold); background: rgba(245,158,11,0.08); }
-
-.icon-img { font-size: 36px; margin-bottom: 6px; }
-.icon-name { font-size: 10px; color: var(--text2); margin-bottom: 4px; }
-.icon-price { font-size: 12px; color: var(--gold); font-weight: 600; }
-.icon-rarity { font-size: 10px; font-weight: 600; }
+.promo-msg.ok { background: #ECFFF8; color: var(--green); display: block; }
+.promo-msg.fail { background: #FFF5F5; color: var(--red); display: block; }
 
 /* PROFILE */
-.profile-header {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 28px 24px;
-  margin-bottom: 20px;
+.profile-card {
+  background: white;
+  border-radius: 24px;
+  padding: 28px 22px;
   text-align: center;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.08);
 }
 
-.avatar-wrapper {
-  position: relative;
-  width: 90px;
-  height: 90px;
-  margin: 0 auto 16px;
-}
-
-.avatar-circle {
-  width: 90px;
-  height: 90px;
+.avatar-ring {
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
-  background: var(--surface2);
-  border: 3px solid var(--accent);
+  border: 4px solid var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
+  margin: 0 auto 14px;
+  background: var(--surface2);
   overflow: hidden;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
-.avatar-circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.avatar-ring:hover { transform: scale(1.05); }
 
-.avatar-edit {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 28px;
-  height: 28px;
-  background: var(--accent);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: 2px solid var(--bg);
-}
-
-.profile-name {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
+.profile-name-txt {
+  font-family: 'Fredoka One', cursive;
+  font-size: 22px;
   margin-bottom: 4px;
 }
 
-.profile-rank {
+.profile-rank-txt {
   font-size: 13px;
-  color: var(--gold);
-  font-weight: 500;
+  color: var(--gold2);
+  font-weight: 800;
   margin-bottom: 16px;
 }
 
 .profile-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
 }
 
-.p-stat {
+.p-stat-card {
   background: var(--surface2);
-  border-radius: 10px;
-  padding: 12px 8px;
-  text-align: center;
+  border-radius: 14px;
+  padding: 12px 6px;
 }
 
-.p-stat-val {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--accent2);
+.p-stat-num {
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  color: var(--primary);
 }
 
-.p-stat-lbl { font-size: 10px; color: var(--text2); margin-top: 2px; }
+.p-stat-lbl { font-size: 10px; font-weight: 700; color: var(--text2); }
 
-.inventory-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 14px;
+.inv-section {
+  background: white;
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
   margin-bottom: 14px;
 }
 
+.inv-title { font-family: 'Fredoka One', cursive; font-size: 16px; margin-bottom: 14px; }
+
 .inv-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(4,1fr);
+  gap: 8px;
 }
 
 .inv-slot {
   aspect-ratio: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  position: relative;
-}
-
-.inv-slot .rarity-dot {
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.rarity-legendary { background: var(--legendary); }
-.rarity-epic { background: var(--epic); }
-.rarity-rare { background: var(--rare); }
-.rarity-common { background: var(--common); }
-
-/* MODAL */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  z-index: 200;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.modal-overlay.open { display: flex; }
-
-.modal {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 28px;
-  width: 100%;
-  max-width: 380px;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.modal-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.coin-earn {
-  position: fixed;
-  top: 70px;
-  right: 20px;
-  background: var(--gold);
-  color: #000;
-  font-weight: 700;
-  font-size: 16px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  z-index: 300;
-  opacity: 0;
-  transform: translateY(0);
-  pointer-events: none;
-}
-
-.coin-earn.show {
-  animation: coinFloat 1.5s ease forwards;
-}
-
-@keyframes coinFloat {
-  0% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(-60px); }
-}
-
-/* CASE OPEN MODAL */
-.case-reveal {
-  text-align: center;
-  padding: 20px 0;
-}
-
-.reveal-item {
-  width: 120px;
-  height: 120px;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 60px;
-  margin: 0 auto 16px;
-  animation: revealPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes revealPop {
-  from { transform: scale(0.3) rotate(-15deg); opacity: 0; }
-  to { transform: scale(1) rotate(0); opacity: 1; }
-}
-
-.reveal-rarity {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 6px;
-}
-
-.reveal-name {
-  font-size: 14px;
-  color: var(--text2);
-  margin-bottom: 20px;
-}
-
-/* NAME INPUT */
-.name-input {
-  width: 100%;
   background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 16px;
-  color: var(--text);
-  font-size: 15px;
-  font-family: 'Inter', sans-serif;
-  outline: none;
-  transition: border-color 0.2s;
-  margin-bottom: 12px;
-}
-
-.name-input:focus { border-color: var(--accent); }
-
-/* AVATAR PICKER */
-.avatar-options {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.avatar-opt {
-  aspect-ratio: 1;
-  background: var(--surface2);
-  border: 2px solid transparent;
+  border: 2px solid var(--border);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  position: relative;
+}
+
+.rarity-dot {
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.dot-legendary { background: var(--legendary); }
+.dot-epic { background: var(--epic); }
+.dot-rare { background: var(--rare); }
+.dot-common { background: var(--common); }
+
+/* LEADERBOARD */
+.lb-card {
+  background: white;
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 10px;
+  border-radius: 14px;
+  margin-bottom: 6px;
+  transition: background 0.2s;
+}
+
+.lb-row:hover { background: var(--surface2); }
+.lb-row.me { background: linear-gradient(135deg, #FFF5F2, #FFE8E0); border: 2px solid var(--primary); }
+
+.lb-rank {
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  width: 36px;
+  text-align: center;
+}
+
+.lb-rank.gold-rank { color: #FFD700; }
+.lb-rank.silver-rank { color: #C0C0C0; }
+.lb-rank.bronze-rank { color: #CD7F32; }
+
+.lb-name { flex: 1; font-weight: 800; font-size: 15px; }
+.lb-score { font-family: 'Fredoka One', cursive; font-size: 16px; color: var(--primary); }
+
+.lb-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border: 2px solid var(--border);
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: white;
+  border-top: 3px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0 16px;
+  z-index: 100;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+}
+
+.nav-btn {
+  background: none;
+  border: none;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text2);
+  transition: color 0.2s;
+  font-family: 'Nunito', sans-serif;
+  padding: 4px 12px;
+}
+
+.nav-btn.active { color: var(--primary); }
+
+.nav-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s;
 }
 
-.avatar-opt:hover { border-color: var(--accent); }
-.avatar-opt.selected { border-color: var(--accent2); background: rgba(124,92,252,0.15); }
-
-.file-upload-btn {
-  width: 100%;
-  background: var(--surface2);
-  border: 1px dashed var(--border);
-  border-radius: 10px;
-  padding: 14px;
-  color: var(--text2);
-  font-size: 13px;
-  text-align: center;
-  cursor: pointer;
-  margin-bottom: 12px;
-  transition: border-color 0.2s;
+.nav-btn.active .nav-icon-wrap {
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
 }
 
-.file-upload-btn:hover { border-color: var(--accent); color: var(--accent2); }
+.nav-btn.active .nav-icon-wrap svg { stroke: white; }
 
-#fileInput { display: none; }
+/* MODALS */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+}
 
-.back-btn {
-  background: none;
-  border: none;
-  color: var(--text2);
-  font-size: 14px;
-  cursor: pointer;
+.modal-overlay.open { display: flex; }
+
+.modal-sheet {
+  background: white;
+  border-radius: 28px 28px 20px 20px;
+  padding: 28px 24px 32px;
+  width: 100%;
+  max-width: 420px;
+  animation: slideSheet 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes slideSheet {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+
+/* CASE ROULETTE */
+.roulette-track-wrap {
+  overflow: hidden;
+  border-radius: 16px;
+  border: 4px solid var(--gold);
+  position: relative;
+  margin-bottom: 20px;
+  background: var(--surface2);
+  height: 100px;
+}
+
+.roulette-track-wrap::before,
+.roulette-track-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 60px;
+  z-index: 2;
+}
+
+.roulette-track-wrap::before { left: 0; background: linear-gradient(to right, white, transparent); }
+.roulette-track-wrap::after { right: 0; background: linear-gradient(to left, white, transparent); }
+
+.roulette-pointer {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  background: var(--red);
+  z-index: 3;
+  border-radius: 2px;
+}
+
+.roulette-pointer::before,
+.roulette-pointer::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+
+.roulette-pointer::before { top: 0; border-top: 12px solid var(--red); }
+.roulette-pointer::after { bottom: 0; border-bottom: 12px solid var(--red); }
+
+.roulette-track {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 20px;
-  font-family: 'Inter', sans-serif;
-  transition: color 0.2s;
+  height: 100%;
+  gap: 8px;
+  padding: 0 8px;
+  will-change: transform;
 }
 
-.back-btn:hover { color: var(--text); }
+.roulette-item {
+  min-width: 80px;
+  height: 80px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 3px solid transparent;
+  flex-shrink: 0;
+}
 
+.roulette-item.rarity-common { background: rgba(149,165,166,0.1); border-color: var(--common); }
+.roulette-item.rarity-rare { background: rgba(41,128,185,0.1); border-color: var(--blue); }
+.roulette-item.rarity-epic { background: rgba(155,89,182,0.1); border-color: var(--purple); }
+.roulette-item.rarity-legendary { background: rgba(255,215,0,0.15); border-color: var(--gold); }
+
+.roulette-item-label { font-size: 9px; font-weight: 800; }
+
+/* WIN FEEDBACK */
+.win-burst {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.win-icon-big {
+  font-size: 64px;
+  margin-bottom: 8px;
+  animation: bounceIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  display: block;
+}
+
+.win-title-big {
+  font-family: 'Fredoka One', cursive;
+  font-size: 28px;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+
+.win-coins-big {
+  font-family: 'Fredoka One', cursive;
+  font-size: 36px;
+  color: var(--gold2);
+  text-shadow: 0 2px 8px rgba(255,165,0,0.3);
+}
+
+/* CONFETTI */
+.confetti-wrap {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 250;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -10px;
+  width: 10px;
+  height: 14px;
+  opacity: 0;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% { opacity: 1; transform: translateY(0) rotateZ(0deg) rotateX(0deg); }
+  100% { opacity: 0; transform: translateY(110vh) rotateZ(720deg) rotateX(360deg); }
+}
+
+/* COIN FLOAT */
+.coin-float {
+  position: fixed;
+  top: 70px;
+  right: 24px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #7a5000;
+  font-weight: 900;
+  font-size: 18px;
+  font-family: 'Fredoka One', cursive;
+  padding: 8px 18px;
+  border-radius: 20px;
+  z-index: 300;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(255,165,0,0.4);
+}
+
+.coin-float.show { animation: coinPop 1.8s ease forwards; }
+
+@keyframes coinPop {
+  0% { opacity: 0; transform: translateY(0) scale(0.5); }
+  20% { opacity: 1; transform: translateY(0) scale(1.2); }
+  40% { opacity: 1; transform: translateY(-10px) scale(1); }
+  80% { opacity: 1; transform: translateY(-50px) scale(1); }
+  100% { opacity: 0; transform: translateY(-80px) scale(0.8); }
+}
+
+/* TOAST */
 .toast {
   position: fixed;
   bottom: 90px;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--surface2);
-  border: 1px solid var(--border);
+  background: var(--text);
+  color: white;
   border-radius: 20px;
-  padding: 12px 20px;
+  padding: 12px 22px;
   font-size: 13px;
+  font-weight: 800;
   z-index: 400;
   opacity: 0;
   transition: opacity 0.3s;
@@ -991,238 +1417,392 @@ nav {
 
 .toast.show { opacity: 1; }
 
+/* PROGRESS BAR */
+.progress-outer {
+  background: var(--surface2);
+  border-radius: 10px;
+  height: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+}
+
+.progress-inner {
+  height: 100%;
+  background: linear-gradient(90deg, var(--secondary), var(--secondary2));
+  border-radius: 10px;
+  transition: width 0.4s;
+}
+
+/* AVATAR PICKER */
+.avatar-pick-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.avatar-pick-opt {
+  aspect-ratio: 1;
+  background: var(--surface2);
+  border: 3px solid transparent;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.avatar-pick-opt:hover { border-color: var(--primary); transform: scale(1.05); }
+.avatar-pick-opt.sel { border-color: var(--primary); background: #FFF5F2; transform: scale(1.05); }
+
+/* OUTLINE BTN */
+.outline-btn {
+  background: transparent;
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  transition: all 0.2s;
+  color: var(--text);
+}
+
+.outline-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+/* CAMBOT MINI */
+.cambot-mini {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* RESPONSIVE */
+@media (max-width: 360px) {
+  .menu-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .math-expr { font-size: 32px; }
+  .scrambled { font-size: 28px; }
+}
 </style>
 </head>
 <body>
 
+<!-- STARS BG -->
+<div class="stars-bg" id="starsBg"></div>
+
 <!-- COIN FLOAT -->
-<div class="coin-earn" id="coinFloat">+0 BC</div>
+<div class="coin-float" id="coinFloat">+0</div>
+
+<!-- CONFETTI -->
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  <div class="logo">BotCoin</div>
-  <div class="coin-display">
-    <div class="coin-icon">B</div>
-    <div class="coin-amount" id="coinDisplay">0</div>
-    <span style="font-size:11px;color:var(--text2)">BC</span>
+<!-- TOP BAR (hidden on welcome/onboard) -->
+<div class="top-bar" id="topBar" style="display:none">
+  <div>
+    <div class="logo-text">BotaOy</div>
+    <span class="logo-sub">Баян Сұлу</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="coin-pill">
+      <svg class="coin-star" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      <span class="coin-count" id="coinDisplay">0</span>
+    </div>
   </div>
 </div>
 
-<!-- PAGES -->
+<!-- LANG SWITCHER -->
+<div class="lang-bar" id="langBar" style="display:none">
+  <button class="lang-btn active" onclick="setLang('kk',this)">ҚАЗ</button>
+  <button class="lang-btn" onclick="setLang('ru',this)">РУС</button>
+  <button class="lang-btn" onclick="setLang('en',this)">ENG</button>
+</div>
+
+<!-- ========== PAGES ========== -->
+
+<!-- WELCOME -->
+<div class="page active" id="page-welcome">
+  <div class="stars-bg" style="position:absolute"></div>
+  <!-- Floating stars done in JS -->
+  <div class="welcome-hero">
+    <svg class="cambot-svg" viewBox="0 0 160 160">
+      <!-- Body -->
+      <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/>
+      <rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
+      <!-- Head -->
+      <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/>
+      <!-- Ears -->
+      <ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
+      <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/>
+      <ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+      <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+      <!-- Eyes -->
+      <ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
+      <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/>
+      <circle cx="70" cy="69" r="6" fill="#2C3E50"/>
+      <circle cx="94" cy="69" r="6" fill="#2C3E50"/>
+      <circle cx="72" cy="67" r="2" fill="white"/>
+      <circle cx="96" cy="67" r="2" fill="white"/>
+      <!-- Nose -->
+      <ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
+      <circle cx="77" cy="80" r="2" fill="#C4956A"/>
+      <circle cx="83" cy="80" r="2" fill="#C4956A"/>
+      <!-- Mouth smile -->
+      <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Humps -->
+      <ellipse cx="62" cy="82" rx="14" ry="10" fill="#C8A876"/>
+      <ellipse cx="98" cy="82" rx="14" ry="10" fill="#C8A876"/>
+      <!-- Legs -->
+      <rect x="54" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
+      <rect x="94" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
+      <!-- Stars around -->
+      <polygon points="20,30 22,36 28,36 23,40 25,46 20,42 15,46 17,40 12,36 18,36" fill="#FFD700" opacity="0.8"/>
+      <polygon points="140,20 141,24 145,24 142,27 143,31 140,29 137,31 138,27 135,24 139,24" fill="#FF6B35" opacity="0.8"/>
+      <polygon points="25,120 26,124 30,124 27,127 28,131 25,129 22,131 23,127 20,124 24,124" fill="#4ECDC4" opacity="0.8"/>
+    </svg>
+  </div>
+  <div class="welcome-title" id="wt">BotaOy</div>
+  <div class="welcome-sub" id="ws">Ботамен бірге оқы және ойна!</div>
+  <button class="welcome-btn" id="wbtn" onclick="switchPage('onboard')">Бастау!</button>
+</div>
+
+<!-- ONBOARD -->
+<div class="page" id="page-onboard">
+  <div class="onboard-card">
+    <svg style="width:70px;height:70px;margin:0 auto 16px;display:block" viewBox="0 0 160 160">
+      <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/>
+      <rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
+      <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/>
+      <ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
+      <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/>
+      <ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+      <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+      <ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
+      <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/>
+      <circle cx="70" cy="69" r="6" fill="#2C3E50"/>
+      <circle cx="94" cy="69" r="6" fill="#2C3E50"/>
+      <circle cx="72" cy="67" r="2" fill="white"/>
+      <circle cx="96" cy="67" r="2" fill="white"/>
+      <ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
+      <circle cx="77" cy="80" r="2" fill="#C4956A"/>
+      <circle cx="83" cy="80" r="2" fill="#C4956A"/>
+      <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>
+    <div class="onboard-title" id="ob_title">Атың кім?</div>
+    <input class="fancy-input" id="nameInputOnb" placeholder="Атыңды жаз..." maxlength="20">
+    <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px" id="ob_age_lbl">Жасыңды таңда:</div>
+    <div class="age-grid">
+      <button class="age-btn" onclick="selectAge(7,this)">7</button>
+      <button class="age-btn" onclick="selectAge(8,this)">8</button>
+      <button class="age-btn" onclick="selectAge(9,this)">9</button>
+      <button class="age-btn" onclick="selectAge(10,this)">10</button>
+      <button class="age-btn" onclick="selectAge(11,this)">11</button>
+    </div>
+    <button class="big-btn" id="ob_btn" onclick="finishOnboard()">Бастайық!</button>
+  </div>
+</div>
 
 <!-- MENU -->
-<div class="page active" id="page-menu">
-  <div class="section-title">Ойын алаңы</div>
-  <div class="section-sub">Ойнап BotCoin жина</div>
+<div class="page" id="page-menu">
+  <div class="section-title" id="menu_title">Ойын таңда</div>
+  <div class="section-sub" id="menu_sub">Ботакоин жина!</div>
   <div class="menu-grid">
-    <div class="game-card" onclick="openGame('memory')">
-      <div class="game-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg>
+    <div class="game-card color-1" onclick="openGame('memory')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#FFE8E0,#FFD0C0)">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2.5"><rect x="2" y="3" width="20" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg>
       </div>
-      <div class="game-title">Карта ойыны</div>
-      <div class="game-reward">+10 BC / жұп</div>
+      <div class="game-title-card" id="gc1">Карта ойыны</div>
+      <div class="game-reward-tag">+10 BC</div>
     </div>
-    <div class="game-card" onclick="openGame('quiz')">
-      <div class="game-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+    <div class="game-card color-2" onclick="openGame('quiz')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#E0FFF9,#C0FFF5)">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#4ECDC4" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
       </div>
-      <div class="game-title">Қазақ тілі</div>
-      <div class="game-reward">+15 BC / дұрыс</div>
+      <div class="game-title-card" id="gc2">Қазақ тілі</div>
+      <div class="game-reward-tag">+15 BC</div>
     </div>
-    <div class="game-card" onclick="openGame('math')">
-      <div class="game-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+    <div class="game-card color-3" onclick="openGame('math')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#F5E8FF,#EBD0FF)">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9B59B6" stroke-width="2.5"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
       </div>
-      <div class="game-title">Математика</div>
-      <div class="game-reward">+12 BC / дұрыс</div>
+      <div class="game-title-card" id="gc3">Математика</div>
+      <div class="game-reward-tag">+12 BC</div>
     </div>
-    <div class="game-card" onclick="openGame('puzzle')">
-      <div class="game-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="8" height="8" rx="1"/></svg>
+    <div class="game-card color-4" onclick="openGame('puzzle')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#E0FFF0,#C0FFE0)">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="2.5"><rect x="2" y="2" width="8" height="8" rx="1"/><rect x="14" y="2" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/><rect x="14" y="14" width="8" height="8" rx="1"/></svg>
       </div>
-      <div class="game-title">Пазл</div>
-      <div class="game-reward">+25 BC / шешу</div>
+      <div class="game-title-card" id="gc4">Пазл</div>
+      <div class="game-reward-tag">+25 BC</div>
     </div>
-    <div class="game-card" onclick="openGame('word')" style="grid-column: span 2;">
-      <div class="game-icon" style="width:56px;height:56px;">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--epic)" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <div class="game-card color-5" onclick="openGame('word')" style="grid-column:span 2">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#E0F0FF,#C0E0FF)">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2980B9" stroke-width="2.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
       </div>
-      <div class="game-title">Сөз табу</div>
-      <div class="game-reward">+20 BC / сөз</div>
+      <div class="game-title-card" id="gc5">Сөз табу</div>
+      <div class="game-reward-tag">+20 BC</div>
     </div>
   </div>
 </div>
 
-<!-- MEMORY GAME -->
+<!-- MEMORY -->
 <div class="page" id="page-memory">
-  <button class="back-btn" onclick="goBack()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Артқа
-  </button>
-  <div class="section-title">Карта ойыны</div>
-  <div class="section-sub">Бірдей карталарды тауып жұпта</div>
-  <div class="game-stats">
-    <div class="stat-item"><div class="stat-val" id="memMoves">0</div><div class="stat-lbl">Қадам</div></div>
-    <div class="stat-item"><div class="stat-val" id="memMatches">0</div><div class="stat-lbl">Жұп</div></div>
-    <div class="stat-item"><div class="stat-val" id="memCoins">0</div><div class="stat-lbl">BC</div></div>
+  <button class="back-btn" onclick="goBack()">← <span id="back_mem">Артқа</span></button>
+  <div class="section-title" id="mem_title">Карта ойыны</div>
+  <div class="section-sub" id="mem_sub">Бірдей карталарды тауып жұпта</div>
+  <div class="game-header">
+    <div class="stat-chip"><span class="stat-num" id="memMoves">0</span><span class="stat-lbl" id="ml_moves">Қадам</span></div>
+    <div class="stat-chip"><span class="stat-num" id="memMatches">0</span><span class="stat-lbl" id="ml_match">Жұп</span></div>
+    <div class="stat-chip"><span class="stat-num" id="memCoins">0</span><span class="stat-lbl">BC</span></div>
   </div>
-  <div class="memory-grid" id="memoryGrid"></div>
+  <div class="memory-grid" id="memGrid"></div>
   <br>
-  <button class="btn" onclick="initMemory()">Жаңадан бастау</button>
+  <button class="big-btn" id="mem_restart" onclick="initMemory()">Жаңадан</button>
 </div>
 
-<!-- QUIZ GAME -->
+<!-- QUIZ -->
 <div class="page" id="page-quiz">
-  <button class="back-btn" onclick="goBack()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Артқа
-  </button>
-  <div class="section-title">Қазақ тілі тесті</div>
-  <div class="section-sub" id="quizScore">Сұрақ 1 / 10</div>
-  <div class="progress-bar"><div class="progress-fill" id="quizProgress" style="width:10%"></div></div>
-  <div class="quiz-question" id="quizQuestion">Жүктелуде...</div>
-  <div class="quiz-options" id="quizOptions"></div>
+  <button class="back-btn" onclick="goBack()">← <span id="back_quiz">Артқа</span></button>
+  <div class="section-title" id="quiz_title">Қазақ тілі тесті</div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div class="section-sub" id="quizScoreLabel" style="margin-bottom:0">Сұрақ 1/10</div>
+    <div style="font-size:13px;font-weight:800;color:var(--gold2)" id="quizCoinsLabel">0 BC</div>
+  </div>
+  <div class="progress-outer"><div class="progress-inner" id="quizProg" style="width:10%"></div></div>
+  <div class="quiz-bubble"><div class="quiz-q-text" id="quizQ">Жүктелуде...</div></div>
+  <div class="quiz-options" id="quizOpts"></div>
 </div>
 
-<!-- MATH GAME -->
+<!-- MATH -->
 <div class="page" id="page-math">
-  <button class="back-btn" onclick="goBack()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Артқа
-  </button>
-  <div class="section-title">Математика</div>
-  <div class="section-sub">Дұрыс жауапты тап</div>
-  <div class="game-stats">
-    <div class="stat-item"><div class="stat-val" id="mathScore">0</div><div class="stat-lbl">Ұпай</div></div>
-    <div class="stat-item"><div class="stat-val" id="mathStreak">0</div><div class="stat-lbl">Қатар</div></div>
-    <div class="stat-item"><div class="stat-val" id="mathCoins">0</div><div class="stat-lbl">BC</div></div>
+  <button class="back-btn" onclick="goBack()">← <span id="back_math">Артқа</span></button>
+  <div class="section-title" id="math_title">Математика</div>
+  <div class="section-sub" id="math_sub">Дұрыс жауапты тап</div>
+  <div class="game-header">
+    <div class="stat-chip"><span class="stat-num" id="mathScore">0</span><span class="stat-lbl" id="ml_score">Ұпай</span></div>
+    <div class="stat-chip"><span class="stat-num" id="mathStreak">0</span><span class="stat-lbl" id="ml_streak">Қатар</span></div>
+    <div class="stat-chip"><span class="stat-num" id="mathCoins">0</span><span class="stat-lbl">BC</span></div>
   </div>
-  <div class="math-display">
+  <div class="math-box">
     <div class="math-expr" id="mathExpr">?</div>
-    <div class="math-sub">Жауапты тап</div>
+    <div class="math-streak-badge" id="mathStreakBadge" style="display:none"></div>
   </div>
   <div class="math-answers" id="mathAnswers"></div>
 </div>
 
-<!-- PUZZLE GAME -->
+<!-- PUZZLE -->
 <div class="page" id="page-puzzle">
-  <button class="back-btn" onclick="goBack()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Артқа
-  </button>
-  <div class="section-title">Пазл</div>
-  <div class="section-sub">Сандарды ретке келтір</div>
-  <div class="game-stats">
-    <div class="stat-item"><div class="stat-val" id="puzzleMoves">0</div><div class="stat-lbl">Қадам</div></div>
-    <div class="stat-item"><div class="stat-val" id="puzzleTimer">0</div><div class="stat-lbl">Секунд</div></div>
-    <div class="stat-item"><div class="stat-val" id="puzzleCoins">0</div><div class="stat-lbl">BC</div></div>
+  <button class="back-btn" onclick="goBack()">← <span id="back_puz">Артқа</span></button>
+  <div class="section-title" id="puz_title">Пазл</div>
+  <div class="puzzle-levels">
+    <button class="level-btn active" id="lv1" onclick="setPuzzleLevel(3,this)" data-lbl-kk="Оңай" data-lbl-ru="Легко" data-lbl-en="Easy">Оңай</button>
+    <button class="level-btn" id="lv2" onclick="setPuzzleLevel(4,this)" data-lbl-kk="Орта" data-lbl-ru="Средне" data-lbl-en="Medium">Орта</button>
+    <button class="level-btn" id="lv3" onclick="setPuzzleLevel(5,this)" data-lbl-kk="Қиын" data-lbl-ru="Сложно" data-lbl-en="Hard">Қиын</button>
+  </div>
+  <div class="game-header">
+    <div class="stat-chip"><span class="stat-num" id="puzMoves">0</span><span class="stat-lbl" id="ml_pmoves">Қадам</span></div>
+    <div class="stat-chip"><span class="stat-num" id="puzTime">0</span><span class="stat-lbl" id="ml_ptime">Сек</span></div>
+    <div class="stat-chip"><span class="stat-num" id="puzCoins">0</span><span class="stat-lbl">BC</span></div>
   </div>
   <div class="puzzle-board" id="puzzleBoard"></div>
-  <button class="btn" onclick="initPuzzle()">Жаңадан бастау</button>
+  <button class="big-btn" id="puz_restart" onclick="initPuzzle()">Жаңадан</button>
 </div>
 
-<!-- WORD GAME -->
+<!-- WORD -->
 <div class="page" id="page-word">
-  <button class="back-btn" onclick="goBack()">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-    Артқа
-  </button>
-  <div class="section-title">Сөз табу</div>
-  <div class="section-sub">Шатастырылған әріптен сөз жаса</div>
-  <div class="game-stats">
-    <div class="stat-item"><div class="stat-val" id="wordScore">0</div><div class="stat-lbl">Дұрыс</div></div>
-    <div class="stat-item"><div class="stat-val" id="wordSkips">3</div><div class="stat-lbl">Өткізу</div></div>
-    <div class="stat-item"><div class="stat-val" id="wordCoins">0</div><div class="stat-lbl">BC</div></div>
+  <button class="back-btn" onclick="goBack()">← <span id="back_word">Артқа</span></button>
+  <div class="section-title" id="word_title">Сөз табу</div>
+  <div class="section-sub" id="word_sub">Шатастырылған сөзді тап</div>
+  <div class="game-header">
+    <div class="stat-chip"><span class="stat-num" id="wordScore">0</span><span class="stat-lbl" id="ml_correct">Дұрыс</span></div>
+    <div class="stat-chip"><span class="stat-num" id="wordSkips">3</span><span class="stat-lbl" id="ml_skip">Өткізу</span></div>
+    <div class="stat-chip"><span class="stat-num" id="wordCoins">0</span><span class="stat-lbl">BC</span></div>
   </div>
-  <div class="word-display">
-    <div class="scrambled-word" id="scrambledWord">-</div>
-    <div class="word-hint" id="wordHint">Кеңес: -</div>
+  <div class="word-scramble-box">
+    <div class="scrambled" id="scrambledDisplay">-</div>
+    <div class="word-hint-txt" id="wordHintTxt">Кеңес: -</div>
   </div>
-  <input type="text" class="word-input" id="wordInput" placeholder="СӨЗДІ ЖАЗ..." maxlength="15" oninput="checkWord()">
-  <div style="display:flex;gap:10px">
-    <button class="btn-outline" style="flex:1" onclick="skipWord()">Өткізу</button>
-    <button class="btn" style="flex:2" onclick="submitWord()">Тексеру</button>
+  <input class="word-input" id="wordInput" placeholder="ЖАУАПТЫ ЖАЗ..." maxlength="15" oninput="checkWordLive()">
+  <div style="display:flex;gap:10px;margin-top:10px">
+    <button class="outline-btn" style="flex:1" id="skip_btn" onclick="skipWord()">Өткізу</button>
+    <button class="big-btn" style="flex:2" id="submit_word" onclick="submitWord()">Тексеру</button>
   </div>
 </div>
 
 <!-- SHOP -->
 <div class="page" id="page-shop">
-  <div class="section-title">Дүкен</div>
-  <div class="section-sub">BotCoin жұмса</div>
+  <div class="section-title" id="shop_title">Дүкен</div>
+  <div class="section-sub" id="shop_sub">Ботакоинмен сатып ал</div>
   <div class="shop-tabs">
-    <button class="shop-tab active" onclick="switchShopTab('cases',this)">Кейстер</button>
-    <button class="shop-tab" onclick="switchShopTab('icons',this)">Иконкалар</button>
-    <button class="shop-tab" onclick="switchShopTab('promo',this)">Промокод</button>
+    <button class="shop-tab active" id="st1" onclick="switchShopTab('cases',this)">Кейстер</button>
+    <button class="shop-tab" id="st2" onclick="switchShopTab('icons',this)">Иконкалар</button>
+    <button class="shop-tab" id="st3" onclick="switchShopTab('promo',this)">Промокод</button>
+    <button class="shop-tab" id="st4" onclick="switchShopTab('lb',this)">Рейтинг</button>
   </div>
 
   <!-- CASES -->
   <div id="shop-cases">
-    <div class="case-grid">
-      <div class="case-card" onclick="openCase('bronze')">
-        <div class="case-visual" style="background:linear-gradient(135deg,#78350f,#92400e)">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fcd34d" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-        </div>
-        <div class="case-info">
-          <div class="case-name">Қола кейс</div>
-          <div class="case-desc">Стандартты кейс</div>
-          <div class="case-odds">
-            <span class="badge badge-common">Қарапайым 60%</span>
-            <span class="badge badge-rare">Сирек 30%</span>
-            <span class="badge badge-epic">Эпик 9%</span>
-            <span class="badge badge-legendary">Леги 1%</span>
-          </div>
-        </div>
-        <div>
-          <div class="case-price">
-            <div class="coin-icon" style="width:16px;height:16px;font-size:9px">B</div>
-            100
-          </div>
+    <div class="case-card bronze" onclick="buyCase('bronze')">
+      <div class="case-icon-box bronze-bg">
+        <svg width="40" height="40" viewBox="0 0 40 40"><rect x="5" y="5" width="30" height="30" rx="8" fill="rgba(255,255,255,0.2)"/><rect x="8" y="8" width="24" height="24" rx="6" fill="rgba(255,255,255,0.15)"/><polygon points="20,10 23,17 30,17 24,22 26,29 20,25 14,29 16,22 10,17 17,17" fill="#FFD700"/></svg>
+      </div>
+      <div class="case-info">
+        <div class="case-name" id="cn1">Қола кейс</div>
+        <div class="case-desc" id="cd1">Стандартты кейс</div>
+        <div class="odds-row">
+          <span class="odds-badge badge-common">60%</span>
+          <span class="odds-badge badge-rare">30%</span>
+          <span class="odds-badge badge-epic">9%</span>
+          <span class="odds-badge badge-legendary">1%</span>
         </div>
       </div>
-
-      <div class="case-card" onclick="openCase('silver')">
-        <div class="case-visual" style="background:linear-gradient(135deg,#374151,#4b5563)">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e5e7eb" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg>
-        </div>
-        <div class="case-info">
-          <div class="case-name">Күміс кейс</div>
-          <div class="case-desc">Жақсыртылған шанстар</div>
-          <div class="case-odds">
-            <span class="badge badge-common">Қарапайым 40%</span>
-            <span class="badge badge-rare">Сирек 35%</span>
-            <span class="badge badge-epic">Эпик 20%</span>
-            <span class="badge badge-legendary">Леги 5%</span>
-          </div>
-        </div>
-        <div>
-          <div class="case-price">
-            <div class="coin-icon" style="width:16px;height:16px;font-size:9px">B</div>
-            250
-          </div>
+      <div class="case-price-tag">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        100
+      </div>
+    </div>
+    <div class="case-card silver" onclick="buyCase('silver')">
+      <div class="case-icon-box silver-bg">
+        <svg width="40" height="40" viewBox="0 0 40 40"><rect x="5" y="5" width="30" height="30" rx="8" fill="rgba(255,255,255,0.2)"/><circle cx="20" cy="20" r="10" fill="rgba(255,255,255,0.25)"/><polygon points="20,10 23,17 30,17 24,22 26,29 20,25 14,29 16,22 10,17 17,17" fill="white"/></svg>
+      </div>
+      <div class="case-info">
+        <div class="case-name" id="cn2">Күміс кейс</div>
+        <div class="case-desc" id="cd2">Жақсы шанстар</div>
+        <div class="odds-row">
+          <span class="odds-badge badge-common">40%</span>
+          <span class="odds-badge badge-rare">35%</span>
+          <span class="odds-badge badge-epic">20%</span>
+          <span class="odds-badge badge-legendary">5%</span>
         </div>
       </div>
-
-      <div class="case-card" onclick="openCase('gold')">
-        <div class="case-visual" style="background:linear-gradient(135deg,#78350f,#d97706)">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fef08a" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/><circle cx="12" cy="12" r="2" fill="#fef08a"/></svg>
+      <div class="case-price-tag">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        250
+      </div>
+    </div>
+    <div class="case-card gold-case" onclick="buyCase('gold')">
+      <div class="case-icon-box gold-bg">
+        <svg width="40" height="40" viewBox="0 0 40 40"><rect x="5" y="5" width="30" height="30" rx="8" fill="rgba(255,255,255,0.25)"/><polygon points="20,6 24,16 35,16 26,23 29,33 20,27 11,33 14,23 5,16 16,16" fill="white"/></svg>
+      </div>
+      <div class="case-info">
+        <div class="case-name" id="cn3">Алтын кейс</div>
+        <div class="case-desc" id="cd3">Ең жоғары шанс</div>
+        <div class="odds-row">
+          <span class="odds-badge badge-common">20%</span>
+          <span class="odds-badge badge-rare">35%</span>
+          <span class="odds-badge badge-epic">30%</span>
+          <span class="odds-badge badge-legendary">15%</span>
         </div>
-        <div class="case-info">
-          <div class="case-name">Алтын кейс</div>
-          <div class="case-desc">Ең жоғары леги шансы</div>
-          <div class="case-odds">
-            <span class="badge badge-common">Қарапайым 20%</span>
-            <span class="badge badge-rare">Сирек 35%</span>
-            <span class="badge badge-epic">Эпик 30%</span>
-            <span class="badge badge-legendary">Леги 15%</span>
-          </div>
-        </div>
-        <div>
-          <div class="case-price">
-            <div class="coin-icon" style="width:16px;height:16px;font-size:9px">B</div>
-            500
-          </div>
-        </div>
+      </div>
+      <div class="case-price-tag">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        500
       </div>
     </div>
   </div>
@@ -1234,383 +1814,647 @@ nav {
 
   <!-- PROMO -->
   <div id="shop-promo" style="display:none">
-    <div class="promo-box">
-      <div style="font-family:'Unbounded',sans-serif;font-size:14px;font-weight:600;margin-bottom:8px">Промокод</div>
-      <div style="font-size:13px;color:var(--text2);margin-bottom:16px">Промокод енгіз және BotCoin жина</div>
-      <input class="promo-input" id="promoInput" placeholder="ПРОМОКОДТЫ ЕНГІЗ">
-      <button class="btn" onclick="redeemPromo()">Активтендіру</button>
-      <div class="promo-result" id="promoResult"></div>
+    <div class="promo-section">
+      <div class="promo-title" id="promo_title">Промокод</div>
+      <div class="promo-desc" id="promo_desc">Промокодты енгіз және Ботакоин жина</div>
+      <input class="promo-input" id="promoIn" placeholder="BOTAOY2026" maxlength="20">
+      <button class="big-btn" id="promo_btn" onclick="redeemPromo()">Активтендіру</button>
+      <div class="promo-msg" id="promoMsg"></div>
     </div>
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-top:12px">
-      <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:12px">ЖҰМЫС ІСТЕЙТІН ПРОМОКОДТАР</div>
-      <div style="display:grid;gap:8px">
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px">
-          <span style="font-family:'Unbounded',sans-serif;font-size:12px;letter-spacing:2px">BOTCOIN100</span>
-          <span style="font-size:12px;color:var(--gold)">+100 BC</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px">
-          <span style="font-family:'Unbounded',sans-serif;font-size:12px;letter-spacing:2px">QAZAQ50</span>
-          <span style="font-size:12px;color:var(--gold)">+50 BC</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px">
-          <span style="font-family:'Unbounded',sans-serif;font-size:12px;letter-spacing:2px">WELCOME200</span>
-          <span style="font-size:12px;color:var(--gold)">+200 BC</span>
-        </div>
-      </div>
+    <div style="margin-top:14px;background:white;border-radius:18px;padding:16px;box-shadow:0 4px 16px rgba(0,0,0,0.07)">
+      <div style="font-size:11px;font-weight:800;color:var(--text2);margin-bottom:10px" id="promo_list_title">ПРОМОКОДТАР</div>
+      <div style="display:grid;gap:8px" id="promoListDisplay"></div>
     </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="shop-lb" style="display:none">
+    <div class="lb-card" id="lbCard"></div>
   </div>
 </div>
 
 <!-- PROFILE -->
 <div class="page" id="page-profile">
-  <div class="section-title">Профиль</div>
-  <div class="section-sub" style="margin-bottom:16px">Менің аккаунтым</div>
-
-  <div class="profile-header">
-    <div class="avatar-wrapper">
-      <div class="avatar-circle" id="profileAvatar" onclick="openAvatarModal()">
-        <span id="avatarContent">?</span>
-      </div>
-      <div class="avatar-edit" onclick="openAvatarModal()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-      </div>
+  <div class="section-title" id="prof_title">Менің профилім</div>
+  <div class="section-sub" id="prof_sub" style="margin-bottom:16px">Менің статистикам</div>
+  <div class="profile-card">
+    <div class="avatar-ring" id="profileAvatarRing" onclick="openAvatarModal()">
+      <svg id="profileAvatarSvg" width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#FFF3E0"/><text x="32" y="40" text-anchor="middle" font-size="28" font-family="Fredoka One,cursive" fill="#FF6B35">?</text></svg>
     </div>
-    <div class="profile-name" id="profileName">Қолданушы</div>
-    <div class="profile-rank" id="profileRank">Жаңадан бастаушы</div>
-    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px">
-      <div class="coin-display" style="display:inline-flex">
-        <div class="coin-icon">B</div>
-        <div class="coin-amount" id="profileCoins">0</div>
-        <span style="font-size:11px;color:var(--text2)">BC</span>
-      </div>
-    </div>
+    <div class="profile-name-txt" id="pName">Қолданушы</div>
+    <div class="profile-rank-txt" id="pRank">Жаңадан бастаушы</div>
     <div class="profile-stats">
-      <div class="p-stat"><div class="p-stat-val" id="pGames">0</div><div class="p-stat-lbl">Ойын</div></div>
-      <div class="p-stat"><div class="p-stat-val" id="pWins">0</div><div class="p-stat-lbl">Жеңіс</div></div>
-      <div class="p-stat"><div class="p-stat-val" id="pItems">0</div><div class="p-stat-lbl">Зат</div></div>
+      <div class="p-stat-card"><div class="p-stat-num" id="pGames">0</div><div class="p-stat-lbl" id="ps_games">Ойын</div></div>
+      <div class="p-stat-card"><div class="p-stat-num" id="pWins">0</div><div class="p-stat-lbl" id="ps_wins">Жеңіс</div></div>
+      <div class="p-stat-card"><div class="p-stat-num" id="pItems">0</div><div class="p-stat-lbl" id="ps_items">Зат</div></div>
     </div>
   </div>
-
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px">
-    <div class="inventory-title">Менің инвентарым</div>
-    <div class="inv-grid" id="inventoryGrid">
-      <div style="grid-column:span 4;text-align:center;padding:20px;color:var(--text3);font-size:13px">Зат жоқ. Дүкеннен сатып ал!</div>
-    </div>
+  <div class="inv-section">
+    <div class="inv-title" id="inv_title">Инвентарь</div>
+    <div class="inv-grid" id="invGrid"></div>
   </div>
-
-  <button class="btn-outline" style="width:100%" onclick="openNameModal()">Атымды өзгерту</button>
+  <button class="outline-btn" style="width:100%;margin-bottom:10px" id="changename_btn" onclick="openNameModal()">Атымды өзгерту</button>
 </div>
 
 <!-- NAV -->
-<nav>
-  <button class="nav-btn active" id="nav-menu" onclick="switchPage('menu',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Басты
+<nav id="mainNav" style="display:none">
+  <button class="nav-btn active" id="nav-menu" onclick="switchPage('menu');setActiveNav(this)">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <span id="nav1">Басты</span>
   </button>
-  <button class="nav-btn" id="nav-shop" onclick="switchPage('shop',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-    Дүкен
+  <button class="nav-btn" id="nav-shop" onclick="switchPage('shop');setActiveNav(this)">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    </div>
+    <span id="nav2">Дүкен</span>
   </button>
-  <button class="nav-btn" id="nav-profile" onclick="switchPage('profile',this);updateProfile()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    Профиль
+  <button class="nav-btn" id="nav-profile" onclick="switchPage('profile');updateProfileUI();setActiveNav(this)">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <span id="nav3">Профиль</span>
   </button>
 </nav>
 
 <!-- MODALS -->
+<!-- WIN MODAL -->
 <div class="modal-overlay" id="winModal">
-  <div class="modal">
-    <div class="modal-title" id="winTitle">Керемет!</div>
-    <div style="text-align:center;padding:20px 0">
-      <div style="font-size:48px;margin-bottom:12px">🏆</div>
-      <div id="winMsg" style="font-size:14px;color:var(--text2);margin-bottom:8px"></div>
-      <div id="winCoins" style="font-size:24px;font-weight:700;color:var(--gold);font-family:'Unbounded',sans-serif"></div>
+  <div class="modal-sheet">
+    <div class="win-burst">
+      <span class="win-icon-big" id="winEmoji">🏆</span>
+      <div class="win-title-big" id="winTitle">Керемет!</div>
+      <div style="font-size:14px;color:var(--text2);font-weight:700;margin-bottom:12px" id="winMsg"></div>
+      <div class="win-coins-big" id="winCoinsDisp"></div>
     </div>
-    <button class="btn btn-gold" onclick="closeModal('winModal')">Жарайды!</button>
+    <button class="big-btn" style="margin-top:20px" id="win_ok" onclick="closeModal('winModal')">Жарайды!</button>
   </div>
 </div>
 
+<!-- CASE MODAL -->
 <div class="modal-overlay" id="caseModal">
-  <div class="modal">
-    <div class="modal-title">Кейс ашылуда...</div>
-    <div class="case-reveal" id="caseReveal"></div>
-    <button class="btn" onclick="closeModal('caseModal')">Алу</button>
+  <div class="modal-sheet">
+    <div class="modal-title" id="case_spinning">Кейс ашылуда...</div>
+    <div class="roulette-track-wrap">
+      <div class="roulette-pointer"></div>
+      <div class="roulette-track" id="rouletteTrack"></div>
+    </div>
+    <div id="caseRevealSection" style="text-align:center;display:none;padding:10px 0">
+      <div id="caseRevealIcon" style="width:90px;height:90px;border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;animation:bounceIn 0.5s cubic-bezier(0.34,1.56,0.64,1)"></div>
+      <div id="caseRevealRarity" style="font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:4px"></div>
+      <div id="caseRevealName" style="font-size:14px;font-weight:700;color:var(--text2)"></div>
+    </div>
+    <button class="big-btn" id="case_close_btn" onclick="closeModal('caseModal')" style="display:none;margin-top:16px" id="case_btn">Алу!</button>
   </div>
 </div>
 
+<!-- NAME MODAL -->
 <div class="modal-overlay" id="nameModal">
-  <div class="modal">
-    <div class="modal-title">Атымды өзгерту</div>
-    <input class="name-input" id="nameInput" placeholder="Атыңды енгіз" maxlength="20">
+  <div class="modal-sheet">
+    <div class="modal-title" id="nm_title">Атымды өзгерту</div>
+    <input class="fancy-input" id="nameChangeInput" placeholder="Жаңа атыңды жаз" maxlength="20">
     <div style="display:flex;gap:10px">
-      <button class="btn-outline" style="flex:1" onclick="closeModal('nameModal')">Бас тарту</button>
-      <button class="btn" style="flex:2" onclick="saveName()">Сақтау</button>
+      <button class="outline-btn" style="flex:1" onclick="closeModal('nameModal')" id="nm_cancel">Бас тарту</button>
+      <button class="big-btn" style="flex:2" onclick="saveName()" id="nm_save">Сақтау</button>
     </div>
   </div>
 </div>
 
+<!-- AVATAR MODAL -->
 <div class="modal-overlay" id="avatarModal">
-  <div class="modal">
-    <div class="modal-title">Аватар таңда</div>
-    <div class="avatar-options" id="avatarOptions"></div>
-    <div class="file-upload-btn" onclick="document.getElementById('fileInput').click()">
-      Суретті жүктеу (Галерея)
-    </div>
-    <input type="file" id="fileInput" accept="image/*" onchange="uploadAvatar(event)">
+  <div class="modal-sheet">
+    <div class="modal-title" id="av_title">Аватар таңда</div>
+    <div class="avatar-pick-grid" id="avatarPickGrid"></div>
     <div style="display:flex;gap:10px">
-      <button class="btn-outline" style="flex:1" onclick="closeModal('avatarModal')">Бас тарту</button>
-      <button class="btn" style="flex:2" onclick="saveAvatar()">Сақтау</button>
+      <button class="outline-btn" style="flex:1" onclick="closeModal('avatarModal')" id="av_cancel">Бас тарту</button>
+      <button class="big-btn" style="flex:2" onclick="saveAvatarPick()" id="av_save">Сақтау</button>
     </div>
   </div>
 </div>
 
 <script>
-// ========== STATE ==========
+// ============================================================
+// STATE & SAVE
+// ============================================================
 let state = {
   coins: 0,
-  name: 'Қолданушы',
-  avatar: '?',
-  avatarImg: null,
-  gamesPlayed: 0,
-  wins: 0,
+  name: '',
+  age: 9,
+  avatarIdx: 0,
   inventory: [],
   equippedIcon: null,
-  usedPromos: []
+  gamesPlayed: 0,
+  wins: 0,
+  usedPromos: [],
+  lang: 'kk'
 };
 
-const AVATARS = ['🦁','🐯','🦅','🐺','🦊','🐲','🦋','🐋','🦄','🐉','🦑','🦁'];
-let selectedAvatar = null;
+let currentLang = 'kk';
+let selectedAge = null;
+let tempAvatarIdx = 0;
 
-// ========== UTILS ==========
-function saveState() { localStorage.setItem('botcoin_state', JSON.stringify(state)); }
-
-function loadState() {
-  const s = localStorage.getItem('botcoin_state');
-  if (s) { state = JSON.parse(s); updateCoinDisplay(); updateProfile(); }
+function save() { localStorage.setItem('botaoy_v2', JSON.stringify(state)); }
+function load() {
+  const s = localStorage.getItem('botaoy_v2');
+  if (s) { state = JSON.parse(s); currentLang = state.lang || 'kk'; }
 }
 
-function addCoins(amount) {
-  state.coins += amount;
-  updateCoinDisplay();
-  saveState();
-  showCoinFloat(amount);
+// ============================================================
+// TRANSLATIONS
+// ============================================================
+const T = {
+  kk: {
+    wt:'BotaOy', ws:'Ботамен бірге оқы және ойна!', wbtn:'Бастау!',
+    ob_title:'Атың кім?', ob_age_lbl:'Жасыңды таңда:', ob_btn:'Бастайық!',
+    menu_title:'Ойын таңда', menu_sub:'Ботакоин жина!',
+    gc1:'Карта ойыны',gc2:'Қазақ тілі',gc3:'Математика',gc4:'Пазл',gc5:'Сөз табу',
+    mem_title:'Карта ойыны', mem_sub:'Бірдей карталарды тауып жұпта',
+    ml_moves:'Қадам',ml_match:'Жұп',mem_restart:'Жаңадан',
+    quiz_title:'Қазақ тілі тесті',
+    math_title:'Математика',math_sub:'Дұрыс жауапты тап',
+    ml_score:'Ұпай',ml_streak:'Қатар',
+    puz_title:'Пазл',ml_pmoves:'Қадам',ml_ptime:'Сек',puz_restart:'Жаңадан',
+    word_title:'Сөз табу',word_sub:'Шатастырылған сөзді тап',
+    ml_correct:'Дұрыс',ml_skip:'Өткізу',
+    skip_btn:'Өткізу',submit_word:'Тексеру',
+    shop_title:'Дүкен',shop_sub:'Ботакоинмен сатып ал',
+    st1:'Кейстер',st2:'Иконкалар',st3:'Промокод',st4:'Рейтинг',
+    cn1:'Қола кейс',cd1:'Стандартты кейс',
+    cn2:'Күміс кейс',cd2:'Жақсы шанстар',
+    cn3:'Алтын кейс',cd3:'Ең жоғары шанс',
+    promo_title:'Промокод',promo_desc:'Промокодты енгіз және Ботакоин жина',
+    promo_btn:'Активтендіру',promo_list_title:'ПРОМОКОДТАР',
+    prof_title:'Менің профилім',prof_sub:'Менің статистикам',
+    ps_games:'Ойын',ps_wins:'Жеңіс',ps_items:'Зат',
+    inv_title:'Инвентарь',changename_btn:'Атымды өзгерту',
+    nm_title:'Атымды өзгерту',nm_cancel:'Бас тарту',nm_save:'Сақтау',
+    av_title:'Аватар таңда',av_cancel:'Бас тарту',av_save:'Сақтау',
+    win_ok:'Жарайды!',
+    nav1:'Басты',nav2:'Дүкен',nav3:'Профиль',
+    case_spinning:'Кейс ашылуда...',case_btn:'Алу!',
+    back_mem:'Артқа',back_quiz:'Артқа',back_math:'Артқа',back_puz:'Артқа',back_word:'Артқа',
+    lv1:'Оңай',lv2:'Орта',lv3:'Қиын',
+    rank0:'Жаңадан бастаушы',rank1:'Тәжірибелі',rank2:'Шебер',rank3:'Батыр',rank4:'Аңыз',
+    owned_lbl:'Меніңді',equip_lbl:'Тағу',equipped_lbl:'Тағылған',locked_lbl:'Жоқ',
+    toast_nocoins:'Ботакоин жетіспейді!',
+    toast_promo_ok:'+{n} BC есептелді!',toast_promo_fail:'Жарамсыз промокод',toast_promo_used:'Промокод бұрын пайдаланылды',
+    toast_icon_equip:' тағылды',toast_icon_buy:' сатып алынды!',toast_icon_locked:'Иконканы алдымен ашу керек!',
+    toast_wrong:'Қате жауап',toast_correct:'Дұрыс! ',
+    empty_inv:'Зат жоқ. Кейс аш!',
+    puzzle_solved:'Пазл шешілді!',
+    quiz_done:'Тест аяқталды!'
+  },
+  ru: {
+    wt:'BotaOy', ws:'Учись и играй вместе с Ботой!', wbtn:'Начать!',
+    ob_title:'Как тебя зовут?', ob_age_lbl:'Выбери возраст:', ob_btn:'Поехали!',
+    menu_title:'Выбери игру', menu_sub:'Зарабатывай Ботакоины!',
+    gc1:'Карточки',gc2:'Казахский язык',gc3:'Математика',gc4:'Пазл',gc5:'Слова',
+    mem_title:'Карточная игра', mem_sub:'Найди одинаковые карточки',
+    ml_moves:'Ходы',ml_match:'Пары',mem_restart:'Заново',
+    quiz_title:'Тест по казахскому',
+    math_title:'Математика',math_sub:'Найди правильный ответ',
+    ml_score:'Очки',ml_streak:'Серия',
+    puz_title:'Пазл',ml_pmoves:'Ходы',ml_ptime:'Сек',puz_restart:'Заново',
+    word_title:'Угадай слово',word_sub:'Разгадай перепутанное слово',
+    ml_correct:'Верно',ml_skip:'Пропуск',
+    skip_btn:'Пропустить',submit_word:'Проверить',
+    shop_title:'Магазин',shop_sub:'Трать Ботакоины',
+    st1:'Кейсы',st2:'Иконки',st3:'Промокод',st4:'Рейтинг',
+    cn1:'Бронзовый кейс',cd1:'Стандартный кейс',
+    cn2:'Серебряный кейс',cd2:'Хорошие шансы',
+    cn3:'Золотой кейс',cd3:'Максимальный шанс',
+    promo_title:'Промокод',promo_desc:'Введи промокод и получи Ботакоины',
+    promo_btn:'Активировать',promo_list_title:'ПРОМОКОДЫ',
+    prof_title:'Мой профиль',prof_sub:'Моя статистика',
+    ps_games:'Игры',ps_wins:'Победы',ps_items:'Предметы',
+    inv_title:'Инвентарь',changename_btn:'Изменить имя',
+    nm_title:'Изменить имя',nm_cancel:'Отмена',nm_save:'Сохранить',
+    av_title:'Выбрать аватар',av_cancel:'Отмена',av_save:'Сохранить',
+    win_ok:'Отлично!',
+    nav1:'Главная',nav2:'Магазин',nav3:'Профиль',
+    case_spinning:'Открываем кейс...',case_btn:'Забрать!',
+    back_mem:'Назад',back_quiz:'Назад',back_math:'Назад',back_puz:'Назад',back_word:'Назад',
+    lv1:'Легко',lv2:'Средне',lv3:'Сложно',
+    rank0:'Новичок',rank1:'Опытный',rank2:'Мастер',rank3:'Батыр',rank4:'Легенда',
+    owned_lbl:'Есть',equip_lbl:'Надеть',equipped_lbl:'Надето',locked_lbl:'Нет',
+    toast_nocoins:'Не хватает Ботакоинов!',
+    toast_promo_ok:'+{n} BC зачислено!',toast_promo_fail:'Неверный промокод',toast_promo_used:'Промокод уже использован',
+    toast_icon_equip:' надета',toast_icon_buy:' куплена!',toast_icon_locked:'Сначала получи иконку!',
+    toast_wrong:'Неверный ответ',toast_correct:'Верно! ',
+    empty_inv:'Нет предметов. Открой кейс!',
+    puzzle_solved:'Пазл собран!',
+    quiz_done:'Тест завершён!'
+  },
+  en: {
+    wt:'BotaOy', ws:'Learn and play with Bota!', wbtn:'Start!',
+    ob_title:'What\'s your name?', ob_age_lbl:'Choose your age:', ob_btn:'Let\'s go!',
+    menu_title:'Choose a game', menu_sub:'Earn Botacoins!',
+    gc1:'Memory Cards',gc2:'Kazakh Language',gc3:'Math',gc4:'Puzzle',gc5:'Word Finder',
+    mem_title:'Memory Game', mem_sub:'Match the cards',
+    ml_moves:'Moves',ml_match:'Pairs',mem_restart:'Restart',
+    quiz_title:'Kazakh Language Quiz',
+    math_title:'Math',math_sub:'Find the correct answer',
+    ml_score:'Score',ml_streak:'Streak',
+    puz_title:'Puzzle',ml_pmoves:'Moves',ml_ptime:'Sec',puz_restart:'Restart',
+    word_title:'Word Finder',word_sub:'Unscramble the word',
+    ml_correct:'Correct',ml_skip:'Skips',
+    skip_btn:'Skip',submit_word:'Check',
+    shop_title:'Shop',shop_sub:'Spend your Botacoins',
+    st1:'Cases',st2:'Icons',st3:'Promo',st4:'Ranking',
+    cn1:'Bronze Case',cd1:'Standard case',
+    cn2:'Silver Case',cd2:'Better chances',
+    cn3:'Gold Case',cd3:'Highest chance',
+    promo_title:'Promo Code',promo_desc:'Enter a promo code and get Botacoins',
+    promo_btn:'Activate',promo_list_title:'PROMO CODES',
+    prof_title:'My Profile',prof_sub:'My statistics',
+    ps_games:'Games',ps_wins:'Wins',ps_items:'Items',
+    inv_title:'Inventory',changename_btn:'Change name',
+    nm_title:'Change name',nm_cancel:'Cancel',nm_save:'Save',
+    av_title:'Choose avatar',av_cancel:'Cancel',av_save:'Save',
+    win_ok:'Great!',
+    nav1:'Home',nav2:'Shop',nav3:'Profile',
+    case_spinning:'Opening case...',case_btn:'Collect!',
+    back_mem:'Back',back_quiz:'Back',back_math:'Back',back_puz:'Back',back_word:'Back',
+    lv1:'Easy',lv2:'Medium',lv3:'Hard',
+    rank0:'Beginner',rank1:'Experienced',rank2:'Master',rank3:'Batyr',rank4:'Legend',
+    owned_lbl:'Owned',equip_lbl:'Equip',equipped_lbl:'Equipped',locked_lbl:'Locked',
+    toast_nocoins:'Not enough Botacoins!',
+    toast_promo_ok:'+{n} BC added!',toast_promo_fail:'Invalid promo code',toast_promo_used:'Promo code already used',
+    toast_icon_equip:' equipped',toast_icon_buy:' purchased!',toast_icon_locked:'Get this icon first!',
+    toast_wrong:'Wrong answer',toast_correct:'Correct! ',
+    empty_inv:'No items. Open a case!',
+    puzzle_solved:'Puzzle solved!',
+    quiz_done:'Quiz complete!'
+  }
+};
+
+function t(key) { return (T[currentLang] || T.kk)[key] || key; }
+
+function applyLang() {
+  const keys = Object.keys(T.kk);
+  keys.forEach(k => {
+    const el = document.getElementById(k);
+    if (el) el.textContent = t(k);
+  });
+  // puzzle level buttons
+  ['lv1','lv2','lv3'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = t(id);
+  });
 }
 
-function updateCoinDisplay() {
+function setLang(lang, btn) {
+  currentLang = lang;
+  state.lang = lang;
+  save();
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyLang();
+  renderPromoList();
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function addCoins(n) {
+  state.coins += n;
+  save();
   document.getElementById('coinDisplay').textContent = state.coins;
+  showCoinFloat(n);
+  updateLeaderboard();
 }
 
-function showCoinFloat(amount) {
+function showCoinFloat(n) {
   const el = document.getElementById('coinFloat');
-  el.textContent = '+' + amount + ' BC';
+  el.textContent = '+' + n + ' BC';
   el.classList.remove('show');
   void el.offsetWidth;
   el.classList.add('show');
 }
 
 function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
 }
 
-function showWin(title, msg, coins) {
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function showWin(title, msg, coins, emoji='🏆') {
+  document.getElementById('winEmoji').textContent = emoji;
   document.getElementById('winTitle').textContent = title;
   document.getElementById('winMsg').textContent = msg;
-  document.getElementById('winCoins').textContent = '+' + coins + ' BC';
+  document.getElementById('winCoinsDisp').textContent = '+' + coins + ' BC';
+  document.getElementById('win_ok').textContent = t('win_ok');
   document.getElementById('winModal').classList.add('open');
   addCoins(coins);
   state.wins++;
   state.gamesPlayed++;
-  saveState();
+  save();
+  launchConfetti();
 }
 
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function launchConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  wrap.innerHTML = '';
+  const colors = ['#FF6B35','#4ECDC4','#FFD700','#9B59B6','#27AE60','#FF69B4','#2980B9'];
+  for (let i = 0; i < 50; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.width = (8 + Math.random() * 8) + 'px';
+    p.style.height = (12 + Math.random() * 12) + 'px';
+    p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    p.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+    p.style.animationDelay = Math.random() * 0.5 + 's';
+    wrap.appendChild(p);
+    setTimeout(() => p.remove(), 4000);
+  }
+}
 
-function switchPage(name, btn) {
+// ============================================================
+// NAVIGATION
+// ============================================================
+function switchPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
-  if (btn) btn.classList.add('active');
+}
+
+function setActiveNav(btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
 }
 
 function openGame(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
+  switchPage(name);
   state.gamesPlayed++;
-  saveState();
+  save();
   if (name === 'memory') initMemory();
   if (name === 'quiz') initQuiz();
-  if (name === 'math') initMath();
+  if (name === 'math') { mathScore=0; mathStreak=0; mathEarned=0; updateMathUI(); genMath(); }
   if (name === 'puzzle') initPuzzle();
   if (name === 'word') initWord();
 }
 
-function goBack() { switchPage('menu', document.getElementById('nav-menu')); }
+function goBack() { switchPage('menu'); }
 
-// ========== MEMORY GAME ==========
-const SYMBOLS = ['A','K','Q','J','10','9','8','7'];
-let memCards = [], memFlipped = [], memMatched = 0, memMoves = 0, memLock = false, memEarned = 0;
+// ============================================================
+// WELCOME & ONBOARD
+// ============================================================
+function selectAge(age, btn) {
+  selectedAge = age;
+  document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function finishOnboard() {
+  const name = document.getElementById('nameInputOnb').value.trim();
+  if (!name) { showToast('Атыңды жаз!'); return; }
+  if (!selectedAge) { showToast('Жасыңды таңда!'); return; }
+  state.name = name;
+  state.age = selectedAge;
+  save();
+  enterMainApp();
+}
+
+function enterMainApp() {
+  document.getElementById('topBar').style.display = 'flex';
+  document.getElementById('langBar').style.display = 'flex';
+  document.getElementById('mainNav').style.display = 'flex';
+  document.getElementById('coinDisplay').textContent = state.coins;
+  switchPage('menu');
+  applyLang();
+  generateStars();
+}
+
+// ============================================================
+// STARS
+// ============================================================
+function generateStars() {
+  const bg = document.getElementById('starsBg');
+  for (let i = 0; i < 12; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + 'vw';
+    s.style.animationDuration = (8 + Math.random() * 12) + 's';
+    s.style.animationDelay = Math.random() * 8 + 's';
+    s.style.width = s.style.height = (6 + Math.random() * 10) + 'px';
+    bg.appendChild(s);
+  }
+}
+
+// ============================================================
+// MEMORY GAME
+// ============================================================
+const MEM_EMOJIS = ['A','K','Q','J','10','9','8','7'];
+let memCards=[], memFlipped=[], memMatchCount=0, memMoveCount=0, memLock=false, memEarned=0;
 
 function initMemory() {
-  const pairs = [...SYMBOLS, ...SYMBOLS];
-  pairs.sort(() => Math.random() - 0.5);
-  memCards = pairs;
-  memFlipped = [];
-  memMatched = 0;
-  memMoves = 0;
-  memEarned = 0;
-  memLock = false;
+  const pairs = [...MEM_EMOJIS,...MEM_EMOJIS].sort(() => Math.random()-0.5);
+  memCards = pairs; memFlipped=[]; memMatchCount=0; memMoveCount=0; memEarned=0; memLock=false;
   document.getElementById('memMoves').textContent = 0;
   document.getElementById('memMatches').textContent = 0;
   document.getElementById('memCoins').textContent = 0;
-  renderMemory();
-}
-
-function renderMemory() {
-  const grid = document.getElementById('memoryGrid');
+  const grid = document.getElementById('memGrid');
   grid.innerHTML = '';
-  memCards.forEach((sym, i) => {
+  pairs.forEach((sym,i) => {
     const card = document.createElement('div');
-    card.className = 'memory-card';
-    card.innerHTML = `<span class="card-back">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="3"/></svg>
-    </span><span class="card-front">${sym}</span>`;
-    card.dataset.index = i;
+    card.className = 'mem-card';
+    card.innerHTML = `<div class="mem-card-inner"><div class="mem-face mem-back"><svg width="24" height="24" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="rgba(255,255,255,0.6)"/></svg></div><div class="mem-face mem-front" style="font-family:'Fredoka One',cursive;font-size:26px;color:var(--text)">${sym}</div></div>`;
     card.dataset.sym = sym;
-    card.onclick = () => flipMemCard(card, i);
+    card.onclick = () => flipMem(card, i);
     grid.appendChild(card);
   });
 }
 
-function flipMemCard(card, idx) {
+function flipMem(card, idx) {
   if (memLock || card.classList.contains('flipped') || card.classList.contains('matched')) return;
   card.classList.add('flipped');
-  memFlipped.push({card, idx, sym: memCards[idx]});
+  memFlipped.push(card);
   if (memFlipped.length === 2) {
-    memMoves++;
-    document.getElementById('memMoves').textContent = memMoves;
+    memMoveCount++;
+    document.getElementById('memMoves').textContent = memMoveCount;
     memLock = true;
     setTimeout(() => {
-      const [a, b] = memFlipped;
-      if (a.sym === b.sym) {
-        a.card.classList.add('matched'); a.card.classList.remove('flipped');
-        b.card.classList.add('matched'); b.card.classList.remove('flipped');
-        memMatched++;
+      const [a,b] = memFlipped;
+      if (a.dataset.sym === b.dataset.sym) {
+        a.classList.add('matched'); b.classList.add('matched');
+        a.classList.remove('flipped'); b.classList.remove('flipped');
+        memMatchCount++;
         memEarned += 10;
-        document.getElementById('memMatches').textContent = memMatched;
+        document.getElementById('memMatches').textContent = memMatchCount;
         document.getElementById('memCoins').textContent = memEarned;
         addCoins(10);
-        if (memMatched === SYMBOLS.length) {
-          setTimeout(() => showWin('Тамаша!', 'Барлық жұптарды таптың!', 50), 300);
-        }
+        if (memMatchCount === MEM_EMOJIS.length) setTimeout(() => showWin(t('mem_title'),'🎉 '+memMatchCount+' '+t('ml_match'),50,'🃏'),300);
       } else {
-        a.card.classList.remove('flipped');
-        b.card.classList.remove('flipped');
+        a.classList.remove('flipped'); b.classList.remove('flipped');
       }
-      memFlipped = [];
-      memLock = false;
+      memFlipped=[]; memLock=false;
     }, 800);
   }
 }
 
-// ========== QUIZ GAME ==========
-const QUIZ_QUESTIONS = [
-  { q: '"Мектеп" сөзінің мағынасы қандай?', opts: ['Оқу орны', 'Дүкен', 'Ауруxана', 'Кітапхана'], a: 0 },
-  { q: 'Қазақстанның астанасы қай қала?', opts: ['Алматы', 'Шымкент', 'Астана', 'Ақтөбе'], a: 2 },
-  { q: '"Достық" сөзінің антонимі?', opts: ['Сүйіспеншілік', 'Жаулық', 'Бірлік', 'Татулық'], a: 1 },
-  { q: 'Қазақ тілінде "су" сөзі нені білдіреді?', opts: ['От', 'Жер', 'Су', 'Ауа'], a: 2 },
-  { q: '"Батыр" сөзінің мағынасы?', opts: ['Қорқақ', 'Ер жүрек', 'Ақылды', 'Жылдам'], a: 1 },
-  { q: 'Қазақ тілінде неше дауысты дыбыс бар?', opts: ['6', '7', '9', '12'], a: 2 },
-  { q: '"Мен" сөзі қай септікте тұр: "Менің кітабым"?', opts: ['Атау', 'Ілік', 'Барыс', 'Табыс'], a: 1 },
-  { q: '"Қыс" мезгілінің белгісі?', opts: ['Жылы болады', 'Қар жауады', 'Гүл ашады', 'Жапырақ түседі'], a: 1 },
-  { q: 'Қазақ алфавитіндегі әріп саны?', opts: ['32', '36', '42', '28'], a: 2 },
-  { q: '"Кеше" сөзі қай уақытты білдіреді?', opts: ['Ертең', 'Биыл', 'Өткен күн', 'Бүгін'], a: 2 },
-  { q: '"Сәлем" сөзінің мағынасы?', opts: ['Хош бол', 'Амандасу', 'Рахмет', 'Кешір'], a: 1 },
-  { q: 'Қазақ тілінде "апа" кімді білдіреді?', opts: ['Інің', 'Сіңліңің', 'Үлкен қарындасың немесе әйел ағаң', 'Анаң'], a: 2 },
-];
+// ============================================================
+// QUIZ GAME
+// ============================================================
+const QUIZ_ALL = {
+  kk: [
+    {q:'"Мектеп" сөзінің мағынасы қандай?',opts:['Оқу орны','Дүкен','Ауруxана','Кітапхана'],a:0},
+    {q:'Қазақстанның астанасы қай қала?',opts:['Алматы','Шымкент','Астана','Ақтөбе'],a:2},
+    {q:'"Достық" сөзінің антонимі?',opts:['Сүйіспеншілік','Жаулық','Бірлік','Татулық'],a:1},
+    {q:'"Батыр" сөзінің мағынасы?',opts:['Қорқақ','Ер жүрек','Ақылды','Жылдам'],a:1},
+    {q:'Қазақ тілінде неше дауысты дыбыс бар?',opts:['6','7','9','12'],a:2},
+    {q:'"Мен" сөзі қай септікте тұр: "Менің кітабым"?',opts:['Атау','Ілік','Барыс','Табыс'],a:1},
+    {q:'"Сәлем" сөзінің мағынасы?',opts:['Хош бол','Амандасу сөзі','Рахмет','Кешір'],a:1},
+    {q:'Қазақ тілінде "апа" кімді білдіреді?',opts:['Інің','Сіңліңің','Үлкен әйел туыс','Анаң'],a:2},
+    {q:'Қазақ алфавитіндегі әріп саны?',opts:['32','36','42','28'],a:2},
+    {q:'"Кеше" сөзі қай уақытты білдіреді?',opts:['Ертең','Биыл','Өткен күн','Бүгін'],a:2},
+    {q:'"Жайлау" деген не?',opts:['Жазғы шабындық','Тау шыңы','Өзен','Орман'],a:0},
+    {q:'Қазақ тілінде "шешесі" деген кімді білдіреді?',opts:['Баласы','Анасы','Ағасы','Қызы'],a:1},
+  ],
+  ru: [
+    {q:'Что означает слово "мектеп"?',opts:['Школа','Магазин','Больница','Библиотека'],a:0},
+    {q:'Столица Казахстана?',opts:['Алматы','Шымкент','Астана','Актобе'],a:2},
+    {q:'Антоним слова "достық" (дружба)?',opts:['Любовь','Вражда','Единство','Согласие'],a:1},
+    {q:'Что означает "батыр"?',opts:['Трус','Храбрец','Умный','Быстрый'],a:1},
+    {q:'Сколько гласных в казахском?',opts:['6','7','9','12'],a:2},
+    {q:'Что означает "сәлем"?',opts:['До свидания','Приветствие','Спасибо','Прости'],a:1},
+    {q:'Кто такая "апа"?',opts:['Брат','Сестра','Старшая родственница','Мама'],a:2},
+    {q:'Сколько букв в казахском алфавите?',opts:['32','36','42','28'],a:2},
+    {q:'Что означает "кеше"?',opts:['Завтра','В этом году','Вчера','Сегодня'],a:2},
+    {q:'Что такое "жайлау"?',opts:['Летнее пастбище','Вершина горы','Река','Лес'],a:0},
+    {q:'Казахстан находится в Центральной Азии?',opts:['Да','Нет','Частично','Не знаю'],a:0},
+    {q:'"Шешесі" означает?',opts:['Сын','Мама','Брат','Дочь'],a:1},
+  ],
+  en: [
+    {q:'What does "mektep" mean?',opts:['School','Shop','Hospital','Library'],a:0},
+    {q:'Capital of Kazakhstan?',opts:['Almaty','Shymkent','Astana','Aktobe'],a:2},
+    {q:'Opposite of "dostyk" (friendship)?',opts:['Love','Enmity','Unity','Harmony'],a:1},
+    {q:'What does "batyr" mean?',opts:['Coward','Hero','Smart','Fast'],a:1},
+    {q:'How many vowels in Kazakh?',opts:['6','7','9','12'],a:2},
+    {q:'What does "salem" mean?',opts:['Goodbye','Hello/Greeting','Thank you','Sorry'],a:1},
+    {q:'Who is "apa"?',opts:['Brother','Sister','Elder female relative','Mother'],a:2},
+    {q:'Letters in Kazakh alphabet?',opts:['32','36','42','28'],a:2},
+    {q:'"Keshe" means?',opts:['Tomorrow','This year','Yesterday','Today'],a:2},
+    {q:'What is "zhailau"?',opts:['Summer pasture','Mountain peak','River','Forest'],a:0},
+    {q:'Is Kazakhstan in Central Asia?',opts:['Yes','No','Partly','Don\'t know'],a:0},
+    {q:'"Sheshesi" means?',opts:['Son','Mother','Brother','Daughter'],a:1},
+  ]
+};
 
-let quizIdx = 0, quizAnswered = false, quizOrder = [];
+let quizIdx=0, quizOrder=[], quizAnswered=false, quizEarned=0;
 
 function initQuiz() {
-  quizOrder = [...Array(QUIZ_QUESTIONS.length).keys()].sort(() => Math.random() - 0.5).slice(0, 10);
-  quizIdx = 0;
-  quizAnswered = false;
-  showQuizQuestion();
+  const qs = QUIZ_ALL[currentLang] || QUIZ_ALL.kk;
+  quizOrder = [...Array(qs.length).keys()].sort(()=>Math.random()-0.5).slice(0,10);
+  quizIdx=0; quizAnswered=false; quizEarned=0;
+  document.getElementById('quizCoinsLabel').textContent = '0 BC';
+  showQuizQ();
 }
 
-function showQuizQuestion() {
+function showQuizQ() {
+  const qs = QUIZ_ALL[currentLang] || QUIZ_ALL.kk;
   if (quizIdx >= quizOrder.length) {
-    showWin('Тест аяқталды!', 'Барлық сұрақтарға жауап бердің!', 50);
-    setTimeout(() => initQuiz(), 500);
+    showWin(t('quiz_done'),'🎉',60,'📚');
+    setTimeout(initQuiz, 500);
     return;
   }
-  const q = QUIZ_QUESTIONS[quizOrder[quizIdx]];
+  const q = qs[quizOrder[quizIdx]];
   quizAnswered = false;
-  document.getElementById('quizScore').textContent = `Сұрақ ${quizIdx + 1} / ${quizOrder.length}`;
-  document.getElementById('quizProgress').style.width = ((quizIdx + 1) / quizOrder.length * 100) + '%';
-  document.getElementById('quizQuestion').textContent = q.q;
-  const opts = document.getElementById('quizOptions');
+  document.getElementById('quizScoreLabel').textContent = (currentLang==='ru'?'Вопрос ':'Question ') + (quizIdx+1) + '/' + quizOrder.length;
+  document.getElementById('quizProg').style.width = ((quizIdx+1)/quizOrder.length*100)+'%';
+  document.getElementById('quizQ').textContent = q.q;
+  const opts = document.getElementById('quizOpts');
   opts.innerHTML = '';
-  q.opts.forEach((opt, i) => {
+  const letters = ['A','B','C','D'];
+  q.opts.forEach((opt,i) => {
     const btn = document.createElement('button');
-    btn.className = 'quiz-btn';
-    btn.textContent = opt;
+    btn.className = 'quiz-opt-btn';
+    btn.innerHTML = `<span class="quiz-opt-letter">${letters[i]}</span>${opt}`;
     btn.onclick = () => answerQuiz(i, q.a, btn);
     opts.appendChild(btn);
   });
 }
 
-function answerQuiz(selected, correct, btn) {
+function answerQuiz(sel, correct, btn) {
   if (quizAnswered) return;
   quizAnswered = true;
-  const btns = document.querySelectorAll('.quiz-btn');
-  btns.forEach(b => b.disabled = true);
-  if (selected === correct) {
+  document.querySelectorAll('.quiz-opt-btn').forEach(b => b.disabled = true);
+  if (sel === correct) {
     btn.classList.add('correct');
+    quizEarned += 15;
     addCoins(15);
-    showToast('Дұрыс! +15 BC');
+    document.getElementById('quizCoinsLabel').textContent = quizEarned + ' BC';
+    showToast(t('toast_correct') + '+15 BC');
+    launchSmallConfetti();
   } else {
     btn.classList.add('wrong');
-    btns[correct].classList.add('correct');
-    showToast('Қате жауап');
+    document.querySelectorAll('.quiz-opt-btn')[correct].classList.add('correct');
+    showToast(t('toast_wrong'));
   }
-  setTimeout(() => { quizIdx++; showQuizQuestion(); }, 1500);
+  setTimeout(() => { quizIdx++; showQuizQ(); }, 1400);
 }
 
-// ========== MATH GAME ==========
-let mathScore = 0, mathStreak = 0, mathCoins = 0;
+function launchSmallConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  const colors = ['#FF6B35','#4ECDC4','#FFD700'];
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-piece';
+    p.style.left = (30 + Math.random() * 40) + 'vw';
+    p.style.background = colors[i%3];
+    p.style.width = p.style.height = '8px';
+    p.style.borderRadius = '50%';
+    p.style.animationDuration = (1 + Math.random()) + 's';
+    wrap.appendChild(p);
+    setTimeout(() => p.remove(), 2000);
+  }
+}
 
-function initMath() {
-  mathScore = 0; mathStreak = 0; mathCoins = 0;
-  document.getElementById('mathScore').textContent = 0;
-  document.getElementById('mathStreak').textContent = 0;
-  document.getElementById('mathCoins').textContent = 0;
-  genMath();
+// ============================================================
+// MATH GAME
+// ============================================================
+let mathScore=0, mathStreak=0, mathEarned=0;
+
+function updateMathUI() {
+  document.getElementById('mathScore').textContent = mathScore;
+  document.getElementById('mathStreak').textContent = mathStreak;
+  document.getElementById('mathCoins').textContent = mathEarned;
+  const badge = document.getElementById('mathStreakBadge');
+  if (mathStreak >= 3) {
+    badge.style.display = 'inline-block';
+    badge.textContent = (currentLang==='kk'?'🔥 Қатар: ':currentLang==='ru'?'🔥 Серия: ':'🔥 Streak: ') + mathStreak;
+  } else {
+    badge.style.display = 'none';
+  }
 }
 
 function genMath() {
-  const ops = ['+', '-', '*'];
-  const op = ops[Math.floor(Math.random() * ops.length)];
-  let a, b, ans;
-  if (op === '+') { a = Math.floor(Math.random()*50)+1; b = Math.floor(Math.random()*50)+1; ans = a+b; }
-  if (op === '-') { a = Math.floor(Math.random()*50)+20; b = Math.floor(Math.random()*a)+1; ans = a-b; }
-  if (op === '*') { a = Math.floor(Math.random()*12)+1; b = Math.floor(Math.random()*12)+1; ans = a*b; }
-  const opLabel = op === '*' ? '×' : op;
+  const ops = ['+','-','*'];
+  const op = ops[Math.floor(Math.random()*3)];
+  let a,b,ans;
+  if (op==='+'){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*50)+1;ans=a+b;}
+  if (op==='-'){a=Math.floor(Math.random()*50)+20;b=Math.floor(Math.random()*(a-1))+1;ans=a-b;}
+  if (op==='*'){a=Math.floor(Math.random()*12)+1;b=Math.floor(Math.random()*12)+1;ans=a*b;}
+  const opLabel = op==='*'?'×':op;
   document.getElementById('mathExpr').textContent = `${a} ${opLabel} ${b} = ?`;
   const wrongs = new Set([ans]);
   while (wrongs.size < 4) {
-    const w = ans + (Math.floor(Math.random()*20)-10);
-    if (w !== ans && w >= 0) wrongs.add(w);
+    const d = Math.floor(Math.random()*20)-10;
+    const w = ans+d;
+    if (w!==ans && w>=0) wrongs.add(w);
   }
-  const choices = [...wrongs].sort(() => Math.random() - 0.5);
+  const choices = [...wrongs].sort(()=>Math.random()-0.5);
   const div = document.getElementById('mathAnswers');
   div.innerHTML = '';
   choices.forEach(ch => {
     const btn = document.createElement('button');
-    btn.className = 'math-btn';
+    btn.className = 'math-ans-btn';
     btn.textContent = ch;
     btn.onclick = () => answerMath(ch, ans, btn);
     div.appendChild(btn);
@@ -1618,65 +2462,77 @@ function genMath() {
 }
 
 function answerMath(chosen, correct, btn) {
-  const btns = document.querySelectorAll('.math-btn');
-  btns.forEach(b => b.disabled = true);
+  document.querySelectorAll('.math-ans-btn').forEach(b => b.disabled = true);
   if (chosen === correct) {
     btn.classList.add('correct');
     mathStreak++;
     mathScore++;
-    const earn = 12 + (mathStreak > 3 ? 8 : 0);
-    mathCoins += earn;
+    const earn = 12 + (mathStreak>=3?8:0);
+    mathEarned += earn;
     addCoins(earn);
-    document.getElementById('mathScore').textContent = mathScore;
-    document.getElementById('mathStreak').textContent = mathStreak;
-    document.getElementById('mathCoins').textContent = mathCoins;
-    showToast(mathStreak > 3 ? 'Серия! +' + earn + ' BC' : '+' + earn + ' BC');
-    setTimeout(genMath, 1000);
+    updateMathUI();
+    showToast(t('toast_correct') + '+' + earn + ' BC');
+    launchSmallConfetti();
+    setTimeout(genMath, 900);
   } else {
     btn.classList.add('wrong');
-    btns.forEach(b => { if (parseInt(b.textContent) === correct) b.classList.add('correct'); });
+    document.querySelectorAll('.math-ans-btn').forEach(b => { if(parseInt(b.textContent)===correct) b.classList.add('correct'); });
     mathStreak = 0;
-    document.getElementById('mathStreak').textContent = 0;
-    showToast('Қате! Серия үзілді');
-    setTimeout(genMath, 1500);
+    updateMathUI();
+    showToast(t('toast_wrong'));
+    setTimeout(genMath, 1300);
   }
 }
 
-// ========== PUZZLE GAME ==========
-let puzzleTiles = [], puzzleMoves = 0, puzzleTimer = 0, puzzleInterval = null, puzzleCoins = 0, puzzleSolved = false;
+// ============================================================
+// PUZZLE GAME
+// ============================================================
+let puzzleSize=3, puzzleTiles=[], puzzleMoves=0, puzzleTime=0, puzzleInterval=null, puzzleEarned=0, puzzleSolved=false;
+
+function setPuzzleLevel(size, btn) {
+  document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  puzzleSize = size;
+  initPuzzle();
+}
 
 function initPuzzle() {
-  puzzleTiles = [1,2,3,4,5,6,7,8,0];
-  do { puzzleTiles.sort(() => Math.random() - 0.5); } while (!isSolvable(puzzleTiles) || isSolved(puzzleTiles));
-  puzzleMoves = 0; puzzleCoins = 0; puzzleSolved = false;
-  document.getElementById('puzzleMoves').textContent = 0;
-  document.getElementById('puzzleCoins').textContent = 0;
+  const n = puzzleSize * puzzleSize;
+  const tiles = [...Array(n).keys()];
+  do { tiles.sort(()=>Math.random()-0.5); } while (!isSolvable(tiles,puzzleSize) || isSolved(tiles));
+  puzzleTiles = tiles;
+  puzzleMoves=0; puzzleTime=0; puzzleEarned=0; puzzleSolved=false;
   clearInterval(puzzleInterval);
-  puzzleTimer = 0;
-  document.getElementById('puzzleTimer').textContent = 0;
-  puzzleInterval = setInterval(() => {
-    if (!puzzleSolved) { puzzleTimer++; document.getElementById('puzzleTimer').textContent = puzzleTimer; }
-  }, 1000);
+  document.getElementById('puzMoves').textContent=0;
+  document.getElementById('puzTime').textContent=0;
+  document.getElementById('puzCoins').textContent=0;
+  puzzleInterval = setInterval(()=>{ if(!puzzleSolved){ puzzleTime++; document.getElementById('puzTime').textContent=puzzleTime; }},1000);
   renderPuzzle();
 }
 
-function isSolvable(tiles) {
-  let inv = 0;
-  for (let i = 0; i < 9; i++) for (let j = i+1; j < 9; j++)
-    if (tiles[i] && tiles[j] && tiles[i] > tiles[j]) inv++;
-  return inv % 2 === 0;
+function isSolvable(tiles, n) {
+  let inv=0;
+  for(let i=0;i<tiles.length;i++)
+    for(let j=i+1;j<tiles.length;j++)
+      if(tiles[i]&&tiles[j]&&tiles[i]>tiles[j]) inv++;
+  if(n%2===1) return inv%2===0;
+  const emptyRow = Math.floor(tiles.indexOf(0)/n);
+  return (inv+emptyRow)%2===1;
 }
 
-function isSolved(tiles) { return tiles.every((v,i) => v === (i === 8 ? 0 : i+1)); }
+function isSolved(tiles) { return tiles.every((v,i)=>v===(i===tiles.length-1?0:i+1)); }
 
 function renderPuzzle() {
   const board = document.getElementById('puzzleBoard');
+  board.className = 'puzzle-board size-' + puzzleSize;
+  board.style.maxWidth = (puzzleSize * 80) + 'px';
   board.innerHTML = '';
-  puzzleTiles.forEach((val, i) => {
+  puzzleTiles.forEach((val,i) => {
     const tile = document.createElement('div');
-    tile.className = 'puzzle-tile' + (val === 0 ? ' empty' : '');
+    tile.className = 'p-tile' + (val===0?' empty':'');
     tile.textContent = val || '';
-    if (val !== 0) tile.onclick = () => movePuzzle(i);
+    tile.style.fontSize = puzzleSize>=4 ? '18px' : '24px';
+    if (val!==0) tile.onclick = () => movePuzzle(i);
     board.appendChild(tile);
   });
 }
@@ -1684,302 +2540,490 @@ function renderPuzzle() {
 function movePuzzle(idx) {
   if (puzzleSolved) return;
   const empty = puzzleTiles.indexOf(0);
-  const valid = [idx-1, idx+1, idx-3, idx+3];
-  const rowDiff = Math.abs(Math.floor(idx/3) - Math.floor(empty/3));
-  const colDiff = Math.abs((idx%3) - (empty%3));
-  if ((rowDiff + colDiff) !== 1) return;
+  const n = puzzleSize;
+  const dr = Math.abs(Math.floor(idx/n)-Math.floor(empty/n));
+  const dc = Math.abs((idx%n)-(empty%n));
+  if (dr+dc!==1) return;
   [puzzleTiles[idx], puzzleTiles[empty]] = [puzzleTiles[empty], puzzleTiles[idx]];
   puzzleMoves++;
-  document.getElementById('puzzleMoves').textContent = puzzleMoves;
+  document.getElementById('puzMoves').textContent = puzzleMoves;
   renderPuzzle();
   if (isSolved(puzzleTiles)) {
-    puzzleSolved = true;
+    puzzleSolved=true;
     clearInterval(puzzleInterval);
-    const bonus = Math.max(25, 100 - puzzleMoves * 2);
-    puzzleCoins = bonus;
-    document.getElementById('puzzleCoins').textContent = bonus;
-    setTimeout(() => showWin('Пазл шешілді!', `${puzzleMoves} қадамда ${puzzleTimer} секундта`, bonus), 300);
+    const bonus = Math.max(25, 120 - puzzleMoves*2 - puzzleTime);
+    puzzleEarned = bonus;
+    document.getElementById('puzCoins').textContent = bonus;
+    document.querySelectorAll('.p-tile').forEach(t=>t.classList.add('solved'));
+    setTimeout(()=>showWin(t('puzzle_solved'), puzzleMoves+' '+(t('ml_pmoves'))+', '+puzzleTime+'s', bonus,'🧩'), 400);
   }
 }
 
-// ========== WORD GAME ==========
-const WORDS = [
-  { word: 'МЕКТЕП', hint: 'Балалар оқитын жер', scramble: () => scramble('МЕКТЕП') },
-  { word: 'КІТАП', hint: 'Оқуға арналған зат', scramble: () => scramble('КІТАП') },
-  { word: 'ДОСТЫҚ', hint: 'Адамдар арасындағы жақсы қарым-қатынас', scramble: () => scramble('ДОСТЫҚ') },
-  { word: 'ҚАЗАҚСТАН', hint: 'Елдің аты', scramble: () => scramble('ҚАЗАҚСТАН') },
-  { word: 'АСТАНА', hint: 'Елдің астанасы', scramble: () => scramble('АСТАНА') },
-  { word: 'БАТЫР', hint: 'Ер жүрек адам', scramble: () => scramble('БАТЫР') },
-  { word: 'МЕКТЕБІМ', hint: 'Менің оқу орным', scramble: () => scramble('МЕКТЕБІМ') },
-  { word: 'ДАЛА', hint: 'Кең жазық жер', scramble: () => scramble('ДАЛА') },
-  { word: 'ЖАЙЛАУ', hint: 'Жаздық шабындық', scramble: () => scramble('ЖАЙЛАУ') },
-  { word: 'АЛТЫН', hint: 'Сары металл', scramble: () => scramble('АЛТЫН') },
-];
-let wordIdx = 0, wordScore = 0, wordSkips = 3, wordCoins = 0, wordOrder = [];
+// ============================================================
+// WORD GAME
+// ============================================================
+const WORDS_DB = {
+  kk: [
+    {word:'МЕКТЕП',hint:'Балалар оқитын жер'},{word:'КІТАП',hint:'Оқуға арналған зат'},
+    {word:'ДОСТЫҚ',hint:'Адамдардың жақсы қарым-қатынасы'},{word:'АСТАНА',hint:'Елдің астанасы'},
+    {word:'БАТЫР',hint:'Ер жүрек адам'},{word:'ДАЛА',hint:'Кең жазық жер'},
+    {word:'ЖАЙЛАУ',hint:'Жаздық шабындық'},{word:'АЛТЫН',hint:'Сары металл'},
+    {word:'БОТА',hint:'Жас верблюд баласы'},{word:'БҰЛТ',hint:'Аспандағы ақ зат'},
+  ],
+  ru: [
+    {word:'ШКОЛА',hint:'Место учёбы'},{word:'КНИГА',hint:'Для чтения'},
+    {word:'ДРУЖБА',hint:'Хорошие отношения'},{word:'СТОЛИЦА',hint:'Главный город'},
+    {word:'ГЕРОЙ',hint:'Храбрый человек'},{word:'СТЕПЬ',hint:'Широкая равнина'},
+    {word:'ЗОЛОТО',hint:'Жёлтый металл'},{word:'ОБЛАКО',hint:'В небе'},
+    {word:'ВЕРБЛЮД',hint:'Животное с горбом'},{word:'КАЗАХСТАН',hint:'Страна в Центральной Азии'},
+  ],
+  en: [
+    {word:'SCHOOL',hint:'Place of learning'},{word:'BOOK',hint:'For reading'},
+    {word:'FRIEND',hint:'Someone you like'},{word:'CAPITAL',hint:'Main city'},
+    {word:'HERO',hint:'A brave person'},{word:'STEPPE',hint:'Wide flat land'},
+    {word:'GOLD',hint:'Yellow metal'},{word:'CLOUD',hint:'In the sky'},
+    {word:'CAMEL',hint:'Animal with a hump'},{word:'KAZAKHSTAN',hint:'Country in Central Asia'},
+  ]
+};
 
-function scramble(word) {
-  const arr = word.split('');
-  do { arr.sort(() => Math.random() - 0.5); } while (arr.join('') === word);
+function scrambleWord(w) {
+  const arr = w.split('');
+  do { arr.sort(()=>Math.random()-0.5); } while(arr.join('')===w && w.length>1);
   return arr.join('');
 }
 
+let wordIdx=0, wordScore=0, wordSkips=3, wordEarned=0, wordOrder=[];
+
 function initWord() {
-  wordOrder = [...Array(WORDS.length).keys()].sort(() => Math.random() - 0.5);
-  wordIdx = 0; wordScore = 0; wordSkips = 3; wordCoins = 0;
-  document.getElementById('wordScore').textContent = 0;
-  document.getElementById('wordSkips').textContent = 3;
-  document.getElementById('wordCoins').textContent = 0;
+  const db = WORDS_DB[currentLang] || WORDS_DB.kk;
+  wordOrder = [...Array(db.length).keys()].sort(()=>Math.random()-0.5);
+  wordIdx=0; wordScore=0; wordSkips=3; wordEarned=0;
+  document.getElementById('wordScore').textContent=0;
+  document.getElementById('wordSkips').textContent=3;
+  document.getElementById('wordCoins').textContent=0;
   showWord();
 }
 
 function showWord() {
-  const w = WORDS[wordOrder[wordIdx % wordOrder.length]];
-  document.getElementById('scrambledWord').textContent = scramble(w.word);
-  document.getElementById('wordHint').textContent = 'Кеңес: ' + w.hint;
-  document.getElementById('wordInput').value = '';
-  document.getElementById('wordInput').focus();
+  const db = WORDS_DB[currentLang] || WORDS_DB.kk;
+  const w = db[wordOrder[wordIdx % wordOrder.length]];
+  document.getElementById('scrambledDisplay').textContent = scrambleWord(w.word);
+  document.getElementById('wordHintTxt').textContent = (currentLang==='kk'?'Кеңес: ':currentLang==='ru'?'Подсказка: ':'Hint: ') + w.hint;
+  const inp = document.getElementById('wordInput');
+  inp.value='';
+  inp.className='word-input';
 }
 
-function checkWord() {
-  const input = document.getElementById('wordInput').value.toUpperCase().trim();
-  const w = WORDS[wordOrder[wordIdx % wordOrder.length]];
-  if (input === w.word) submitWord();
+function checkWordLive() {
+  const db = WORDS_DB[currentLang] || WORDS_DB.kk;
+  const w = db[wordOrder[wordIdx % wordOrder.length]];
+  const val = document.getElementById('wordInput').value.toUpperCase().trim();
+  if (val === w.word) submitWord();
 }
 
 function submitWord() {
-  const input = document.getElementById('wordInput').value.toUpperCase().trim();
-  const w = WORDS[wordOrder[wordIdx % wordOrder.length]];
-  if (input === w.word) {
-    wordScore++; wordCoins += 20;
+  const db = WORDS_DB[currentLang] || WORDS_DB.kk;
+  const w = db[wordOrder[wordIdx % wordOrder.length]];
+  const val = document.getElementById('wordInput').value.toUpperCase().trim();
+  if (val === w.word) {
+    wordScore++; wordEarned+=20;
+    document.getElementById('wordScore').textContent=wordScore;
+    document.getElementById('wordCoins').textContent=wordEarned;
+    document.getElementById('wordInput').classList.add('correct-input');
     addCoins(20);
-    document.getElementById('wordScore').textContent = wordScore;
-    document.getElementById('wordCoins').textContent = wordCoins;
-    showToast('Дұрыс! +20 BC');
+    showToast(t('toast_correct')+'+20 BC');
+    launchSmallConfetti();
     wordIdx++;
-    setTimeout(showWord, 600);
+    setTimeout(showWord, 700);
   } else {
-    showToast('Қате жауап, қайта көр');
-    document.getElementById('wordInput').value = '';
+    showToast(t('toast_wrong'));
+    document.getElementById('wordInput').value='';
   }
 }
 
 function skipWord() {
-  if (wordSkips <= 0) { showToast('Өткізу аяқталды'); return; }
+  if (wordSkips<=0) { showToast(currentLang==='kk'?'Өткізу аяқталды':currentLang==='ru'?'Пропуски закончились':'No skips left'); return; }
   wordSkips--;
-  document.getElementById('wordSkips').textContent = wordSkips;
+  document.getElementById('wordSkips').textContent=wordSkips;
   wordIdx++;
   showWord();
 }
 
-// ========== SHOP ==========
-const SHOP_ICONS = [
-  { id: 1, name: 'Арыстан', icon: '🦁', rarity: 'rare', price: 200, rarityClass: 'rare' },
-  { id: 2, name: 'Қасқыр', icon: '🐺', rarity: 'epic', price: 350, rarityClass: 'epic' },
-  { id: 3, name: 'Бүркіт', icon: '🦅', rarity: 'rare', price: 200, rarityClass: 'rare' },
-  { id: 4, name: 'Айдахар', icon: '🐉', rarity: 'legendary', price: 800, rarityClass: 'legendary' },
-  { id: 5, name: 'Жылан', icon: '🐍', rarity: 'common', price: 80, rarityClass: 'common' },
-  { id: 6, name: 'Жолбарыс', icon: '🐯', rarity: 'epic', price: 400, rarityClass: 'epic' },
-  { id: 7, name: 'Тас бақа', icon: '🐢', rarity: 'common', price: 60, rarityClass: 'common' },
-  { id: 8, name: 'Тілсіз', icon: '🦑', rarity: 'rare', price: 250, rarityClass: 'rare' },
-  { id: 9, name: 'Жарық', icon: '⚡', rarity: 'epic', price: 450, rarityClass: 'epic' },
+// ============================================================
+// ICONS - SVG ONLY
+// ============================================================
+const ICONS = [
+  { id:1, name:{kk:'Арыстан',ru:'Лев',en:'Lion'}, rarity:'rare', price:200,
+    svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#FFF3E0"/><ellipse cx="28" cy="34" rx="14" ry="12" fill="#E67E22"/><ellipse cx="28" cy="26" rx="12" ry="11" fill="#F39C12"/><circle cx="22" cy="22" r="4" fill="#2C3E50"/><circle cx="34" cy="22" r="4" fill="#2C3E50"/><circle cx="23" cy="21" r="1.5" fill="white"/><circle cx="35" cy="21" r="1.5" fill="white"/><ellipse cx="28" cy="30" rx="5" ry="3" fill="#FDEBD0"/><circle cx="25" cy="30" r="1.5" fill="#C0392B"/><circle cx="31" cy="30" r="1.5" fill="#C0392B"/><path d="M24 34 Q28 37 32 34" stroke="#C0392B" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="28" cy="14" rx="16" ry="8" fill="#E67E22" opacity="0.7"/><ellipse cx="14" cy="20" rx="5" ry="7" fill="#D35400" opacity="0.8"/><ellipse cx="42" cy="20" rx="5" ry="7" fill="#D35400" opacity="0.8"/></svg>` },
+  { id:2, name:{kk:'Айдахар',ru:'Дракон',en:'Dragon'}, rarity:'legendary', price:900,
+    svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#E8F8F5"/><ellipse cx="28" cy="36" rx="14" ry="10" fill="#1ABC9C"/><ellipse cx="28" cy="26" rx="12" ry="11" fill="#2ECC71"/><ellipse cx="20" cy="18" rx="7" ry="9" fill="#27AE60" transform="rotate(-20 20 18)"/><ellipse cx="36" cy="18" rx="7" ry="9" fill="#27AE60" transform="rotate(20 36 18)"/><circle cx="23" cy="24" r="4" fill="#F39C12"/><circle cx="33" cy="24" r="4" fill="#F39C12"/><circle cx="23" cy="24" r="2" fill="#2C3E50"/><circle cx="33" cy="24" r="2" fill="#2C3E50"/><path d="M23 31 Q28 35 33 31" stroke="#1ABC9C" stroke-width="1.5" fill="none"/><polygon points="28,34 26,42 28,40 30,42" fill="#E74C3C"/><circle cx="14" cy="14" r="3" fill="#FFD700"/><circle cx="42" cy="14" r="3" fill="#FFD700"/></svg>` },
+  { id:3, name:{kk:'Бүркіт',ru:'Орёл',en:'Eagle'}, rarity:'rare', price:220,
+    svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#EBF5FB"/><ellipse cx="28" cy="32" rx="12" ry="10" fill="#2C3E50"/><ellipse cx="28" cy="22" rx="10" ry="10" fill="#34495E"/><circle cx="23" cy="20" r="3.5" fill="#F1C40F"/><circle cx="33" cy="20" r="3.5" fill="#F1C40F"/><circle cx="23" cy="20" r="2" fill="#2C3E50"/><circle cx="33" cy="20" r="2" fill="#2C3E50"/><polygon points="28,26 25,30 28,29 31,30" fill="#E67E22"/><path d="M8 28 Q18 18 28 22" stroke="#2C3E50" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M48 28 Q38 18 28 22" stroke="#2C3E50" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M8 28 Q18 22 28 26" stroke="#ECF0F1" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M48 28 Q38 22 28 26" stroke="#ECF0F1" stroke-width="3" fill="none" stroke-linecap="round"/><polygon points="22,40 26,36 30,36 34,40 31,44 25,44" fill="#E67E22"/></svg>` },
+  { id:4, name:{kk:'Жолбарыс',ru:'Тигр',en:'Tiger'}, rarity:'epic', price:420,
+    svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#FEF9E7"/><ellipse cx="28" cy="34" rx="13" ry="11" fill="#E67E22"/><ellipse cx="28" cy="24" rx="12" ry="12" fill="#F39C12"/><circle cx="22" cy="21" r="4" fill="#2C3E50"/><circle cx="34" cy="21" r="4" fill="#2C3E50"/><circle cx="23" cy="20" r="1.5" fill="white"/><circle cx="35" cy="20" r="1.5" fill="white"/><ellipse cx="28" cy="30" rx="5" ry="3.5" fill="#FDEBD0"/><path d="M23 34 Q28 38 33 34" stroke="#C0392B" stroke-width="1.5" fill="none" stroke-linecap="round"/><line x1="20" y1="18" x2="18" y2="14" stroke="#2C3E50" stroke-width="1.5"/><line x1="24" y1="16" x2="23" y2="12" stroke="#2C3E50" stroke-width="1.5"/><line x1="32" y1="16" x2="33" y2="12" stroke="#2C3E50" stroke-width="1.5"/><line x1="36" y1="18" x2="38" y2="14" stroke="#2C3E50" stroke-width="1.5"/><rect x="14" y="10" width="6" height="2" rx="1" fill="#2C3E50" transform="rotate(-30 17 11)"/><rect x="36" y="10" width="6" height="2" rx="1" fill="#2C3E50" transform="rotate(30 39 11)"/></svg>` },
+  { id:5, name:{kk:'Ботам',ru:'Бота',en:'Bota'}, rarity:'legendary', price:1000,
+    svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#FFF9F0"/><ellipse cx="28" cy="36" rx="11" ry="9" fill="#C8A876"/><ellipse cx="28" cy="26" rx="10" ry="10" fill="#D4B896"/><ellipse cx="21" cy="18" rx="4" ry="5" fill="#D4B896"/><ellipse cx="35" cy="18" rx="4" ry="5" fill="#D4B896"/><circle cx="23" cy="24" r="3.5" fill="white"/><circle cx="33" cy="24" r="3.5" fill="white"/><circle cx="23" cy="24" r="2" fill="#2C3E50"/><circle cx="33" cy="24" r="2" fill="#2C3E50"/><circle cx="24" cy="23" r="0.8" fill="white"/><circle cx="34" cy="23" r="0.8" fill="white"/><ellipse cx="28" cy="30" rx="4" ry="2.5" fill="#FFCBA4"/><path d="M24 33 Q28 36 32 33" stroke="#8B6349" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="20" cy="26" rx="4" ry="3" fill="#C8A876"/><ellipse cx="36" cy="26" rx="4" ry="3" fill="#C8A876"/><polygon points="28,12 29.5,16 34,16 30.5,18.5 32,23 28,20.5 24,23 25.5,18.5 22,16 26.5,16" fill="#FFD700" opacity="0.9"/></svg>` },
+  { id:6, name:{kk:'Ай',ru:'Луна',en:'Moon'}, rarity:'common', price:80,
+    svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#1a1a3e"/><path d="M22 14 A16 16 0 1 0 22 42 A12 12 0 1 1 22 14" fill="#FFD700"/><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.3)"/><circle cx="16" cy="32" r="1.5" fill="rgba(255,255,255,0.2)"/><circle cx="38" cy="16" r="1" fill="white" opacity="0.8"/><circle cx="42" cy="28" r="1.5" fill="white" opacity="0.6"/><circle cx="36" cy="40" r="1" fill="white" opacity="0.8"/><circle cx="12" cy="20" r="1" fill="white" opacity="0.7"/></svg>` },
+  { id:7, name:{kk:'Жұлдыз',ru:'Звезда',en:'Star'}, rarity:'rare', price:180,
+    svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#2C3E50"/><polygon points="28,8 32,20 44,20 35,28 38,40 28,33 18,40 21,28 12,20 24,20" fill="#FFD700"/><polygon points="28,12 31,21 40,21 33,26 35,36 28,31 21,36 23,26 16,21 25,21" fill="#FFF176"/><circle cx="28" cy="26" r="3" fill="white" opacity="0.8"/></svg>` },
+  { id:8, name:{kk:'Найзағай',ru:'Молния',en:'Thunder'}, rarity:'epic', price:380,
+    svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#1C2833"/><polygon points="32,8 20,30 27,30 24,48 40,24 32,24" fill="#FFD700"/><polygon points="30,11 20,30 26,30 24,44 38,26 31,26" fill="#FFF176" opacity="0.6"/><circle cx="14" cy="14" r="2" fill="white" opacity="0.5"/><circle cx="42" cy="42" r="2" fill="white" opacity="0.5"/><circle cx="44" cy="16" r="1.5" fill="white" opacity="0.4"/></svg>` },
+  { id:9, name:{kk:'Алмаз',ru:'Алмаз',en:'Diamond'}, rarity:'legendary', price:850,
+    svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#EBF5FB"/><polygon points="28,10 44,22 36,46 20,46 12,22" fill="#5DADE2"/><polygon points="28,10 44,22 28,20" fill="#AED6F1"/><polygon points="28,20 44,22 36,46 20,46 12,22" fill="#2980B9"/><polygon points="28,20 20,46 36,46" fill="#1A5276"/><polygon points="22,16 28,10 34,16 28,18" fill="white" opacity="0.5"/><polygon points="28,14 32,20 24,20" fill="white" opacity="0.3"/></svg>` },
 ];
 
-const RARITY_LABELS = { common: 'Қарапайым', rare: 'Сирек', epic: 'Эпик', legendary: 'Аңыз' };
+const RARITY_COLORS = {common:'#95A5A6',rare:'#2980B9',epic:'#9B59B6',legendary:'#F39C12'};
+const RARITY_LABELS = {
+  kk:{common:'Қарапайым',rare:'Сирек',epic:'Эпик',legendary:'Аңыз'},
+  ru:{common:'Обычная',rare:'Редкая',epic:'Эпическая',legendary:'Легендарная'},
+  en:{common:'Common',rare:'Rare',epic:'Epic',legendary:'Legendary'}
+};
 
 function renderIcons() {
   const grid = document.getElementById('iconsGrid');
   grid.innerHTML = '';
-  SHOP_ICONS.forEach(ic => {
-    const owned = state.inventory.some(i => i.id === ic.id);
+  ICONS.forEach(ic => {
+    const owned = state.inventory.some(i=>i.id===ic.id);
     const equipped = state.equippedIcon === ic.id;
     const div = document.createElement('div');
-    div.className = 'icon-item' + (owned ? ' owned' : '') + (equipped ? ' equipped' : '');
-    div.innerHTML = `
-      <div class="icon-img">${ic.icon}</div>
-      <div class="icon-name">${ic.name}</div>
-      <div class="icon-rarity" style="color:var(--${ic.rarityClass})">${RARITY_LABELS[ic.rarity]}</div>
-      <div class="icon-price" style="margin-top:4px">${owned ? (equipped ? 'Тағылған' : 'Тағу') : ic.price + ' BC'}</div>
-    `;
-    div.onclick = () => {
-      if (owned) { state.equippedIcon = ic.id; saveState(); renderIcons(); updateProfile(); showToast(ic.name + ' тағылды'); }
-      else buyIcon(ic);
-    };
+    div.className = 'icon-shop-item' + (equipped?' equipped-item':owned?' owned-item':' locked-item');
+    const rarityLabel = (RARITY_LABELS[currentLang]||RARITY_LABELS.kk)[ic.rarity];
+    const name = ic.name[currentLang]||ic.name.kk;
+    let priceOrStatus;
+    if (equipped) priceOrStatus = `<span style="color:var(--gold2);font-size:11px">${t('equipped_lbl')}</span>`;
+    else if (owned) priceOrStatus = `<button style="background:var(--green);color:white;border:none;border-radius:10px;padding:4px 10px;font-size:11px;font-weight:800;cursor:pointer" onclick="equipIcon(${ic.id})">${t('equip_lbl')}</button>`;
+    else priceOrStatus = `<span style="color:#B8860B;font-weight:900;font-size:12px">★ ${ic.price}</span>`;
+    div.innerHTML = `<div class="icon-svg-wrap">${ic.svg}</div><div class="icon-shop-name">${name}</div><div class="icon-shop-rarity" style="color:${RARITY_COLORS[ic.rarity]}">${rarityLabel}</div><div style="margin-top:4px">${priceOrStatus}</div>`;
+    if (!owned && !equipped) div.onclick = () => buyIcon(ic);
     grid.appendChild(div);
   });
 }
 
-function buyIcon(ic) {
-  if (state.coins < ic.price) { showToast('BC жетіспейді!'); return; }
-  state.coins -= ic.price;
-  state.inventory.push({ id: ic.id, icon: ic.icon, name: ic.name, rarity: ic.rarity });
-  updateCoinDisplay();
-  saveState();
+function equipIcon(id) {
+  state.equippedIcon = id;
+  save();
   renderIcons();
-  updateInventory();
-  showToast(ic.name + ' сатып алынды!');
+  updateProfileUI();
+  const ic = ICONS.find(i=>i.id===id);
+  if (ic) showToast((ic.name[currentLang]||ic.name.kk) + t('toast_icon_equip'));
 }
 
+function buyIcon(ic) {
+  if (state.coins < ic.price) { showToast(t('toast_nocoins')); return; }
+  state.coins -= ic.price;
+  document.getElementById('coinDisplay').textContent = state.coins;
+  state.inventory.push({id:ic.id,name:ic.name,svg:ic.svg,rarity:ic.rarity});
+  save();
+  renderIcons();
+  updateInventoryUI();
+  showToast((ic.name[currentLang]||ic.name.kk)+t('toast_icon_buy'));
+}
+
+// ============================================================
+// SHOP TABS
+// ============================================================
 function switchShopTab(tab, btn) {
-  document.querySelectorAll('.shop-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.shop-tab').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('shop-cases').style.display = tab === 'cases' ? 'block' : 'none';
-  document.getElementById('shop-icons').style.display = tab === 'icons' ? 'block' : 'none';
-  document.getElementById('shop-promo').style.display = tab === 'promo' ? 'block' : 'none';
-  if (tab === 'icons') renderIcons();
+  ['cases','icons','promo','lb'].forEach(t=>{ const el=document.getElementById('shop-'+t); if(el) el.style.display='none'; });
+  document.getElementById('shop-'+tab).style.display = 'block';
+  if (tab==='icons') renderIcons();
+  if (tab==='lb') renderLeaderboard();
+  if (tab==='promo') renderPromoList();
 }
 
-// ========== CASES ==========
-const CASE_CONFIG = {
-  bronze: { odds: [{r:'common',chance:60},{r:'rare',chance:30},{r:'epic',chance:9},{r:'legendary',chance:1}] },
-  silver: { odds: [{r:'common',chance:40},{r:'rare',chance:35},{r:'epic',chance:20},{r:'legendary',chance:5}] },
-  gold:   { odds: [{r:'common',chance:20},{r:'rare',chance:35},{r:'epic',chance:30},{r:'legendary',chance:15}] },
+// ============================================================
+// CASES & ROULETTE
+// ============================================================
+const CASE_CFG = {
+  bronze: {price:100, odds:[{r:'common',ch:60},{r:'rare',ch:30},{r:'epic',ch:9},{r:'legendary',ch:1}]},
+  silver: {price:250, odds:[{r:'common',ch:40},{r:'rare',ch:35},{r:'epic',ch:20},{r:'legendary',ch:5}]},
+  gold:   {price:500, odds:[{r:'common',ch:20},{r:'rare',ch:35},{r:'epic',ch:30},{r:'legendary',ch:15}]},
 };
-const CASE_PRICES = { bronze: 100, silver: 250, gold: 500 };
 
 const CASE_ITEMS = {
-  common: [{icon:'🌿',name:'Шөп'},{icon:'🪨',name:'Тас'},{icon:'🍂',name:'Жапырақ'}],
-  rare:   [{icon:'🌊',name:'Толқын'},{icon:'⚡',name:'Найзағай'},{icon:'🌙',name:'Ай'}],
-  epic:   [{icon:'🔥',name:'От'},{icon:'💎',name:'Бриллиант'},{icon:'🌟',name:'Жұлдыз'}],
-  legendary: [{icon:'🏆',name:'Кубок'},{icon:'👑',name:'Тәж'},{icon:'🐉',name:'Айдахар'}],
+  common:    [{name:{kk:'Жапырақ',ru:'Листок',en:'Leaf'},svg:'<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#ECFFF0"/><path d="M14 42 Q28 10 42 14 Q32 28 14 42Z" fill="#27AE60"/><path d="M14 42 Q28 20 38 18" stroke="#1E8449" stroke-width="1.5" fill="none"/></svg>'},
+               {name:{kk:'Тас',ru:'Камень',en:'Stone'},svg:'<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#F2F3F4"/><ellipse cx="28" cy="32" rx="16" ry="12" fill="#95A5A6"/><ellipse cx="24" cy="28" rx="10" ry="8" fill="#BDC3C7"/><ellipse cx="22" cy="26" rx="4" ry="3" fill="#D5D8DC"/></svg>'}],
+  rare:      [{name:{kk:'Толқын',ru:'Волна',en:'Wave'},svg:'<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#EBF5FB"/><path d="M8 28 Q14 22 20 28 Q26 34 32 28 Q38 22 48 28" stroke="#2980B9" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M8 34 Q14 28 20 34 Q26 40 32 34 Q38 28 48 34" stroke="#5DADE2" stroke-width="4" fill="none" stroke-linecap="round"/></svg>'},
+               {name:{kk:'Ай сәулесі',ru:'Лунный свет',en:'Moonbeam'},svg:'<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#1a1a3e"/><path d="M20 14 A14 14 0 1 0 20 42 A10 10 0 1 1 20 14" fill="#F0E68C"/><circle cx="36" cy="12" r="1.5" fill="white"/><circle cx="42" cy="22" r="1" fill="white"/><circle cx="40" cy="36" r="1.5" fill="white"/></svg>'}],
+  epic:      [{name:{kk:'Алау',ru:'Пламя',en:'Flame'},svg:'<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#FEF0E6"/><path d="M28 10 Q36 20 34 28 Q32 36 28 40 Q24 36 22 28 Q20 20 28 10Z" fill="#E74C3C"/><path d="M28 16 Q33 24 31 30 Q29 36 28 40 Q27 36 25 30 Q23 24 28 16Z" fill="#E67E22"/><path d="M28 22 Q31 28 29 34 Q28 38 28 40 Q28 38 27 34 Q25 28 28 22Z" fill="#F1C40F"/></svg>'},
+               {name:{kk:'Жауын',ru:'Дождь',en:'Rain'},svg:'<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#EAF4FB"/><ellipse cx="28" cy="22" rx="14" ry="9" fill="#BDC3C7"/><ellipse cx="22" cy="18" rx="8" ry="7" fill="#D5D8DC"/><line x1="18" y1="33" x2="16" y2="42" stroke="#3498DB" stroke-width="2.5" stroke-linecap="round"/><line x1="26" y1="35" x2="24" y2="44" stroke="#3498DB" stroke-width="2.5" stroke-linecap="round"/><line x1="34" y1="33" x2="32" y2="42" stroke="#3498DB" stroke-width="2.5" stroke-linecap="round"/></svg>'}],
+  legendary: [{name:{kk:'Тәж',ru:'Корона',en:'Crown'},svg:'<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#FFFDE7"/><polygon points="8,36 14,20 22,30 28,16 34,30 42,20 48,36" fill="#F39C12"/><rect x="8" y="36" width="40" height="8" rx="3" fill="#E67E22"/><circle cx="14" cy="20" r="3" fill="#E74C3C"/><circle cx="28" cy="16" r="3" fill="#9B59B6"/><circle cx="42" cy="20" r="3" fill="#3498DB"/></svg>'},
+               {name:{kk:'Инфинити',ru:'Бесконечность',en:'Infinity'},svg:'<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#2C3E50"/><path d="M10 28 Q10 18 20 18 Q28 18 28 28 Q28 18 36 18 Q46 18 46 28 Q46 38 36 38 Q28 38 28 28 Q28 38 20 38 Q10 38 10 28Z" fill="none" stroke="#FFD700" stroke-width="4"/><circle cx="20" cy="28" r="3" fill="#FFD700"/><circle cx="36" cy="28" r="3" fill="#FFD700"/></svg>'}]
 };
 
-function openCase(type) {
-  const price = CASE_PRICES[type];
-  if (state.coins < price) { showToast('BC жетіспейді!'); return; }
-  state.coins -= price;
-  updateCoinDisplay();
-  const cfg = CASE_CONFIG[type];
-  const roll = Math.random() * 100;
-  let cum = 0, rarity = 'common';
-  for (const o of cfg.odds) { cum += o.chance; if (roll < cum) { rarity = o.r; break; } }
-  const items = CASE_ITEMS[rarity];
-  const item = items[Math.floor(Math.random() * items.length)];
-  state.inventory.push({ id: Date.now(), icon: item.icon, name: item.name, rarity });
-  saveState();
-  updateInventory();
-  const rarityColors = { common: '#6b7280', rare: '#3b82f6', epic: '#a855f7', legendary: '#f59e0b' };
-  const rarityBg = { common: 'rgba(107,114,128,0.2)', rare: 'rgba(59,130,246,0.2)', epic: 'rgba(168,85,247,0.2)', legendary: 'rgba(245,158,11,0.2)' };
-  document.getElementById('caseReveal').innerHTML = `
-    <div class="reveal-item" style="background:${rarityBg[rarity]};border:2px solid ${rarityColors[rarity]}">${item.icon}</div>
-    <div class="reveal-rarity" style="color:${rarityColors[rarity]}">${RARITY_LABELS[rarity].toUpperCase()}</div>
-    <div class="reveal-name">${item.name}</div>
-  `;
-  document.getElementById('caseModal').classList.add('open');
+function rollRarity(odds) {
+  const roll = Math.random()*100;
+  let cum=0;
+  for (const o of odds) { cum+=o.ch; if(roll<cum) return o.r; }
+  return 'common';
 }
 
-// ========== PROMO ==========
-const PROMOS = { 'BOTCOIN100': 100, 'QAZAQ50': 50, 'WELCOME200': 200 };
+function buyCase(type) {
+  const cfg = CASE_CFG[type];
+  if (state.coins < cfg.price) { showToast(t('toast_nocoins')); return; }
+  state.coins -= cfg.price;
+  document.getElementById('coinDisplay').textContent = state.coins;
+  save();
+
+  const rarity = rollRarity(cfg.odds);
+  const pool = CASE_ITEMS[rarity];
+  const item = pool[Math.floor(Math.random()*pool.length)];
+  const itemName = item.name[currentLang]||item.name.kk;
+  const rarityLabel = (RARITY_LABELS[currentLang]||RARITY_LABELS.kk)[rarity];
+
+  // Build roulette items
+  const allItems = [...CASE_ITEMS.common,...CASE_ITEMS.rare,...CASE_ITEMS.epic,...CASE_ITEMS.legendary];
+  const shuffled = allItems.sort(()=>Math.random()-0.5);
+  const TOTAL = 40;
+  const winIdx = TOTAL - 5;
+  const track = document.getElementById('rouletteTrack');
+  track.innerHTML = '';
+  track.style.transform = 'translateX(0)';
+
+  const rItems = [];
+  for (let i=0;i<TOTAL;i++) {
+    const src = i===winIdx ? item : shuffled[i % shuffled.length];
+    const r = i===winIdx ? rarity : Object.keys(CASE_ITEMS)[Math.floor(Math.random()*4)];
+    rItems.push({item:src,rarity:r});
+  }
+
+  rItems.forEach(({item:ri,rarity:rr}) => {
+    const el = document.createElement('div');
+    el.className = 'roulette-item rarity-'+rr;
+    const n = ri.name[currentLang]||ri.name.kk;
+    el.innerHTML = ri.svg + `<span class="roulette-item-label" style="color:${RARITY_COLORS[rr]}">${n}</span>`;
+    track.appendChild(el);
+  });
+
+  document.getElementById('caseRevealSection').style.display = 'none';
+  document.getElementById('case_close_btn').style.display = 'none';
+  document.getElementById('case_spinning').textContent = t('case_spinning');
+  document.getElementById('caseModal').classList.add('open');
+
+  // Animate roulette
+  const itemW = 88; // 80 + 8 gap
+  const trackW = track.scrollWidth;
+  const containerW = track.parentElement.offsetWidth;
+  const targetX = -(winIdx * itemW - containerW/2 + itemW/2);
+  const startX = 0;
+  const duration = 4000;
+  const startTime = performance.now();
+
+  function easeOut(t) { return 1 - Math.pow(1-t, 4); }
+
+  function animate(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed/duration, 1);
+    const eased = easeOut(progress);
+    const dist = targetX - startX;
+    const current = startX + dist * eased;
+    // Add oscillation for effect
+    const osc = progress < 0.9 ? Math.sin(elapsed * 0.05) * (1-progress) * 5 : 0;
+    track.style.transform = `translateX(${current + osc}px)`;
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      track.style.transform = `translateX(${targetX}px)`;
+      // Show result
+      setTimeout(() => {
+        document.getElementById('caseRevealSection').style.display = 'block';
+        document.getElementById('case_close_btn').style.display = 'block';
+        document.getElementById('case_close_btn').textContent = t('case_btn');
+        const revIcon = document.getElementById('caseRevealIcon');
+        revIcon.innerHTML = item.svg;
+        revIcon.style.background = RARITY_COLORS[rarity]+'22';
+        revIcon.style.border = '3px solid '+RARITY_COLORS[rarity];
+        document.getElementById('caseRevealRarity').textContent = rarityLabel;
+        document.getElementById('caseRevealRarity').style.color = RARITY_COLORS[rarity];
+        document.getElementById('caseRevealName').textContent = itemName;
+        state.inventory.push({id:Date.now(),name:item.name,svg:item.svg,rarity});
+        save();
+        updateInventoryUI();
+        if (rarity==='legendary'||rarity==='epic') launchConfetti();
+      }, 300);
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+// ============================================================
+// PROMO
+// ============================================================
+const PROMOS = {
+  'BOTAOY2026':200,'BAYAN100':100,'QAZAQ50':50,'BOTA2026':150,
+  'WELCOME300':300,'SMARTKID75':75,'KAMBOT2026':125
+};
+const PROMO_DISPLAY = ['BOTAOY2026','BAYAN100','QAZAQ50','BOTA2026'];
+
+function renderPromoList() {
+  const div = document.getElementById('promoListDisplay');
+  if (!div) return;
+  div.innerHTML = '';
+  PROMO_DISPLAY.forEach(code => {
+    const row = document.createElement('div');
+    const used = state.usedPromos.includes(code);
+    row.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface2);border-radius:12px;opacity:'+(used?'0.5':'1');
+    row.innerHTML = `<span style="font-family:'Fredoka One',cursive;font-size:13px;letter-spacing:2px">${code}</span><span style="font-size:13px;font-weight:900;color:#B8860B">+${PROMOS[code]} BC${used?' ✓':''}</span>`;
+    div.appendChild(row);
+  });
+}
 
 function redeemPromo() {
-  const code = document.getElementById('promoInput').value.trim().toUpperCase();
-  const result = document.getElementById('promoResult');
-  if (!code) { result.className = 'promo-result error'; result.textContent = 'Промокод енгіз'; return; }
-  if (state.usedPromos.includes(code)) { result.className = 'promo-result error'; result.textContent = 'Бұл промокод қолданылды'; return; }
+  const code = (document.getElementById('promoIn').value||'').trim().toUpperCase();
+  const msg = document.getElementById('promoMsg');
+  if (!code) return;
+  if (state.usedPromos.includes(code)) { msg.className='promo-msg fail'; msg.textContent=t('toast_promo_used'); return; }
   if (PROMOS[code]) {
-    addCoins(PROMOS[code]);
+    const n = PROMOS[code];
+    addCoins(n);
     state.usedPromos.push(code);
-    saveState();
-    result.className = 'promo-result success';
-    result.textContent = '+' + PROMOS[code] + ' BC есептелді!';
-    document.getElementById('promoInput').value = '';
+    save();
+    msg.className='promo-msg ok';
+    msg.textContent = t('toast_promo_ok').replace('{n}',n);
+    document.getElementById('promoIn').value='';
+    renderPromoList();
   } else {
-    result.className = 'promo-result error';
-    result.textContent = 'Жарамсыз промокод';
+    msg.className='promo-msg fail';
+    msg.textContent = t('toast_promo_fail');
   }
 }
 
-// ========== PROFILE ==========
-function updateProfile() {
-  document.getElementById('profileName').textContent = state.name;
-  document.getElementById('profileCoins').textContent = state.coins;
+// ============================================================
+// LEADERBOARD (localStorage simulated)
+// ============================================================
+const DEMO_PLAYERS = [
+  {name:'Айгерім',score:1840,av:0},{name:'Арман',score:1560,av:4},
+  {name:'Зарина',score:1340,av:2},{name:'Темір',score:1100,av:6},
+  {name:'Аида',score:980,av:1},{name:'Нурлан',score:820,av:3},
+  {name:'Сания',score:640,av:7},{name:'Даниар',score:480,av:5},
+];
+const AVATAR_CHARS = ['🦁','🐯','🦅','🐺','🦊','🐲','🦋','🦑'];
+
+function updateLeaderboard() { save(); }
+
+function renderLeaderboard() {
+  const card = document.getElementById('lbCard');
+  let board = [...DEMO_PLAYERS, {name:state.name||'Сен',score:state.coins,me:true,av:state.avatarIdx}];
+  board.sort((a,b)=>b.score-a.score);
+  const rankColors = ['gold-rank','silver-rank','bronze-rank'];
+  card.innerHTML = board.map((p,i) => {
+    const rankClass = rankColors[i]||'';
+    const rankText = i<3 ? ['★','✦','✧'][i] : String(i+1);
+    const avChar = AVATAR_CHARS[p.av||0];
+    return `<div class="lb-row${p.me?' me':''}">
+      <div class="lb-rank ${rankClass}">${rankText}</div>
+      <div class="lb-avatar">${avChar}</div>
+      <div class="lb-name">${p.name}</div>
+      <div class="lb-score">${p.score} BC</div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// PROFILE
+// ============================================================
+const AVATAR_SVGS = [
+  {char:'🦁',color:'#FF6B35'},{char:'🐯',color:'#F39C12'},{char:'🦅',color:'#2C3E50'},
+  {char:'🐺',color:'#7F8C8D'},{char:'🦊',color:'#E67E22'},{char:'🐲',color:'#27AE60'},
+  {char:'🦋',color:'#9B59B6'},{char:'🦑',color:'#1ABC9C'},{char:'⭐',color:'#F1C40F'},
+  {char:'🌈',color:'#E74C3C'},{char:'🎨',color:'#8E44AD'},{char:'🚀',color:'#2980B9'},
+];
+
+let tempAvIdx = 0;
+
+function openAvatarModal() {
+  tempAvIdx = state.avatarIdx || 0;
+  const grid = document.getElementById('avatarPickGrid');
+  grid.innerHTML = '';
+  AVATAR_SVGS.forEach((av,i) => {
+    const div = document.createElement('div');
+    div.className = 'avatar-pick-opt' + (i===tempAvIdx?' sel':'');
+    div.innerHTML = `<svg viewBox="0 0 56 56" width="44" height="44"><circle cx="28" cy="28" r="26" fill="${av.color}33"/><text x="28" y="36" text-anchor="middle" font-size="24">${av.char}</text></svg>`;
+    div.onclick = () => {
+      tempAvIdx=i;
+      document.querySelectorAll('.avatar-pick-opt').forEach(d=>d.classList.remove('sel'));
+      div.classList.add('sel');
+    };
+    grid.appendChild(div);
+  });
+  document.getElementById('avatarModal').classList.add('open');
+}
+
+function saveAvatarPick() {
+  state.avatarIdx = tempAvIdx;
+  save();
+  updateProfileUI();
+  closeModal('avatarModal');
+}
+
+function openNameModal() {
+  document.getElementById('nameChangeInput').value = state.name||'';
+  document.getElementById('nameModal').classList.add('open');
+}
+
+function saveName() {
+  const n = document.getElementById('nameChangeInput').value.trim();
+  if (!n) return;
+  state.name = n;
+  save();
+  updateProfileUI();
+  closeModal('nameModal');
+}
+
+function updateProfileUI() {
+  const av = AVATAR_SVGS[state.avatarIdx||0];
+  const ring = document.getElementById('profileAvatarRing');
+  ring.innerHTML = `<svg viewBox="0 0 56 56" width="64" height="64"><circle cx="28" cy="28" r="26" fill="${av.color}33"/><text x="28" y="36" text-anchor="middle" font-size="28">${av.char}</text></svg>`;
+  document.getElementById('pName').textContent = state.name || 'Қолданушы';
+  const ranks = [{min:0,key:'rank0'},{min:200,key:'rank1'},{min:800,key:'rank2'},{min:2000,key:'rank3'},{min:6000,key:'rank4'}];
+  let rk = ranks[0].key;
+  for(const r of ranks) { if(state.coins>=r.min) rk=r.key; }
+  document.getElementById('pRank').textContent = t(rk);
   document.getElementById('pGames').textContent = state.gamesPlayed;
   document.getElementById('pWins').textContent = state.wins;
   document.getElementById('pItems').textContent = state.inventory.length;
-  const ranks = [{min:0,name:'Жаңадан бастаушы'},{min:100,name:'Тәжірибелі'},{min:500,name:'Шебер'},{min:1000,name:'Батыр'},{min:5000,name:'Аңыз'}];
-  let rank = ranks[0].name;
-  for (const r of ranks) { if (state.coins >= r.min) rank = r.name; }
-  document.getElementById('profileRank').textContent = rank;
-  const av = document.getElementById('avatarContent');
-  if (state.avatarImg) {
-    document.getElementById('profileAvatar').innerHTML = `<img src="${state.avatarImg}" id="avatarContent">`;
-  } else {
-    av.textContent = state.avatar || state.name[0] || '?';
-  }
-  updateInventory();
+  document.getElementById('coinDisplay').textContent = state.coins;
+  updateInventoryUI();
 }
 
-function updateInventory() {
-  const grid = document.getElementById('inventoryGrid');
-  if (state.inventory.length === 0) {
-    grid.innerHTML = '<div style="grid-column:span 4;text-align:center;padding:20px;color:var(--text3);font-size:13px">Зат жоқ. Дүкеннен сатып ал!</div>';
+function updateInventoryUI() {
+  const grid = document.getElementById('invGrid');
+  if (!grid) return;
+  if (state.inventory.length===0) {
+    grid.innerHTML = `<div style="grid-column:span 4;text-align:center;padding:20px;color:var(--text2);font-size:13px;font-weight:700">${t('empty_inv')}</div>`;
     return;
   }
   grid.innerHTML = '';
   state.inventory.slice(-16).forEach(item => {
     const slot = document.createElement('div');
     slot.className = 'inv-slot';
-    slot.innerHTML = `${item.icon}<div class="rarity-dot rarity-${item.rarity}"></div>`;
-    slot.title = item.name;
+    const svgContent = item.svg || `<text x="28" y="36" text-anchor="middle" font-size="22">?</text>`;
+    slot.innerHTML = `<svg viewBox="0 0 56 56" width="38" height="38">${svgContent.replace(/<svg[^>]*>/,'').replace('</svg>','')}</svg><div class="rarity-dot dot-${item.rarity||'common'}"></div>`;
     grid.appendChild(slot);
   });
 }
 
-function openNameModal() {
-  document.getElementById('nameInput').value = state.name;
-  document.getElementById('nameModal').classList.add('open');
-}
+// ============================================================
+// INIT
+// ============================================================
+load();
+generateStars();
 
-function saveName() {
-  const n = document.getElementById('nameInput').value.trim();
-  if (!n) return;
-  state.name = n;
-  saveState();
-  updateProfile();
-  closeModal('nameModal');
-  showToast('Аты сақталды');
-}
-
-function openAvatarModal() {
-  selectedAvatar = state.avatar;
-  const opts = document.getElementById('avatarOptions');
-  opts.innerHTML = '';
-  AVATARS.forEach(av => {
-    const div = document.createElement('div');
-    div.className = 'avatar-opt' + (av === selectedAvatar ? ' selected' : '');
-    div.textContent = av;
-    div.onclick = () => { selectedAvatar = av; state.avatarImg = null; document.querySelectorAll('.avatar-opt').forEach(d => d.classList.remove('selected')); div.classList.add('selected'); };
-    opts.appendChild(div);
+// Check if already registered
+if (state.name) {
+  enterMainApp();
+  applyLang();
+  // set lang buttons
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    if(b.textContent.toLowerCase().startsWith(currentLang.substring(0,2))) b.classList.add('active');
+    else b.classList.remove('active');
   });
-  document.getElementById('avatarModal').classList.add('open');
 }
 
-function saveAvatar() {
-  if (!state.avatarImg) state.avatar = selectedAvatar || state.avatar;
-  saveState();
-  updateProfile();
-  closeModal('avatarModal');
-  showToast('Аватар сақталды');
-}
-
-function uploadAvatar(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => { state.avatarImg = e.target.result; document.querySelectorAll('.avatar-opt').forEach(d => d.classList.remove('selected')); showToast('Сурет жүктелді'); };
-  reader.readAsDataURL(file);
-}
-
-// ========== INIT ==========
-loadState();
-initMemory();
-initQuiz();
-initMath();
-initPuzzle();
-initWord();
-
-if (!state.name || state.name === 'Қолданушы') {
-  setTimeout(() => { document.getElementById('nameModal').classList.add('open'); }, 800);
-}
+// Translate welcome
+applyLang();
 </script>
 </body>
 </html>
