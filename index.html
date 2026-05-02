@@ -345,7 +345,6 @@ body::before {
 
 /* LEADERBOARD */
 .lb-card { background: white; border-radius: 22px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
 .lb-row { display: flex; align-items: center; gap: 14px; padding: 12px 10px; border-radius: 14px; margin-bottom: 6px; transition: background 0.2s; }
 .lb-row:hover { background: var(--surface2); }
 .lb-row.me { background: linear-gradient(135deg, #FFF5F2, #FFE8E0); border: 2px solid var(--primary); }
@@ -984,7 +983,7 @@ nav {
 let state = {
   coins: 0, name: '', age: 9, avatarIdx: 0, inventory: [],
   equippedIcon: null, gamesPlayed: 0, wins: 0, usedPromos: [], lang: 'kk',
-  snakeBest: 0, unlockedSecretAvatars: [], unlockedSecretIcons: []
+  snakeBest: 0, unlockedSecretAvatars: []
 };
 let currentLang = 'kk';
 let selectedAge = null;
@@ -1160,14 +1159,7 @@ function showCoinFloat(n) {
 // Похвалы от боты
 const BOTA_PRAISES = [
   'Жарайсың! 🌟','Өте жақсы! 🎉','Керемет! ✨','Тамаша! 🏆','Сен ең жақсысың! 💪',
-  'Әдемі! 🌈','Жасадың! 🎊','Суперсің! 🚀','Жарайсың, батыр! ⭐','Мықтысың! 🔥',
-  'Зерек бала! 🧠','Тамаша нәтиже! 🥇','Өте керемет! 💎','Сен чемпионсың! 🏆',
-  'Бәрекелді! 👏','Сенің миың өткір! ⚡','Шалт ойлайсың! 🎯','Ақылдысың! 📚',
-  'Жақсы жұмыс! 💫','Үздік! 🥳','Ура! Дұрыс! 🎈','Ой, тамаша! 😍',
-  'Сен суперсің! 🦸','Дұрыс жол! 🛤️','Алға, батыр! 🚀','Нурлы ми! 💡',
-  'Дұрыс жауап! ✔️','Жоғары ұшасың! 🦅','Сен жеңдің! 🏅',
-  'Ботам мақтан! 🐪','Зор! 💥','Тамашасың! 🤩','Қайталауға болмас! 🌟',
-  'Өте дұрыс! ✅','Ас-са! 🎶','Ойыңды дамытасың! 🧩','Бәсе! 🙌'
+  'Адемі! 🌈','Жасадың! 🎊','Суперсің! 🚀','Жарайсың, батыр! ⭐','Мықтысың! 🔥'
 ];
 let botaSpeechTimeout;
 function showBotaPraise() {
@@ -1783,16 +1775,18 @@ function snakeGameOver() {
   showWin('🐍 '+(currentLang==='kk'?'Ойын аяқталды!':currentLang==='ru'?'Игра окончена!':'Game Over!'), snakeScoreVal+' '+(currentLang==='kk'?'ұпай':currentLang==='ru'?'очков':'points'), snakeCoinsEarned, '🐍');
 }
 
-// Keyboard support for snake — Arrow keys + WASD
+// Keyboard support for snake — WASD + Arrow keys
 document.addEventListener('keydown', e => {
-  const snakeActive = document.getElementById('page-snake').classList.contains('active');
-  if (snakeActive && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','w','W','a','A','s','S','d','D'].includes(e.key)) {
+  const onSnakePage = document.getElementById('page-snake') && document.getElementById('page-snake').classList.contains('active');
+  // Prevent page scroll on snake page
+  if (onSnakePage && ['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' ','w','W','a','A','s','S','d','D'].includes(e.key)) {
     e.preventDefault();
   }
-  if (['ArrowUp','w','W'].includes(e.key)) snakeDir('up');
-  if (['ArrowDown','s','S'].includes(e.key)) snakeDir('down');
-  if (['ArrowLeft','a','A'].includes(e.key)) snakeDir('left');
-  if (['ArrowRight','d','D'].includes(e.key)) snakeDir('right');
+  // W = up, A = left, S = down, D = right
+  if (e.key === 'ArrowUp'   || e.key === 'w' || e.key === 'W') snakeDir('up');
+  if (e.key === 'ArrowDown'  || e.key === 's' || e.key === 'S') snakeDir('down');
+  if (e.key === 'ArrowLeft'  || e.key === 'a' || e.key === 'A') snakeDir('left');
+  if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') snakeDir('right');
 });
 
 // ============================================================
@@ -1825,17 +1819,6 @@ const SECRET_AVATARS = [
   { id:'s2', name:'🌌 Ғарыш', svg:`<svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="#0d0d2b"/><circle cx="28" cy="28" r="14" fill="#1a0a5e"/><ellipse cx="28" cy="28" rx="22" ry="8" fill="none" stroke="#9B59B6" stroke-width="3" opacity="0.8"/><ellipse cx="28" cy="28" rx="18" ry="5" fill="none" stroke="#4ECDC4" stroke-width="1.5" opacity="0.6"/><circle cx="28" cy="28" r="8" fill="#2980B9"/><circle cx="26" cy="26" r="3" fill="#5DADE2" opacity="0.7"/><circle cx="10" cy="10" r="1.5" fill="white"/><circle cx="44" cy="12" r="1" fill="white"/><circle cx="42" cy="42" r="1.5" fill="white"/><circle cx="14" cy="40" r="1" fill="white"/><circle cx="8" cy="28" r="1" fill="#FFD700"/></svg>` },
 ];
 
-// Секретные иконки через промокод lil.baller11
-const SECRET_ICON_PROMO = 'LIL.BALLER11';
-const SECRET_ICONS = [
-  { id:'si1', name:{kk:'👑 Алтын Патша',ru:'👑 Золотой Король',en:'👑 Golden King'}, rarity:'legendary',
-    svg:`<svg viewBox="0 0 56 56"><defs><radialGradient id="gkg"><stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#FF8C00"/></radialGradient></defs><circle cx="28" cy="28" r="26" fill="url(#gkg)"/><polygon points="28,6 32,18 44,14 36,24 44,32 32,28 28,40 24,28 12,32 20,24 12,14 24,18" fill="white" opacity="0.95"/><circle cx="28" cy="28" r="6" fill="white" opacity="0.4"/><circle cx="18" cy="18" r="2.5" fill="#FF4444"/><circle cx="38" cy="18" r="2.5" fill="#4444FF"/><circle cx="28" cy="12" r="2.5" fill="#44FF44"/></svg>` },
-  { id:'si2', name:{kk:'🌊 Мұхит',ru:'🌊 Океан',en:'🌊 Ocean'}, rarity:'epic',
-    svg:`<svg viewBox="0 0 56 56"><defs><linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#006994"/><stop offset="100%" stop-color="#00CED1"/></linearGradient></defs><circle cx="28" cy="28" r="26" fill="url(#og)"/><path d="M6 24 Q11 18 16 24 Q21 30 26 24 Q31 18 36 24 Q41 30 46 24 Q48 21 50 24" stroke="rgba(255,255,255,0.6)" stroke-width="3" fill="none"/><path d="M6 32 Q11 26 16 32 Q21 38 26 32 Q31 26 36 32 Q41 38 46 32" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" fill="none"/><circle cx="28" cy="20" r="5" fill="rgba(255,255,255,0.3)"/><circle cx="28" cy="20" r="2" fill="white" opacity="0.8"/></svg>` },
-  { id:'si3', name:{kk:'🔮 Сиқырлы шар',ru:'🔮 Магический шар',en:'🔮 Magic Ball'}, rarity:'legendary',
-    svg:`<svg viewBox="0 0 56 56"><defs><radialGradient id="mg" cx="40%" cy="35%"><stop offset="0%" stop-color="#9B59B6"/><stop offset="50%" stop-color="#6C3483"/><stop offset="100%" stop-color="#1a0a3e"/></radialGradient></defs><circle cx="28" cy="28" r="26" fill="#1a0a3e"/><circle cx="28" cy="26" r="18" fill="url(#mg)"/><ellipse cx="22" cy="20" rx="6" ry="4" fill="rgba(255,255,255,0.25)" transform="rotate(-30 22 20)"/><circle cx="20" cy="14" r="1.5" fill="white" opacity="0.9"/><circle cx="36" cy="12" r="1" fill="white"/><circle cx="42" cy="20" r="1.5" fill="#FFD700" opacity="0.8"/><circle cx="10" cy="36" r="1" fill="#4ECDC4"/><circle cx="44" cy="38" r="1" fill="#FF69B4"/></svg>` },
-];
-
 const RARITY_COLORS = {common:'#95A5A6',rare:'#2980B9',epic:'#9B59B6',legendary:'#F39C12'};
 const RARITY_LABELS = {
   kk:{common:'Қарапайым',rare:'Сирек',epic:'Эпик',legendary:'Аңыз'},
@@ -1846,34 +1829,26 @@ const RARITY_LABELS = {
 function renderIcons() {
   const grid = document.getElementById('iconsGrid');
   grid.innerHTML = '';
-  const allIcons = [...ICONS];
-  if (state.unlockedSecretIcons && state.unlockedSecretIcons.length > 0) {
-    SECRET_ICONS.forEach(ic => { if (state.unlockedSecretIcons.includes(ic.id)) allIcons.push(ic); });
-  }
-  allIcons.forEach(ic => {
-    const owned = state.inventory.some(i => String(i.id) === String(ic.id));
-    const equipped = String(state.equippedIcon) === String(ic.id);
-    const isSecret = String(ic.id).startsWith('si');
+  ICONS.forEach(ic => {
+    const owned = state.inventory.some(i=>i.id===ic.id);
+    const equipped = state.equippedIcon === ic.id;
     const div = document.createElement('div');
     div.className = 'icon-shop-item' + (equipped?' equipped-item':owned?' owned-item':'');
-    if (isSecret) div.style.cssText += ';border:3px solid #FFD700 !important';
     const rarityLabel = (RARITY_LABELS[currentLang]||RARITY_LABELS.kk)[ic.rarity];
     const name = ic.name[currentLang]||ic.name.kk;
     let priceOrStatus;
     if (equipped) priceOrStatus = `<span style="color:var(--gold2);font-size:11px">${t('equipped_lbl')}</span>`;
-    else if (owned) priceOrStatus = `<button style="background:var(--green);color:white;border:none;border-radius:10px;padding:4px 10px;font-size:11px;font-weight:800;cursor:pointer" onclick="equipIcon('${ic.id}')">${t('equip_lbl')}</button>`;
+    else if (owned) priceOrStatus = `<button style="background:var(--green);color:white;border:none;border-radius:10px;padding:4px 10px;font-size:11px;font-weight:800;cursor:pointer" onclick="equipIcon(${ic.id})">${t('equip_lbl')}</button>`;
     else priceOrStatus = `<span style="color:#B8860B;font-weight:900;font-size:12px">★ ${ic.price}</span>`;
-    const badge = isSecret ? '<div style="font-size:9px;background:#FFD700;border-radius:6px;padding:1px 5px;margin-bottom:3px;font-weight:900;display:inline-block">★ SECRET</div><br>' : '';
-    div.innerHTML = `<div class="icon-svg-wrap">${ic.svg}</div>${badge}<div class="icon-shop-name">${name}</div><div class="icon-shop-rarity" style="color:${RARITY_COLORS[ic.rarity]}">${rarityLabel}</div><div style="margin-top:4px">${priceOrStatus}</div>`;
-    if (!owned && !equipped && !isSecret) div.onclick = () => buyIcon(ic);
+    div.innerHTML = `<div class="icon-svg-wrap">${ic.svg}</div><div class="icon-shop-name">${name}</div><div class="icon-shop-rarity" style="color:${RARITY_COLORS[ic.rarity]}">${rarityLabel}</div><div style="margin-top:4px">${priceOrStatus}</div>`;
+    if (!owned && !equipped) div.onclick = () => buyIcon(ic);
     grid.appendChild(div);
   });
 }
 
 function equipIcon(id) {
   state.equippedIcon = id; save(); renderIcons(); updateProfileUI();
-  const allIcons = [...ICONS, ...SECRET_ICONS];
-  const ic = allIcons.find(i => String(i.id) === String(id));
+  const ic = ICONS.find(i=>i.id===id);
   if (ic) showToast((ic.name[currentLang]||ic.name.kk) + t('toast_icon_equip'));
 }
 
@@ -2055,23 +2030,6 @@ function redeemPromo() {
   const msg = document.getElementById('promoMsg');
   if (!code) return;
   if (state.usedPromos.includes(code)) { msg.className='promo-msg fail'; msg.textContent=t('toast_promo_used'); return; }
-  // Промокод lil.baller11 — секретные иконки
-  if (code === SECRET_ICON_PROMO) {
-    if (state.usedPromos.includes(code)) { msg.className='promo-msg fail'; msg.textContent=t('toast_promo_used'); return; }
-    state.usedPromos.push(code);
-    state.unlockedSecretIcons = SECRET_ICONS.map(a => a.id);
-    SECRET_ICONS.forEach(ic => {
-      if (!state.inventory.some(i => String(i.id) === String(ic.id))) {
-        state.inventory.push({id:ic.id, name:ic.name, svg:ic.svg, rarity:ic.rarity});
-      }
-    });
-    save();
-    msg.className='promo-msg ok';
-    msg.textContent = currentLang==='kk'?'👑 Секретті иконкалар ашылды! Иконкалар бөлімін тексер!':currentLang==='ru'?'👑 Секретные иконки разблокированы! Проверь раздел Иконки!':'👑 Secret icons unlocked! Check the Icons section!';
-    document.getElementById('promoIn').value='';
-    updateInventoryUI();
-    return;
-  }
   // Секретный промокод на аватарки
   if (code === SECRET_AVATAR_PROMO) {
     state.usedPromos.push(code);
@@ -2097,113 +2055,126 @@ function redeemPromo() {
 
 // ============================================================
 // LIVE LEADERBOARD — Firebase Realtime Database
+// basy-d5af8-default-rtdb.europe-west1.firebasedatabase.app
 // ============================================================
 const FB_URL = 'https://basy-d5af8-default-rtdb.europe-west1.firebasedatabase.app';
 
 function getDeviceId() {
-  let id = localStorage.getItem('botaoy_device_id');
-  if (!id) { id = 'u_' + Math.random().toString(36).substr(2,9) + '_' + Date.now(); localStorage.setItem('botaoy_device_id', id); }
+  let id = localStorage.getItem('botaoy_uid');
+  if (!id) {
+    id = 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 8);
+    localStorage.setItem('botaoy_uid', id);
+  }
   return id;
 }
-const DEVICE_ID = getDeviceId();
+const MY_DEVICE_ID = getDeviceId();
 
-async function fetchLeaderboard() {
-  try {
-    const res = await fetch(`${FB_URL}/scores.json?orderBy="score"&limitToLast=50`, {
-      headers: {'Accept': 'application/json'}
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (!data) return [];
-    return Object.values(data).sort((a,b) => b.score - a.score);
-  } catch(e) { return null; }
-}
-
-async function pushScoreToFirebase() {
+// Отправить мой результат в Firebase
+async function pushMyScore() {
   if (!state.name) return;
   try {
-    await fetch(`${FB_URL}/scores/${DEVICE_ID}.json`, {
+    const payload = {
+      name: state.name,
+      score: state.coins,
+      ts: Date.now()
+    };
+    await fetch(`${FB_URL}/scores/${MY_DEVICE_ID}.json`, {
       method: 'PUT',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ name: state.name, score: state.coins, av: 'bota', ts: Date.now() })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
-  } catch(e) {}
+  } catch (e) { /* silent */ }
 }
 
-let fbPushTimer;
-function schedulePushToFirebase() {
-  clearTimeout(fbPushTimer);
-  fbPushTimer = setTimeout(pushScoreToFirebase, 2000);
+// Получить всех игроков из Firebase
+async function fetchAllScores() {
+  try {
+    const res = await fetch(`${FB_URL}/scores.json`);
+    if (!res.ok) return null;
+    const raw = await res.json();
+    if (!raw) return [];
+    // raw это объект { deviceId: {name, score, ts}, ... }
+    return Object.entries(raw).map(([uid, data]) => ({
+      uid,
+      name: data.name || '???',
+      score: Number(data.score) || 0,
+      me: uid === MY_DEVICE_ID
+    }));
+  } catch (e) { return null; }
+}
+
+// Debounce push — чтобы не спамить запросами при каждой монете
+let _pushTimer = null;
+function schedulePush() {
+  clearTimeout(_pushTimer);
+  _pushTimer = setTimeout(pushMyScore, 1500);
 }
 
 const DEMO_PLAYERS = [
-  {name:'Нурайым',score:6969,av:'lion'},{name:'Алдияр',score:6753,av:'eagle'},
-  {name:'Айгерім',score:6767,av:'dragon'},{name:'Замира',score:2111,av:'tiger'},
-  {name:'diawx',score:2069,av:'star'},{name:'Арман',score:1980,av:'moon'},
-  {name:'Темір',score:1850,av:'thunder'},{name:'Аида',score:1720,av:'bota'},
+  {name:'Нурайым',score:6969},{name:'Алдияр',score:6753},
+  {name:'Айгерім',score:6767},{name:'Замира',score:2111},
+  {name:'diawx',score:2069},{name:'Арман',score:1980},
+  {name:'Темір',score:1850},{name:'Аида',score:1720},
 ];
 
 const AV_SVG = {
-  lion:`<svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="15" fill="#F39C12"/><circle cx="12" cy="13" r="2.5" fill="#2C3E50"/><circle cx="20" cy="13" r="2.5" fill="#2C3E50"/><path d="M12 20 Q16 23 20 20" stroke="#C0392B" stroke-width="1.2" fill="none"/></svg>`,
-  eagle:`<svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="15" fill="#34495E"/><circle cx="12" cy="13" r="2.5" fill="#F1C40F"/><circle cx="20" cy="13" r="2.5" fill="#F1C40F"/><polygon points="16,18 14,22 16,21 18,22" fill="#E67E22"/></svg>`,
-  dragon:`<svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="15" fill="#2ECC71"/><circle cx="12" cy="13" r="2.5" fill="#F39C12"/><circle cx="20" cy="13" r="2.5" fill="#F39C12"/><polygon points="16,20 14,26 16,24 18,26" fill="#E74C3C"/></svg>`,
-  tiger:`<svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="15" fill="#E67E22"/><circle cx="12" cy="13" r="2.5" fill="#2C3E50"/><circle cx="20" cy="13" r="2.5" fill="#2C3E50"/><path d="M12 20 Q16 23 20 20" stroke="#C0392B" stroke-width="1.2" fill="none"/></svg>`,
-  star:`<svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="15" fill="#2C3E50"/><polygon points="16,6 18,12 24,12 20,16 21,22 16,19 11,22 12,16 8,12 14,12" fill="#FFD700"/></svg>`,
-  moon:`<svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="15" fill="#1a1a3e"/><path d="M12 8 A8 8 0 1 0 12 24 A6 6 0 1 1 12 8" fill="#FFD700"/></svg>`,
-  thunder:`<svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="15" fill="#1C2833"/><polygon points="18,6 12,18 16,18 14,26 22,14 18,14" fill="#FFD700"/></svg>`,
-  bota:`<svg viewBox="0 0 32 32" width="28" height="28"><circle cx="16" cy="16" r="15" fill="#FFF9F0"/><ellipse cx="16" cy="14" rx="7" ry="7" fill="#D4B896"/><ellipse cx="12" cy="10" rx="2.5" ry="3.5" fill="#D4B896"/><ellipse cx="20" cy="10" rx="2.5" ry="3.5" fill="#D4B896"/><circle cx="13" cy="13" r="2" fill="#2C3E50"/><circle cx="19" cy="13" r="2" fill="#2C3E50"/><path d="M13 18 Q16 20 19 18" stroke="#8B6349" stroke-width="1" fill="none"/></svg>`,
+  bota:`<svg viewBox="0 0 32 32" width="26" height="26"><circle cx="16" cy="16" r="15" fill="#FFF9F0"/><ellipse cx="16" cy="14" rx="7" ry="7" fill="#D4B896"/><ellipse cx="12" cy="10" rx="2.5" ry="3.5" fill="#D4B896"/><ellipse cx="20" cy="10" rx="2.5" ry="3.5" fill="#D4B896"/><circle cx="13" cy="13" r="2" fill="#2C3E50"/><circle cx="19" cy="13" r="2" fill="#2C3E50"/><path d="M13 18 Q16 20 19 18" stroke="#8B6349" stroke-width="1" fill="none"/></svg>`,
+  default:`<svg viewBox="0 0 32 32" width="26" height="26"><circle cx="16" cy="16" r="15" fill="#FF6B35"/><circle cx="12" cy="13" r="2.5" fill="white"/><circle cx="20" cy="13" r="2.5" fill="white"/><path d="M12 20 Q16 23 20 20" stroke="white" stroke-width="1.5" fill="none"/></svg>`
 };
 
-function updateLeaderboard() { save(); schedulePushToFirebase(); }
+function updateLeaderboard() { save(); schedulePush(); }
 
 async function renderLeaderboard() {
   const card = document.getElementById('lbCard');
-  card.innerHTML = `<div style="text-align:center;padding:32px 0;color:var(--text2)">
-    <div style="font-size:32px;margin-bottom:10px;animation:bounceIn 0.5s ease">⏳</div>
-    <div style="font-weight:800;font-size:14px">${currentLang==='kk'?'Жүктелуде...':currentLang==='ru'?'Загрузка...':'Loading...'}</div>
-  </div>`;
+  // Показываем спиннер
+  card.innerHTML = `
+    <div style="text-align:center;padding:40px 20px">
+      <div style="font-size:36px;margin-bottom:12px;animation:spin 1s linear infinite;display:inline-block">⏳</div>
+      <div style="font-weight:800;font-size:14px;color:var(--text2)">${currentLang==='kk'?'Жүктелуде...':currentLang==='ru'?'Загрузка...':'Loading...'}</div>
+    </div>`;
 
-  let liveData = await fetchLeaderboard();
+  // Сначала убедимся что наш счёт отправлен
+  await pushMyScore();
+
+  // Загружаем данные
+  const liveData = await fetchAllScores();
+  const isOnline = liveData !== null;
+
   let board;
-  const isLive = liveData !== null;
-
-  if (isLive && liveData.length > 0) {
-    // Помечаем себя
-    const meEntry = liveData.find(p => p.name === state.name);
-    if (meEntry) meEntry.me = true;
-    else if (state.name) liveData.push({name: state.name, score: state.coins, av:'bota', me:true});
-    board = liveData.sort((a,b) => b.score - a.score);
-  } else if (isLive && liveData.length === 0) {
-    // База пустая — добавляем себя
-    board = [{name: state.name||'Сен', score: state.coins, av:'bota', me:true}];
+  if (isOnline && liveData.length > 0) {
+    board = liveData.sort((a, b) => b.score - a.score);
+  } else if (isOnline && liveData.length === 0) {
+    // База пустая — только я
+    board = [{ name: state.name || 'Сен', score: state.coins, me: true }];
   } else {
-    // Нет интернета — демо
-    board = [...DEMO_PLAYERS, {name:state.name||'Сен', score:state.coins, me:true, av:'bota'}];
-    board.sort((a,b) => b.score - a.score);
+    // Офлайн — демо + я
+    board = [...DEMO_PLAYERS, { name: state.name || 'Сен', score: state.coins, me: true }];
+    board.sort((a, b) => b.score - a.score);
   }
 
+  const rankIcons = ['🥇','🥈','🥉'];
   const rankColors = ['gold-rank','silver-rank','bronze-rank'];
+
   card.innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding:0 2px">
-      <div style="display:flex;align-items:center;gap:6px">
-        <div style="width:8px;height:8px;border-radius:50%;background:${isLive?'#27AE60':'#95A5A6'};animation:${isLive?'pulse 1.5s infinite':'none'}"></div>
-        <span style="font-family:'Fredoka One',cursive;font-size:14px;color:var(--text)">${isLive?'Live рейтинг':'Оффлайн'}</span>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="width:10px;height:10px;border-radius:50%;background:${isOnline?'#27AE60':'#E74C3C'};display:inline-block;${isOnline?'animation:livepulse 1.4s ease-in-out infinite':''}"></span>
+        <span style="font-family:'Fredoka One',cursive;font-size:15px;color:var(--text)">${isOnline?'Live':'Оффлайн'}</span>
+        ${isOnline ? `<span style="font-size:11px;font-weight:700;color:var(--text2)">${board.length} ${currentLang==='kk'?'ойыншы':currentLang==='ru'?'игроков':'players'}</span>` : ''}
       </div>
-      <button onclick="renderLeaderboard()" style="background:var(--surface2);color:var(--text);border:2px solid var(--border);border-radius:12px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s" onmouseover="this.style.background='var(--primary)';this.style.color='white'" onmouseout="this.style.background='var(--surface2)';this.style.color='var(--text)'">
+      <button onclick="renderLeaderboard()" style="background:var(--primary);color:white;border:none;border-radius:12px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif">
         🔄 ${currentLang==='kk'?'Жаңарту':currentLang==='ru'?'Обновить':'Refresh'}
       </button>
     </div>
-    ${board.slice(0,30).map((p,i) => {
-      const rankClass = rankColors[i]||'';
-      const rankText = i<3 ? ['🥇','🥈','🥉'][i] : `<span style="font-size:14px">${i+1}</span>`;
-      const avHtml = AV_SVG[p.av] || AV_SVG.bota;
-      return `<div class="lb-row${p.me?' me':''}">
-        <div class="lb-rank ${rankClass}" style="font-size:${i<3?'20px':'16px'}">${rankText}</div>
-        <div class="lb-avatar">${avHtml}</div>
-        <div class="lb-name">${p.name}${p.me?' <span style="font-size:10px;background:var(--primary);color:white;border-radius:6px;padding:1px 5px;font-weight:800">СЕН</span>':''}</div>
+    ${board.slice(0, 50).map((p, i) => `
+      <div class="lb-row${p.me ? ' me' : ''}">
+        <div class="lb-rank ${rankColors[i]||''}" style="font-size:${i<3?'22px':'15px'};min-width:36px;text-align:center">
+          ${i < 3 ? rankIcons[i] : (i+1)}
+        </div>
+        <div class="lb-avatar">${AV_SVG.bota}</div>
+        <div class="lb-name">${p.name}${p.me ? ' <span style="font-size:10px;background:var(--primary);color:white;border-radius:6px;padding:1px 6px;font-weight:900">СЕН</span>' : ''}</div>
         <div class="lb-score">${Number(p.score).toLocaleString()} BC</div>
-      </div>`;
-    }).join('')}
+      </div>`).join('')}
   `;
 }
 
@@ -2329,17 +2300,17 @@ load();
 generateStars();
 
 if (state.name) {
-  // Уже зарегистрирован — сразу в меню
   enterMainApp();
   applyLang();
   document.querySelectorAll('.lang-btn').forEach(b => {
     b.classList.toggle('active', b.textContent.toLowerCase().startsWith(currentLang.substring(0,2)));
   });
-  pushScoreToFirebase();
 } else {
-  // Новый пользователь — показываем WELCOME страницу
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-welcome').classList.add('active');
+  // Автоматически переходим на онбординг при первом запуске
+  setTimeout(() => {
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-onboard').classList.add('active');
+  }, 100);
 }
 
 applyLang();
