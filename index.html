@@ -111,9 +111,34 @@ body::before {
 #page-onboard {
   padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
   min-height: 100vh; background: linear-gradient(160deg, #4ECDC4, #FFD700 60%, #FF6B35); text-align: center;
+  overflow-y: auto;
 }
 #page-onboard.active { display: flex; }
-.onboard-card { background: white; border-radius: 28px; padding: 36px 32px; max-width: 340px; width: 90%; box-shadow: 0 16px 48px rgba(0,0,0,0.15); }
+.onboard-card { background: white; border-radius: 28px; padding: 28px 24px; max-width: 380px; width: 94%; box-shadow: 0 16px 48px rgba(0,0,0,0.15); margin: 20px 0; }
+.onboard-step { display: none; }
+.onboard-step.active { display: block; }
+.onboard-greeting { font-size: 20px; font-weight: 800; color: var(--secondary); margin-bottom: 8px; }
+
+/* Kazakhstan SVG Map */
+.kz-map-wrap { position: relative; margin: 0 auto 12px; cursor: pointer; }
+.kz-map-wrap svg path { transition: fill 0.2s, opacity 0.2s; cursor: pointer; }
+.kz-map-wrap svg path:hover { opacity: 0.8; }
+.kz-map-wrap svg path.region-selected { fill: #FF6B35 !important; }
+.kz-map-wrap svg path.region-locked { fill: #ccc !important; cursor: not-allowed; }
+.region-label { font-size: 12px; font-weight: 800; color: var(--text2); margin-top: 6px; min-height: 18px; }
+
+/* Region select dropdown */
+.region-select {
+  width: 100%; background: var(--surface2); border: 3px solid var(--border); border-radius: 16px;
+  padding: 12px 16px; font-size: 14px; font-family: 'Nunito', sans-serif; font-weight: 700;
+  color: var(--text); outline: none; margin-bottom: 14px; cursor: pointer;
+}
+.region-select:focus { border-color: var(--primary); }
+
+/* Profile preview */
+.profile-preview { background: linear-gradient(135deg, #FFF5F2, #FFE8E0); border-radius: 20px; padding: 16px; margin-bottom: 16px; }
+.profile-preview-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--text); }
+.profile-preview-row:last-child { margin-bottom: 0; }
 .onboard-title { font-family: 'Fredoka One', cursive; font-size: 26px; color: var(--primary); margin-bottom: 20px; }
 .fancy-input {
   width: 100%; background: var(--surface2); border: 3px solid var(--border); border-radius: 16px;
@@ -441,6 +466,74 @@ nav {
 @keyframes fadeInPop { from { opacity:0; transform:scale(0.8) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
 .bota-speech::after { content:''; position:absolute; bottom:-12px; right:14px; border:6px solid transparent; border-top:6px solid var(--secondary); }
 
+/* DAILY QUESTS */
+.daily-section { background: white; border-radius: 22px; padding: 18px 16px; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.daily-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.daily-title { font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--text); }
+.daily-reset { font-size: 11px; color: var(--text2); font-weight: 700; }
+.quest-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface2); border-radius: 14px; margin-bottom: 8px; border: 2px solid transparent; }
+.quest-item.done { border-color: var(--green); background: #ECFFF8; }
+.quest-item.locked-quest { opacity: 0.5; }
+.quest-icon { font-size: 26px; }
+.quest-info { flex: 1; }
+.quest-name { font-weight: 800; font-size: 13px; color: var(--text); }
+.quest-reward { font-size: 11px; color: var(--gold2); font-weight: 800; }
+.quest-progress { width: 60px; text-align: right; }
+.quest-prog-bar { background: #eee; border-radius: 6px; height: 6px; overflow: hidden; margin-top: 4px; }
+.quest-prog-fill { background: linear-gradient(90deg, var(--green), var(--green2)); height: 100%; border-radius: 6px; transition: width 0.3s; }
+.quest-done-badge { background: var(--green); color: white; font-size: 10px; font-weight: 900; padding: 3px 8px; border-radius: 8px; }
+
+/* REGION BONUS CARD */
+.region-bonus-card { background: linear-gradient(135deg, #f0fff8, white); border: 2px solid var(--green); border-radius: 18px; padding: 14px 16px; margin-bottom: 14px; }
+.region-bonus-title { font-family: 'Fredoka One', cursive; font-size: 15px; color: var(--green); margin-bottom: 4px; }
+.region-coins-display { font-family: 'Fredoka One', cursive; font-size: 28px; color: var(--gold2); }
+
+/* MINI QUEST / STORY */
+.story-scene { background: white; border-radius: 22px; padding: 24px; box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
+.story-illustration { font-size: 80px; text-align: center; margin-bottom: 12px; animation: bounceIn 0.5s ease; }
+.story-text { font-size: 15px; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 20px; text-align: center; }
+.story-choices { display: grid; gap: 10px; }
+.story-choice-btn {
+  background: white; border: 3px solid var(--border); border-radius: 16px; padding: 14px 16px;
+  font-size: 14px; font-weight: 700; cursor: pointer; text-align: left; transition: all 0.2s;
+  font-family: 'Nunito', sans-serif; color: var(--text); display: flex; align-items: center; gap: 10px;
+}
+.story-choice-btn:hover { border-color: var(--secondary); background: #F0FFFD; transform: translateX(4px); }
+.story-choice-btn.chosen-correct { border-color: var(--green); background: #ECFFF8; }
+.story-choice-btn.chosen-wrong { border-color: var(--red); background: #FFF5F5; }
+.story-progress { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; }
+.story-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+.story-dot.done { background: var(--green); }
+.story-dot.active { background: var(--primary); }
+
+/* PARENT MODE */
+.parent-modal-content { }
+.parent-section { margin-bottom: 18px; }
+.parent-section-title { font-family: 'Fredoka One', cursive; font-size: 16px; color: var(--text); margin-bottom: 10px; }
+.timer-display { font-family: 'Fredoka One', cursive; font-size: 48px; color: var(--primary); text-align: center; }
+.progress-child { background: var(--surface2); border-radius: 18px; padding: 14px; }
+.progress-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; font-weight: 700; }
+.pin-dots { display: flex; gap: 10px; justify-content: center; margin: 12px 0; }
+.pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--border); transition: all 0.2s; }
+.pin-dot.filled { background: var(--primary); border-color: var(--primary); }
+.pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.pin-key { background: var(--surface2); border: 2px solid var(--border); border-radius: 14px; padding: 16px; font-family: 'Fredoka One', cursive; font-size: 22px; cursor: pointer; transition: all 0.15s; text-align: center; }
+.pin-key:active { transform: scale(0.92); background: var(--primary); color: white; }
+
+/* LOCKED GAME OVERLAY */
+.game-card.locked-game { opacity: 0.6; cursor: not-allowed; position: relative; }
+.game-card.locked-game::before { content: '🔒'; position: absolute; top: 8px; right: 8px; font-size: 16px; z-index: 10; }
+.daily-badge { display: inline-block; background: var(--red); color: white; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 8px; margin-left: 4px; }
+.today-played-tag { display: inline-block; background: var(--green); color: white; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 8px; }
+
+/* REGION INFO PAGE */
+.region-info-card { background: white; border-radius: 22px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); margin-bottom: 12px; }
+.region-info-title { font-family: 'Fredoka One', cursive; font-size: 20px; color: var(--primary); margin-bottom: 4px; }
+.region-info-pop { font-size: 13px; color: var(--text2); font-weight: 700; margin-bottom: 12px; }
+.city-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.city-chip { background: var(--surface2); border: 2px solid var(--border); border-radius: 10px; padding: 4px 10px; font-size: 12px; font-weight: 800; }
+.fact-item { background: linear-gradient(135deg, #FFF9F0, white); border-left: 4px solid var(--gold); border-radius: 0 12px 12px 0; padding: 10px 12px; margin-bottom: 8px; font-size: 13px; font-weight: 700; line-height: 1.5; }
+
 @media (max-width: 360px) {
   .menu-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .math-expr { font-size: 32px; }
@@ -549,45 +642,128 @@ nav {
   <button class="welcome-btn" id="wbtn" onclick="goToOnboard()">Бастау!</button>
 </div>
 
-<!-- ONBOARD — имя и возраст -->
+<!-- ONBOARD — имя, возраст, регион (2 шага) -->
 <div class="page" id="page-onboard">
   <div class="onboard-card">
-    <svg style="width:70px;height:70px;margin:0 auto 16px;display:block" viewBox="0 0 160 160">
-      <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/>
-      <rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
-      <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/>
-      <ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
-      <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/>
-      <ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
-      <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
-      <ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
-      <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/>
-      <circle cx="70" cy="69" r="6" fill="#2C3E50"/>
-      <circle cx="94" cy="69" r="6" fill="#2C3E50"/>
-      <circle cx="72" cy="67" r="2" fill="white"/>
-      <circle cx="96" cy="67" r="2" fill="white"/>
-      <ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
-      <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
-    </svg>
-    <div class="onboard-title" id="ob_title">Атың кім?</div>
-    <input class="fancy-input" id="nameInputOnb" placeholder="Атыңды жаз..." maxlength="20">
-    <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px" id="ob_age_lbl">Жасыңды таңда:</div>
-    <div class="age-grid">
-      <button class="age-btn" onclick="selectAge(5,this)">5</button>
-      <button class="age-btn" onclick="selectAge(6,this)">6</button>
-      <button class="age-btn" onclick="selectAge(7,this)">7</button>
-      <button class="age-btn" onclick="selectAge(8,this)">8</button>
-      <button class="age-btn" onclick="selectAge(9,this)">9</button>
-      <button class="age-btn" onclick="selectAge(10,this)">10</button>
-      <button class="age-btn" onclick="selectAge(11,this)">11</button>
-      <button class="age-btn" onclick="selectAge(12,this)">12</button>
-      <button class="age-btn" onclick="selectAge(13,this)">13</button>
-      <button class="age-btn" onclick="selectAge(14,this)">14</button>
-      <button class="age-btn" onclick="selectAge(15,this)">15</button>
-      <button class="age-btn" onclick="selectAge(16,this)">16</button>
-      <button class="age-btn" onclick="selectAge(17,this)">17</button>
+    <!-- ШАГ 1: Имя и возраст -->
+    <div class="onboard-step active" id="onboard-step1">
+      <svg style="width:60px;height:60px;margin:0 auto 10px;display:block" viewBox="0 0 160 160">
+        <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/><rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
+        <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/><ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
+        <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/><ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+        <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/><ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
+        <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/><circle cx="70" cy="69" r="6" fill="#2C3E50"/>
+        <circle cx="94" cy="69" r="6" fill="#2C3E50"/><circle cx="72" cy="67" r="2" fill="white"/>
+        <circle cx="96" cy="67" r="2" fill="white"/><ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
+        <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="onboard-greeting" id="onboardGreeting">Сәлем! 👋</div>
+      <div class="onboard-title" id="ob_title">Атың кім?</div>
+      <input class="fancy-input" id="nameInputOnb" placeholder="Атыңды жаз..." maxlength="20">
+      <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px" id="ob_age_lbl">Жасыңды таңда:</div>
+      <div class="age-grid">
+        <button class="age-btn" onclick="selectAge(5,this)">5</button>
+        <button class="age-btn" onclick="selectAge(6,this)">6</button>
+        <button class="age-btn" onclick="selectAge(7,this)">7</button>
+        <button class="age-btn" onclick="selectAge(8,this)">8</button>
+        <button class="age-btn" onclick="selectAge(9,this)">9</button>
+        <button class="age-btn" onclick="selectAge(10,this)">10</button>
+        <button class="age-btn" onclick="selectAge(11,this)">11</button>
+        <button class="age-btn" onclick="selectAge(12,this)">12</button>
+        <button class="age-btn" onclick="selectAge(13,this)">13</button>
+        <button class="age-btn" onclick="selectAge(14,this)">14</button>
+        <button class="age-btn" onclick="selectAge(15,this)">15</button>
+        <button class="age-btn" onclick="selectAge(16,this)">16</button>
+        <button class="age-btn" onclick="selectAge(17,this)">17</button>
+      </div>
+      <button class="big-btn" id="ob_btn" onclick="goToOnboardStep2()" style="transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1)">Бастайық!</button>
     </div>
-    <button class="big-btn" id="ob_btn" onclick="finishOnboard()">Бастайық!</button>
+
+    <!-- ШАГ 2: Регион + карта + превью профиля -->
+    <div class="onboard-step" id="onboard-step2">
+      <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--primary);margin-bottom:12px" id="ob2_title">Қай облыстансың?</div>
+      
+      <!-- Карта Казахстана (SVG) -->
+      <div class="kz-map-wrap" id="kzMapWrap">
+        <svg viewBox="0 0 520 340" width="100%" style="max-height:200px" id="kzMapSvg">
+          <!-- Упрощённые регионы Казахстана (кликабельные блоки) -->
+          <!-- Актюбинская -->
+          <path id="reg-aktobe" data-region="Актюбинская" d="M60 60 L150 55 L160 130 L80 140 Z" fill="#4ECDC4" stroke="white" stroke-width="2" onclick="selectRegionMap('Актюбинская')"/>
+          <!-- ЗКО -->
+          <path id="reg-wko" data-region="Западно-Казахстанская" d="M30 35 L120 30 L150 55 L60 60 L30 80 Z" fill="#27AE60" stroke="white" stroke-width="2" onclick="selectRegionMap('Западно-Казахстанская')"/>
+          <!-- Атырауская -->
+          <path id="reg-atyrau" data-region="Атырауская" d="M10 80 L60 60 L80 140 L20 130 Z" fill="#9B59B6" stroke="white" stroke-width="2" onclick="selectRegionMap('Атырауская')"/>
+          <!-- Мангистауская -->
+          <path id="reg-mangistau" data-region="Мангистауская" d="M10 130 L80 140 L70 200 L5 180 Z" fill="#E74C3C" stroke="white" stroke-width="2" onclick="selectRegionMap('Мангистауская')"/>
+          <!-- Кызылординская -->
+          <path id="reg-kyzylorda" data-region="Кызылординская" d="M80 140 L160 130 L180 210 L90 220 Z" fill="#F39C12" stroke="white" stroke-width="2" onclick="selectRegionMap('Кызылординская')"/>
+          <!-- Туркестанская -->
+          <path id="reg-turkestan" data-region="Туркестанская" d="M90 220 L180 210 L190 280 L85 270 Z" fill="#1ABC9C" stroke="white" stroke-width="2" onclick="selectRegionMap('Туркестанская')"/>
+          <!-- Жамбылская -->
+          <path id="reg-zhambyl" data-region="Жамбылская" d="M180 210 L260 200 L270 275 L190 280 Z" fill="#2980B9" stroke="white" stroke-width="2" onclick="selectRegionMap('Жамбылская')"/>
+          <!-- Алматинская -->
+          <path id="reg-almaty-r" data-region="Алматинская" d="M260 200 L340 190 L360 270 L270 275 Z" fill="#8E44AD" stroke="white" stroke-width="2" onclick="selectRegionMap('Алматинская')"/>
+          <!-- Жетісу -->
+          <path id="reg-zhetisu" data-region="Область Жетісу" d="M340 190 L400 185 L410 255 L360 270 Z" fill="#E67E22" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Жетісу')"/>
+          <!-- Карагандинская -->
+          <path id="reg-karagandy" data-region="Карагандинская" d="M160 130 L280 120 L290 200 L180 210 Z" fill="#16A085" stroke="white" stroke-width="2" onclick="selectRegionMap('Карагандинская')"/>
+          <!-- Улытау -->
+          <path id="reg-ulytau" data-region="Область Ұлытау" d="M155 125 L175 200 L165 210 L90 215 L78 140 Z" fill="#D35400" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Ұлытау')"/>
+          <!-- Павлодарская -->
+          <path id="reg-pavlodar" data-region="Павлодарская" d="M280 60 L380 55 L390 130 L290 130 Z" fill="#C0392B" stroke="white" stroke-width="2" onclick="selectRegionMap('Павлодарская')"/>
+          <!-- ВКО -->
+          <path id="reg-eko" data-region="Восточно-Казахстанская" d="M380 55 L470 50 L480 170 L390 165 Z" fill="#7D3C98" stroke="white" stroke-width="2" onclick="selectRegionMap('Восточно-Казахстанская')"/>
+          <!-- Абай -->
+          <path id="reg-abay" data-region="Область Абай" d="M390 130 L480 130 L480 200 L400 195 Z" fill="#117A65" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Абай')"/>
+          <!-- Акмолинская -->
+          <path id="reg-akmola" data-region="Ақмолинская" d="M160 30 L280 25 L285 125 L165 125 Z" fill="#2471A3" stroke="white" stroke-width="2" onclick="selectRegionMap('Ақмолинская')"/>
+          <!-- СКО -->
+          <path id="reg-sko" data-region="Северо-Казахстанская" d="M160 10 L280 10 L280 30 L160 30 Z" fill="#117864" stroke="white" stroke-width="2" onclick="selectRegionMap('Северо-Казахстанская')"/>
+          <!-- Костанайская -->
+          <path id="reg-kostanay" data-region="Костанайская" d="M120 10 L160 10 L160 130 L115 130 Z" fill="#884EA0" stroke="white" stroke-width="2" onclick="selectRegionMap('Костанайская')"/>
+          
+          <!-- Метки городов (звёздочки) -->
+          <circle cx="210" cy="65" r="4" fill="#FFD700" stroke="#FF6B35" stroke-width="1.5"/>
+          <text x="215" y="60" font-size="8" fill="white" font-weight="bold">Астана</text>
+        </svg>
+      </div>
+
+      <div class="region-label" id="regionSelectedLabel">👆 Картадан облысты таңда немесе төменде таңда</div>
+      
+      <select class="region-select" id="regionSelect" onchange="selectRegionDrop(this.value)">
+        <option value="">— Облысты таңда —</option>
+        <option value="Ақмолинская">Ақмолинская обл. (Астана)</option>
+        <option value="Алматинская">Алматинская обл. (Алматы)</option>
+        <option value="Атырауская">Атырауская обл.</option>
+        <option value="Актюбинская">Актюбинская обл.</option>
+        <option value="Восточно-Казахстанская">Шығыс Қазақстан обл.</option>
+        <option value="Жамбылская">Жамбылская обл.</option>
+        <option value="Западно-Казахстанская">Батыс Қазақстан обл.</option>
+        <option value="Карагандинская">Қарағанды обл.</option>
+        <option value="Костанайская">Қостанай обл.</option>
+        <option value="Кызылординская">Қызылорда обл.</option>
+        <option value="Мангистауская">Маңғыстау обл.</option>
+        <option value="Павлодарская">Павлодар обл.</option>
+        <option value="Северо-Казахстанская">Солтүстік Қазақстан обл.</option>
+        <option value="Туркестанская">Түркістан обл. (Шымкент)</option>
+        <option value="Область Жетісу">Жетісу обл.</option>
+        <option value="Область Абай">Абай обл.</option>
+        <option value="Область Ұлытау">Ұлытау обл.</option>
+      </select>
+
+      <!-- Превью профиля -->
+      <div class="profile-preview" id="profilePreview" style="display:none">
+        <div class="profile-preview-row"><span>👤</span><span id="pp_name">-</span></div>
+        <div class="profile-preview-row"><span>🎂</span><span id="pp_age">-</span></div>
+        <div class="profile-preview-row"><span>📍</span><span id="pp_region">-</span></div>
+        <div class="profile-preview-row"><span>🪙</span><span id="pp_coins">0 BotaКоин</span></div>
+      </div>
+
+      <div style="display:flex;gap:10px">
+        <button class="outline-btn" style="flex:1" onclick="backToStep1()">← Артқа</button>
+        <button class="big-btn" style="flex:2" id="ob2_btn" onclick="finishOnboard()">Бастайық! 🎉</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -892,6 +1068,12 @@ nav {
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     </div>
     <span id="nav1">Басты</span>
+  </button>
+  <button class="nav-btn" id="nav-daily" onclick="switchPage('daily');setActiveNav(this);renderDailyPage()">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </div>
+    <span id="nav4">Тапсырма</span>
   </button>
   <button class="nav-btn" id="nav-shop" onclick="switchPage('shop');setActiveNav(this)">
     <div class="nav-icon-wrap">
