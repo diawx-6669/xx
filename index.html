@@ -1,811 +1,418 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BotaOy — Баян Сұлу</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BotaBot — Қазақстан Білім Платформасы</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-<!-- STARS BG -->
-<div class="stars-bg" id="starsBg"></div>
-
-<!-- COIN FLOAT -->
-<div class="coin-float" id="coinFloat">+0</div>
-
-<!-- CONFETTI -->
-<div class="confetti-wrap" id="confettiWrap"></div>
-
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
-
-<!-- BOTA BOT (маленький верблюдик внизу) -->
-<div class="bota-bot-wrap" id="botaBot" onclick="toggleBotaSpeech()" style="display:none">
-  <svg width="56" height="56" viewBox="0 0 160 160">
-    <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/>
-    <rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
-    <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/>
-    <ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
-    <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/>
-    <ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
-    <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
-    <ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
-    <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/>
-    <circle cx="70" cy="69" r="6" fill="#2C3E50"/>
-    <circle cx="94" cy="69" r="6" fill="#2C3E50"/>
-    <circle cx="72" cy="67" r="2" fill="white"/>
-    <circle cx="96" cy="67" r="2" fill="white"/>
-    <ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
-    <circle cx="77" cy="80" r="2" fill="#C4956A"/>
-    <circle cx="83" cy="80" r="2" fill="#C4956A"/>
-    <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <ellipse cx="62" cy="82" rx="14" ry="10" fill="#C8A876"/>
-    <ellipse cx="98" cy="82" rx="14" ry="10" fill="#C8A876"/>
-    <rect x="54" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
-    <rect x="94" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
-  </svg>
-</div>
-<div class="bota-speech" id="botaSpeech">Жарайсың! 🌟</div>
-
-<!-- TOP BAR -->
-<div class="top-bar" id="topBar" style="display:none">
-  <div>
-    <div class="logo-text">BotaOy</div>
-    <span class="logo-sub">Баян Сұлу</span>
-  </div>
-  <div style="display:flex;align-items:center;gap:10px">
-    <div class="coin-pill">
-      <svg class="coin-star" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
-      <span class="coin-count" id="coinDisplay">0</span>
+<!-- ═══════════════ SCREEN 1: WELCOME ═══════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="welcome-bg">
+    <div class="stars" id="stars"></div>
+    <div class="welcome-content">
+      <div class="bot-container big-bot">
+        <div class="bot-body">
+          <div class="bot-face">
+            <div class="bot-eyes">
+              <div class="bot-eye"><div class="pupil"></div></div>
+              <div class="bot-eye"><div class="pupil"></div></div>
+            </div>
+            <div class="bot-mouth smile"></div>
+          </div>
+          <div class="bot-antenna"><div class="antenna-ball"></div></div>
+        </div>
+        <div class="bot-name-tag">BotaBot</div>
+      </div>
+      <h1 class="welcome-title">Қазақстанды бірге зерттейік!</h1>
+      <p class="welcome-sub">Ойындар, тест, карта және жүлделер күтеді!</p>
+      <button class="btn-primary pulse" onclick="goToScreen('screen-setup')">🚀 Бастау</button>
     </div>
   </div>
 </div>
 
-<!-- LANG SWITCHER -->
-<div class="lang-bar" id="langBar" style="display:none">
-  <button class="lang-btn active" onclick="setLang('kk',this)">ҚАЗ</button>
-  <button class="lang-btn" onclick="setLang('ru',this)">РУС</button>
-  <button class="lang-btn" onclick="setLang('en',this)">ENG</button>
-</div>
-
-<!-- ========== PAGES ========== -->
-
-<!-- WELCOME (автоматически пропускается если уже зарегистрирован) -->
-<div class="page active" id="page-welcome">
-  <div class="stars-bg" style="position:absolute"></div>
-  <div class="welcome-hero">
-    <svg class="cambot-svg" viewBox="0 0 160 160">
-      <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/>
-      <rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
-      <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/>
-      <ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
-      <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/>
-      <ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
-      <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
-      <ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
-      <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/>
-      <circle cx="70" cy="69" r="6" fill="#2C3E50"/>
-      <circle cx="94" cy="69" r="6" fill="#2C3E50"/>
-      <circle cx="72" cy="67" r="2" fill="white"/>
-      <circle cx="96" cy="67" r="2" fill="white"/>
-      <ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
-      <circle cx="77" cy="80" r="2" fill="#C4956A"/>
-      <circle cx="83" cy="80" r="2" fill="#C4956A"/>
-      <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <ellipse cx="62" cy="82" rx="14" ry="10" fill="#C8A876"/>
-      <ellipse cx="98" cy="82" rx="14" ry="10" fill="#C8A876"/>
-      <rect x="54" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
-      <rect x="94" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
-      <polygon points="20,30 22,36 28,36 23,40 25,46 20,42 15,46 17,40 12,36 18,36" fill="#FFD700" opacity="0.8"/>
-      <polygon points="140,20 141,24 145,24 142,27 143,31 140,29 137,31 138,27 135,24 139,24" fill="#FF6B35" opacity="0.8"/>
-      <polygon points="25,120 26,124 30,124 27,127 28,131 25,129 22,131 23,127 20,124 24,124" fill="#4ECDC4" opacity="0.8"/>
-    </svg>
-  </div>
-  <!-- Приветствие определяется по языку системы -->
-  <div class="welcome-title" id="wt">BotaOy</div>
-  <div class="welcome-sub" id="ws" style="font-size:22px;margin-bottom:10px">Сәлем! 👋</div>
-  <div style="font-size:16px;color:rgba(255,255,255,0.85);font-weight:700;margin-bottom:36px;animation:slideDown 0.6s ease 0.4s both" id="wsub2">Ботамен бірге оқы және ойна!</div>
-  <button class="welcome-btn" id="wbtn" onclick="goToOnboard()">Бастау!</button>
-</div>
-
-<!-- ONBOARD — пошаговый разговор с маскотом -->
-<div class="page" id="page-onboard">
-  <div class="onboard-card">
-
-    <!-- ШАГ 1: Имя — маскот спрашивает имя -->
-    <div class="onboard-step active" id="onboard-step1">
-      <div style="text-align:center;margin-bottom:8px">
-        <svg style="width:80px;height:80px;margin:0 auto;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.15));animation:botaBob 2s ease-in-out infinite" viewBox="0 0 160 160">
-          <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/><rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
-          <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/><ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
-          <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/><ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
-          <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/><ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
-          <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/><circle cx="70" cy="69" r="6" fill="#2C3E50"/>
-          <circle cx="94" cy="69" r="6" fill="#2C3E50"/><circle cx="72" cy="67" r="2" fill="white"/>
-          <circle cx="96" cy="67" r="2" fill="white"/><ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
-          <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <ellipse cx="62" cy="82" rx="14" ry="10" fill="#C8A876"/><ellipse cx="98" cy="82" rx="14" ry="10" fill="#C8A876"/>
-          <rect x="54" y="130" width="12" height="22" rx="6" fill="#C8A876"/><rect x="94" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
-        </svg>
-      </div>
-      <!-- Пузырь с речью маскота -->
-      <div style="background:linear-gradient(135deg,#4ECDC4,#2CB5AC);border-radius:16px;padding:14px 18px;margin-bottom:16px;position:relative;text-align:center">
-        <div style="font-family:'Fredoka One',cursive;font-size:20px;color:white" id="onboardGreeting">Сәлем! 👋</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.9);font-weight:700;margin-top:4px" id="ob_title">Менің атым — Бота! Сенің атың кім?</div>
-        <div style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top:10px solid #2CB5AC"></div>
-      </div>
-      <input class="fancy-input" id="nameInputOnb" placeholder="Атыңды жаз..." maxlength="20" style="text-align:center;font-size:18px">
-      <button class="big-btn" id="ob_btn" onclick="goToOnboardStep2()" style="transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1)">Жалғастыру →</button>
-    </div>
-
-    <!-- ШАГ 2: Возраст — маскот спрашивает возраст, обращается по имени -->
-    <div class="onboard-step" id="onboard-step2-age">
-      <div style="text-align:center;margin-bottom:8px">
-        <svg style="width:70px;height:70px;margin:0 auto;display:block;animation:botaBob 2s ease-in-out infinite" viewBox="0 0 160 160">
-          <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/><rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
-          <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/><ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
-          <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/><ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
-          <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/><ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
-          <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/><circle cx="70" cy="69" r="6" fill="#2C3E50"/>
-          <circle cx="94" cy="69" r="6" fill="#2C3E50"/><circle cx="72" cy="67" r="2" fill="white"/>
-          <circle cx="96" cy="67" r="2" fill="white"/><ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
-          <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div style="background:linear-gradient(135deg,#FF6B35,#FF8C5A);border-radius:16px;padding:14px 18px;margin-bottom:16px;position:relative;text-align:center">
-        <div style="font-size:13px;color:rgba(255,255,255,0.9);font-weight:700" id="ob_age_question">Жасаған! Ал, қанша жасындасың?</div>
-        <div style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top:10px solid #FF8C5A"></div>
-      </div>
-      <div class="age-grid">
-        <button class="age-btn" onclick="selectAge(5,this)">5</button>
-        <button class="age-btn" onclick="selectAge(6,this)">6</button>
-        <button class="age-btn" onclick="selectAge(7,this)">7</button>
-        <button class="age-btn" onclick="selectAge(8,this)">8</button>
-        <button class="age-btn" onclick="selectAge(9,this)">9</button>
-        <button class="age-btn" onclick="selectAge(10,this)">10</button>
-        <button class="age-btn" onclick="selectAge(11,this)">11</button>
-        <button class="age-btn" onclick="selectAge(12,this)">12</button>
-        <button class="age-btn" onclick="selectAge(13,this)">13</button>
-        <button class="age-btn" onclick="selectAge(14,this)">14</button>
-        <button class="age-btn" onclick="selectAge(15,this)">15</button>
-        <button class="age-btn" onclick="selectAge(16,this)">16</button>
-        <button class="age-btn" onclick="selectAge(17,this)">17</button>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:4px">
-        <button class="outline-btn" style="flex:1" onclick="backToStep1Onboard()">← Артқа</button>
-        <button class="big-btn" id="ob_age_btn" style="flex:2" onclick="goToOnboardStep3()">Жалғастыру →</button>
+<!-- ═══════════════ SCREEN 2: SETUP ═══════════════ -->
+<div id="screen-setup" class="screen">
+  <div class="setup-wrap">
+    <div class="bot-small">
+      <div class="bot-body sm">
+        <div class="bot-face">
+          <div class="bot-eyes">
+            <div class="bot-eye sm"><div class="pupil"></div></div>
+            <div class="bot-eye sm"><div class="pupil"></div></div>
+          </div>
+          <div class="bot-mouth smile"></div>
+        </div>
+        <div class="bot-antenna sm"><div class="antenna-ball sm"></div></div>
       </div>
     </div>
-
-    <!-- ШАГ 3: Регион + карта + превью профиля -->
-    <div class="onboard-step" id="onboard-step3">
-      <div style="text-align:center;margin-bottom:8px">
-        <svg style="width:60px;height:60px;margin:0 auto;display:block;animation:botaBob 2s ease-in-out infinite" viewBox="0 0 160 160">
-          <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/><rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
-          <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/><ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
-          <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/><ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
-          <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/><ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
-          <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/><circle cx="70" cy="69" r="6" fill="#2C3E50"/>
-          <circle cx="94" cy="69" r="6" fill="#2C3E50"/><circle cx="72" cy="67" r="2" fill="white"/>
-          <circle cx="96" cy="67" r="2" fill="white"/><ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
-          <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div style="background:linear-gradient(135deg,#9B59B6,#C39BD3);border-radius:16px;padding:12px 16px;margin-bottom:12px;position:relative;text-align:center">
-        <div style="font-size:13px;color:rgba(255,255,255,0.95);font-weight:700" id="ob2_title">Тамаша! Қай облыстан екенсің?</div>
-        <div style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top:10px solid #C39BD3"></div>
-      </div>
-
-      <!-- Карта Казахстана (SVG) -->
-      <div class="kz-map-wrap" id="kzMapWrap">
-        <svg viewBox="0 0 600 320" width="100%" style="max-height:220px" id="kzMapSvg" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <filter id="mapShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15"/>
-    </filter>
-  </defs>
-  <g filter="url(#mapShadow)">
-    <!-- North row -->
-    <path id="reg-sko" data-region="Северо-Казахстанская" d="M180 20 L290 18 L300 55 L185 60 Z" fill="#117864" stroke="white" stroke-width="2" onclick="selectRegionMap('Северо-Казахстанская')"/>
-    <path id="reg-kostanay" data-region="Костанайская" d="M85 25 L180 20 L185 60 L185 130 L90 135 Z" fill="#884EA0" stroke="white" stroke-width="2" onclick="selectRegionMap('Костанайская')"/>
-    <path id="reg-pavlodar" data-region="Павлодарская" d="M380 25 L490 30 L500 105 L395 110 Z" fill="#C0392B" stroke="white" stroke-width="2" onclick="selectRegionMap('Павлодарская')"/>
-    <path id="reg-eko" data-region="Восточно-Казахстанская" d="M490 30 L580 70 L585 175 L500 180 L500 105 Z" fill="#7D3C98" stroke="white" stroke-width="2" onclick="selectRegionMap('Восточно-Казахстанская')"/>
-    <!-- Middle north -->
-    <path id="reg-akmola" data-region="Ақмолинская" d="M185 60 L300 55 L380 60 L380 25 L380 60 L385 135 L260 140 L185 130 Z" fill="#2471A3" stroke="white" stroke-width="2" onclick="selectRegionMap('Ақмолинская')"/>
-    <!-- West -->
-    <path id="reg-wko" data-region="Западно-Казахстанская" d="M20 60 L120 50 L125 110 L25 115 Z" fill="#27AE60" stroke="white" stroke-width="2" onclick="selectRegionMap('Западно-Казахстанская')"/>
-    <path id="reg-atyrau" data-region="Атырауская" d="M5 115 L125 110 L130 165 L10 175 Z" fill="#9B59B6" stroke="white" stroke-width="2" onclick="selectRegionMap('Атырауская')"/>
-    <path id="reg-mangistau" data-region="Мангистауская" d="M5 175 L100 175 L95 245 L8 240 Z" fill="#E74C3C" stroke="white" stroke-width="2" onclick="selectRegionMap('Мангистауская')"/>
-    <path id="reg-aktobe" data-region="Актюбинская" d="M120 50 L185 60 L185 130 L130 165 L125 110 Z" fill="#4ECDC4" stroke="white" stroke-width="2" onclick="selectRegionMap('Актюбинская')"/>
-    <!-- Center -->
-    <path id="reg-karagandy" data-region="Карагандинская" d="M260 140 L385 135 L500 180 L490 235 L350 240 L270 215 Z" fill="#16A085" stroke="white" stroke-width="2" onclick="selectRegionMap('Карагандинская')"/>
-    <path id="reg-ulytau" data-region="Область Ұлытау" d="M185 130 L260 140 L270 215 L195 215 L130 165 Z" fill="#D35400" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Ұлытау')"/>
-    <path id="reg-abay" data-region="Область Абай" d="M500 180 L585 175 L580 245 L490 235 Z" fill="#117A65" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Абай')"/>
-    <!-- South -->
-    <path id="reg-kyzylorda" data-region="Кызылординская" d="M100 175 L195 215 L200 270 L100 250 Z" fill="#F39C12" stroke="white" stroke-width="2" onclick="selectRegionMap('Кызылординская')"/>
-    <path id="reg-turkestan" data-region="Туркестанская" d="M200 270 L195 215 L270 215 L295 285 L210 300 Z" fill="#1ABC9C" stroke="white" stroke-width="2" onclick="selectRegionMap('Туркестанская')"/>
-    <path id="reg-zhambyl" data-region="Жамбылская" d="M295 285 L270 215 L350 240 L380 295 Z" fill="#2980B9" stroke="white" stroke-width="2" onclick="selectRegionMap('Жамбылская')"/>
-    <path id="reg-almaty-r" data-region="Алматинская" d="M350 240 L490 235 L495 290 L380 295 Z" fill="#8E44AD" stroke="white" stroke-width="2" onclick="selectRegionMap('Алматинская')"/>
-    <path id="reg-zhetisu" data-region="Область Жетісу" d="M490 235 L580 245 L585 300 L495 290 Z" fill="#E67E22" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Жетісу')"/>
-    <!-- City labels -->
-    <circle cx="335" cy="80" r="4" fill="#FFD700" stroke="#B8860B" stroke-width="1.5"/>
-    <text x="343" y="84" font-size="10" font-weight="700" fill="#2C3E50">Астана</text>
-    <circle cx="450" cy="270" r="3" fill="white" stroke="#2C3E50" stroke-width="1"/>
-    <text x="455" y="273" font-size="9" fill="#2C3E50">Алматы</text>
-    <circle cx="245" cy="285" r="3" fill="white" stroke="#2C3E50" stroke-width="1"/>
-    <text x="250" y="288" font-size="9" fill="#2C3E50">Шымкент</text>
-  </g>
-</svg>
-      </div>
-
-      <div class="region-label" id="regionSelectedLabel">👆 Картадан облысты таңда немесе төменде таңда</div>
-      
-      <select class="region-select" id="regionSelect" onchange="selectRegionDrop(this.value)">
-        <option value="">— Облысты таңда —</option>
-        <option value="Ақмолинская">Ақмолинская обл. (Астана)</option>
-        <option value="Алматинская">Алматинская обл. (Алматы)</option>
-        <option value="Атырауская">Атырауская обл.</option>
-        <option value="Актюбинская">Актюбинская обл.</option>
-        <option value="Восточно-Казахстанская">Шығыс Қазақстан обл.</option>
-        <option value="Жамбылская">Жамбылская обл.</option>
-        <option value="Западно-Казахстанская">Батыс Қазақстан обл.</option>
-        <option value="Карагандинская">Қарағанды обл.</option>
-        <option value="Костанайская">Қостанай обл.</option>
-        <option value="Кызылординская">Қызылорда обл.</option>
-        <option value="Мангистауская">Маңғыстау обл.</option>
-        <option value="Павлодарская">Павлодар обл.</option>
-        <option value="Северо-Казахстанская">Солтүстік Қазақстан обл.</option>
-        <option value="Туркестанская">Түркістан обл. (Шымкент)</option>
-        <option value="Область Жетісу">Жетісу обл.</option>
-        <option value="Область Абай">Абай обл.</option>
-        <option value="Область Ұлытау">Ұлытау обл.</option>
+    <div class="setup-card" id="step-name">
+      <h2 id="bot-question">Сәлем! Мен — BotaBot! 👋<br>Есіміңді айтшы!</h2>
+      <input type="text" id="input-name" class="setup-input" placeholder="Есімің..." maxlength="20" />
+      <button class="btn-primary" onclick="submitName()">Келесі ➜</button>
+    </div>
+    <div class="setup-card hidden" id="step-age">
+      <h2 id="age-question"></h2>
+      <input type="number" id="input-age" class="setup-input" placeholder="Жасың..." min="5" max="18" />
+      <button class="btn-primary" onclick="submitAge()">Келесі ➜</button>
+    </div>
+    <div class="setup-card hidden" id="step-region">
+      <h2>Қай облыста тұрасың? 🏠</h2>
+      <select id="select-region" class="setup-select">
+        <option value="">— Таңда —</option>
+        <option value="Алматы">Алматы + Алматы қ.</option>
+        <option value="Түркістан">Түркістан + Шымкент</option>
+        <option value="Ақмола">Ақмола + Астана</option>
+        <option value="Жамбыл">Жамбыл</option>
+        <option value="Қарағанды">Қарағанды</option>
+        <option value="Ақтөбе">Ақтөбе</option>
+        <option value="Қызылорда">Қызылорда</option>
+        <option value="Қостанай">Қостанай</option>
+        <option value="Маңғыстау">Маңғыстау</option>
+        <option value="Павлодар">Павлодар</option>
+        <option value="Шығыс Қазақстан">Шығыс Қазақстан</option>
+        <option value="Атырау">Атырау</option>
+        <option value="Батыс Қазақстан">Батыс Қазақстан</option>
+        <option value="Жетісу">Жетісу</option>
+        <option value="Абай">Абай</option>
+        <option value="Солтүстік Қазақстан">Солтүстік Қазақстан</option>
+        <option value="Ұлытау">Ұлытау</option>
       </select>
-
-      <!-- Превью профиля -->
-      <div class="profile-preview" id="profilePreview" style="display:none">
-        <div class="profile-preview-row"><span>👤</span><span id="pp_name">-</span></div>
-        <div class="profile-preview-row"><span>🎂</span><span id="pp_age">-</span></div>
-        <div class="profile-preview-row"><span>📍</span><span id="pp_region">-</span></div>
-        <div class="profile-preview-row"><span>🪙</span><span id="pp_coins">0 BotaКоин</span></div>
+      <button class="btn-primary" onclick="submitRegion()">Бастау! 🎉</button>
+    </div>
+    <div class="setup-card hidden" id="step-lang">
+      <h2>Тілді таңда 🌐</h2>
+      <div class="lang-btns">
+        <button class="lang-btn active" onclick="setLang('kk', this)">🇰🇿 Қазақша</button>
+        <button class="lang-btn" onclick="setLang('ru', this)">🇷🇺 Русский</button>
       </div>
+      <button class="btn-primary" onclick="finishSetup()">Дайын! ✅</button>
+    </div>
+  </div>
+</div>
 
-      <div style="display:flex;gap:10px">
-        <button class="outline-btn" style="flex:1" onclick="backToAgeStep()">← Артқа</button>
-        <button class="big-btn" style="flex:2" id="ob2_btn" onclick="finishOnboard()">Бастайық! 🎉</button>
+<!-- ═══════════════ SCREEN 3: MAIN HUB ═══════════════ -->
+<div id="screen-hub" class="screen">
+  <div class="hub-wrap">
+    <!-- Header -->
+    <div class="hub-header">
+      <div class="header-left">
+        <div class="bot-mini" onclick="goToScreen('screen-hub')">
+          <div class="bot-body xs">
+            <div class="bot-face">
+              <div class="bot-eyes">
+                <div class="bot-eye xs"><div class="pupil"></div></div>
+                <div class="bot-eye xs"><div class="pupil"></div></div>
+              </div>
+              <div class="bot-mouth smile xs"></div>
+            </div>
+            <div class="bot-antenna xs"><div class="antenna-ball xs"></div></div>
+          </div>
+        </div>
+        <span class="hub-logo">BotaBot</span>
+      </div>
+      <div class="header-right">
+        <div class="coin-display" onclick="goToScreen('screen-rating')">
+          <span class="coin-icon">🪙</span>
+          <span id="hub-coins">0</span>
+        </div>
+        <div class="header-user" id="header-user">Сәлем!</div>
+      </div>
+    </div>
+
+    <!-- Nav Tabs -->
+    <div class="hub-nav">
+      <button class="nav-tab active" onclick="showTab('tab-games')" data-tab="tab-games">🎮 Ойындар</button>
+      <button class="nav-tab" onclick="showTab('tab-map')" data-tab="tab-map">🗺️ Карта</button>
+      <button class="nav-tab" onclick="showTab('tab-daily')" data-tab="tab-daily">📅 Күнделік</button>
+      <button class="nav-tab" onclick="showTab('tab-cases')" data-tab="tab-cases">🎁 Кейстер</button>
+      <button class="nav-tab" onclick="showTab('tab-promo')" data-tab="tab-promo">🎟️ Промокод</button>
+      <button class="nav-tab" onclick="showTab('tab-rating')" data-tab="tab-rating">🏆 Рейтинг</button>
+      <button class="nav-tab" onclick="showTab('tab-parent')" data-tab="tab-parent">👨‍👩‍👧 Ата-ана</button>
+    </div>
+
+    <!-- GAMES TAB -->
+    <div id="tab-games" class="tab-content active">
+      <h2 class="section-title">Ойын таңда 🎮</h2>
+      <div class="games-grid">
+        <div class="game-card" onclick="startGame('cards')">
+          <div class="game-icon">🃏</div>
+          <div class="game-info">
+            <div class="game-name">Қазақ Тілі Карталары</div>
+            <div class="game-reward">+5 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-cards"></div>
+        </div>
+        <div class="game-card" onclick="startGame('match')">
+          <div class="game-icon">🔗</div>
+          <div class="game-info">
+            <div class="game-name">Карта Ойыны (Сәйкестендір)</div>
+            <div class="game-reward">+5 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-match"></div>
+        </div>
+        <div class="game-card" onclick="startGame('puzzle')">
+          <div class="game-icon">🧩</div>
+          <div class="game-info">
+            <div class="game-name">Пазл (3 деңгей)</div>
+            <div class="game-reward">+10 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-puzzle"></div>
+        </div>
+        <div class="game-card" onclick="startGame('math')">
+          <div class="game-icon">🔢</div>
+          <div class="game-info">
+            <div class="game-name">Математика</div>
+            <div class="game-reward">+20 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-math"></div>
+        </div>
+        <div class="game-card" onclick="startGame('wordguess')">
+          <div class="game-icon">🔤</div>
+          <div class="game-info">
+            <div class="game-name">Сөз Табу</div>
+            <div class="game-reward">+15 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-wordguess"></div>
+        </div>
+        <div class="game-card" onclick="startGame('snake')">
+          <div class="game-icon">🐍</div>
+          <div class="game-info">
+            <div class="game-name">Жылан Ойыны</div>
+            <div class="game-reward">+20 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-snake"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP TAB -->
+    <div id="tab-map" class="tab-content">
+      <h2 class="section-title">Қазақстан Картасы 🗺️</h2>
+      <div id="kz-map-container">
+        <svg id="kz-map" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div id="region-info-panel" class="region-info hidden"></div>
+      </div>
+    </div>
+
+    <!-- DAILY TAB -->
+    <div id="tab-daily" class="tab-content">
+      <h2 class="section-title">Күнделікті Тапсырмалар 📅</h2>
+      <div id="daily-tasks-list"></div>
+    </div>
+
+    <!-- CASES TAB -->
+    <div id="tab-cases" class="tab-content">
+      <h2 class="section-title">Кейстер 🎁</h2>
+      <p class="section-sub">Монеталарға кейс сатып ал!</p>
+      <div class="cases-grid">
+        <div class="case-card bronze" onclick="openCase('bronze')">
+          <div class="case-icon">📦</div>
+          <div class="case-name">Қола кейс</div>
+          <div class="case-price">100 🪙</div>
+        </div>
+        <div class="case-card silver" onclick="openCase('silver')">
+          <div class="case-icon">🎁</div>
+          <div class="case-name">Күміс кейс</div>
+          <div class="case-price">250 🪙</div>
+        </div>
+        <div class="case-card gold" onclick="openCase('gold')">
+          <div class="case-icon">💎</div>
+          <div class="case-name">Алтын кейс</div>
+          <div class="case-price">500 🪙</div>
+        </div>
+      </div>
+      <div id="case-result" class="case-result hidden"></div>
+    </div>
+
+    <!-- PROMO TAB -->
+    <div id="tab-promo" class="tab-content">
+      <h2 class="section-title">Промокод 🎟️</h2>
+      <div class="promo-wrap">
+        <div class="bot-speech">Промокод бар ма? Енгізіп монета жина! 🪙</div>
+        <input type="text" id="promo-input" class="setup-input" placeholder="Промокодты енгіз..." style="text-transform:uppercase" />
+        <button class="btn-primary" onclick="redeemPromo()">Пайдалану ✅</button>
+        <div id="promo-result" class="promo-result"></div>
+      </div>
+    </div>
+
+    <!-- RATING TAB -->
+    <div id="tab-rating" class="tab-content">
+      <h2 class="section-title">Live Рейтинг 🏆</h2>
+      <div id="rating-list"></div>
+    </div>
+
+    <!-- PARENT TAB -->
+    <div id="tab-parent" class="tab-content">
+      <h2 class="section-title">Ата-ана Бақылауы 👨‍👩‍👧</h2>
+      <div id="parent-lock" class="parent-lock">
+        <p>4 таңбалы PIN-кодты енгізіңіз</p>
+        <div class="pin-inputs">
+          <input type="password" maxlength="1" class="pin-digit" oninput="pinInput(this,0)" />
+          <input type="password" maxlength="1" class="pin-digit" oninput="pinInput(this,1)" />
+          <input type="password" maxlength="1" class="pin-digit" oninput="pinInput(this,2)" />
+          <input type="password" maxlength="1" class="pin-digit" oninput="pinInput(this,3)" />
+        </div>
+        <button class="btn-secondary" onclick="checkPin()">Кіру</button>
+        <div id="pin-error" class="pin-error"></div>
+        <p style="font-size:0.8rem;color:#aaa;margin-top:8px">Әдепкі PIN: 1234</p>
+      </div>
+      <div id="parent-panel" class="hidden">
+        <div class="parent-stats">
+          <div class="parent-stat">
+            <div class="ps-label">Балл</div>
+            <div class="ps-val" id="ps-coins">0 🪙</div>
+          </div>
+          <div class="parent-stat">
+            <div class="ps-label">Ойналған ойындар</div>
+            <div class="ps-val" id="ps-games">0</div>
+          </div>
+          <div class="parent-stat">
+            <div class="ps-label">Экран уақыты</div>
+            <div class="ps-val" id="ps-time">0 мин</div>
+          </div>
+        </div>
+        <div class="timer-control">
+          <label>Күнделікті уақыт шегі (мин):</label>
+          <input type="number" id="time-limit" value="60" min="10" max="300" class="setup-input" style="width:80px" />
+          <button class="btn-secondary" onclick="saveTimeLimit()">Сақтау</button>
+        </div>
+        <button class="btn-secondary" onclick="lockParent()">Жабу 🔒</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- MAIN MENU -->
-<div class="page" id="page-menu">
-  <div class="section-title" id="menu_title">Ойын таңда</div>
-  <div class="section-sub" id="menu_sub">Ботакоин жина!</div>
-  
-  <!-- Карта прогресса (кнопка-баннер) -->
-  <div onclick="switchPage('map');setActiveNav(null);scrollToTop()" style="background:linear-gradient(135deg,#2980B9,#4ECDC4);border-radius:20px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 6px 20px rgba(41,128,185,0.3);transition:all 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-    <div style="font-size:36px">🗺️</div>
-    <div>
-      <div style="font-family:'Fredoka One',cursive;font-size:18px;color:white" id="mapBtnTitle">Қазақстан картасы</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:700" id="mapBtnSub">Облыстарды ашып, BotaCoin жина!</div>
-    </div>
-    <div style="margin-left:auto;color:white;font-size:22px">→</div>
-  </div>
+<!-- ═══════════════ GAME SCREENS ═══════════════ -->
 
-  <div class="menu-grid">
-    <div class="game-card color-1" onclick="openGame('memory')">
-      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#FFE8E0,#FFD0C0)">
-        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="6" y="8" width="20" height="28" rx="4" fill="#FF6B35"/><rect x="8" y="10" width="16" height="12" rx="2" fill="rgba(255,255,255,0.4)"/><rect x="30" y="8" width="20" height="28" rx="4" fill="#FF8C5A"/><rect x="32" y="10" width="16" height="12" rx="2" fill="rgba(255,255,255,0.4)"/><circle cx="16" cy="32" r="3" fill="white" opacity="0.8"/><circle cx="40" cy="32" r="3" fill="white" opacity="0.8"/></svg>
-      </div>
-      <div class="game-title-card" id="gc1">Карта ойыны</div>
-      <div class="game-reward-tag">+10 BC</div>
+<!-- CARD MATCHING GAME -->
+<div id="screen-match" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Сәйкестендір 🔗</h2>
+      <div class="score-badge">Ұпай: <span id="match-score">0</span></div>
     </div>
-    <div class="game-card color-2" onclick="openGame('quiz')">
-      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#E0FFF9,#C0FFF5)">
-        <svg width="40" height="40" viewBox="0 0 56 56"><circle cx="28" cy="24" r="16" fill="#4ECDC4"/><text x="28" y="30" text-anchor="middle" font-size="18" font-family="Fredoka One,cursive" fill="white">?</text><rect x="14" y="42" width="28" height="6" rx="3" fill="#4ECDC4" opacity="0.5"/><rect x="18" y="50" width="20" height="4" rx="2" fill="#4ECDC4" opacity="0.3"/></svg>
-      </div>
-      <div class="game-title-card" id="gc2">Қазақ тілі</div>
-      <div class="game-reward-tag">+15 BC</div>
-    </div>
-    <div class="game-card color-3" onclick="openGame('math')">
-      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#F5E8FF,#EBD0FF)">
-        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="8" y="8" width="40" height="40" rx="8" fill="#9B59B6"/><text x="15" y="26" font-size="14" font-family="Fredoka One,cursive" fill="white">2</text><text x="25" y="26" font-size="12" font-family="Fredoka One,cursive" fill="#C39BD3">+</text><text x="33" y="26" font-size="14" font-family="Fredoka One,cursive" fill="white">3</text><line x1="14" y1="32" x2="42" y2="32" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><text x="22" y="44" font-size="14" font-family="Fredoka One,cursive" fill="#FFD700">5</text></svg>
-      </div>
-      <div class="game-title-card" id="gc3">Математика</div>
-      <div class="game-reward-tag">+12 BC</div>
-    </div>
-    <div class="game-card color-4" onclick="openGame('puzzle')">
-      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#E0FFF0,#C0FFE0)">
-        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="6" y="6" width="20" height="20" rx="4" fill="#27AE60"/><text x="16" y="22" text-anchor="middle" font-size="14" font-family="Fredoka One,cursive" fill="white">1</text><rect x="30" y="6" width="20" height="20" rx="4" fill="#2ECC71"/><text x="40" y="22" text-anchor="middle" font-size="14" font-family="Fredoka One,cursive" fill="white">2</text><rect x="6" y="30" width="20" height="20" rx="4" fill="#2ECC71"/><text x="16" y="46" text-anchor="middle" font-size="14" font-family="Fredoka One,cursive" fill="white">3</text><rect x="30" y="30" width="20" height="20" rx="4" fill="#A9DFBF" stroke="#27AE60" stroke-width="2" stroke-dasharray="4"/></svg>
-      </div>
-      <div class="game-title-card" id="gc4">Пазл</div>
-      <div class="game-reward-tag">+25 BC</div>
-    </div>
-    <div class="game-card color-5" onclick="openGame('word')">
-      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#E0F0FF,#C0E0FF)">
-        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="6" y="14" width="44" height="30" rx="6" fill="#2980B9"/><rect x="10" y="18" width="36" height="4" rx="2" fill="rgba(255,255,255,0.4)"/><rect x="10" y="26" width="26" height="4" rx="2" fill="rgba(255,255,255,0.3)"/><rect x="10" y="34" width="18" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><polygon points="42,34 50,8 44,8 36,34" fill="#FFD700"/><polygon points="44,8 50,8 48,14 42,14" fill="#FFA500"/></svg>
-      </div>
-      <div class="game-title-card" id="gc5">Сөз табу</div>
-      <div class="game-reward-tag">+20 BC</div>
-    </div>
-    <div class="game-card color-6" onclick="openGame('snake')">
-      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#FFE0E0,#FFC0C0)">
-        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="6" y="6" width="44" height="44" rx="8" fill="#0d1f2d"/><rect x="10" y="20" width="8" height="8" rx="2" fill="#4ECDC4"/><rect x="18" y="20" width="8" height="8" rx="2" fill="#4ECDC4"/><rect x="26" y="20" width="8" height="8" rx="2" fill="#4ECDC4"/><rect x="26" y="28" width="8" height="8" rx="2" fill="#4ECDC4"/><rect x="26" y="36" width="8" height="8" rx="2" fill="#4ECDC4" opacity="0.6"/><circle cx="13" cy="18" r="2" fill="#FF6B35"/></svg>
-      </div>
-      <div class="game-title-card" id="gc6">Жылан ойыны</div>
-      <div class="game-reward-tag">+30 BC</div>
-    </div>
+    <p style="text-align:center;color:#666;margin-bottom:12px">Қазақша — орысша сәйкестіктерді тап! Таңдалғандар жабылмайды.</p>
+    <div id="match-grid" class="match-grid"></div>
+    <button class="btn-primary" id="match-next-btn" style="display:none;margin-top:16px" onclick="nextMatchRound()">Келесі раунд ➜</button>
   </div>
 </div>
 
-<!-- KAZAKHSTAN MAP PAGE -->
-<div class="page" id="page-map">
-  <button class="back-btn" onclick="switchPage('menu');setActiveNav(document.getElementById('nav-menu'));scrollToTop()">← <span id="back_map">Артқа</span></button>
-  <div class="section-title">🗺️ <span id="map_title">Қазақстан картасы</span></div>
-  <div class="section-sub" id="map_sub">Облысты таңдап, ашу туралы біліміңді кеңейт!</div>
-
-  <!-- Инфо о текущем регионе -->
-  <div style="background:linear-gradient(135deg,#FF6B35,#FF8C5A);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
-    <div style="font-size:32px">🏠</div>
-    <div>
-      <div style="font-family:'Fredoka One',cursive;font-size:15px;color:white" id="homeRegionLabel">Туған өлке</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:700" id="homeRegionName">-</div>
+<!-- CARDS GAME (Flashcards) -->
+<div id="screen-cards" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Қазақ Тілі 🃏</h2>
+      <div class="score-badge">Ұпай: <span id="cards-score">0</span></div>
     </div>
-    <div style="margin-left:auto">
-      <div style="background:rgba(255,255,255,0.25);border-radius:12px;padding:6px 12px;font-family:'Fredoka One',cursive;font-size:14px;color:white" id="homeRegionCoins">0 BC</div>
+    <div class="flashcard-wrap">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-front" id="card-front">?</div>
+        <div class="card-back" id="card-back">?</div>
+      </div>
+      <p class="card-hint">Картаны басу арқылы аудар</p>
     </div>
+    <div class="card-choices" id="card-choices"></div>
   </div>
-
-  <!-- Интерактивная карта -->
-  <div style="background:white;border-radius:22px;padding:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:16px">
-    <svg viewBox="0 0 520 340" width="100%" id="mapPageSvg" style="border-radius:12px">
-      <rect width="520" height="340" fill="#E3F2FD" rx="12"/>
-      <!-- Regions — color changes based on lock status -->
-      <path id="mp-aktobe" d="M60 60 L150 55 L160 130 L80 140 Z" fill="#4ECDC4" stroke="white" stroke-width="2" onclick="mapClickRegion('Актюбинская')" style="cursor:pointer"/>
-      <path id="mp-wko" d="M30 35 L120 30 L150 55 L60 60 L30 80 Z" fill="#27AE60" stroke="white" stroke-width="2" onclick="mapClickRegion('Западно-Казахстанская')" style="cursor:pointer"/>
-      <path id="mp-atyrau" d="M10 80 L60 60 L80 140 L20 130 Z" fill="#9B59B6" stroke="white" stroke-width="2" onclick="mapClickRegion('Атырауская')" style="cursor:pointer"/>
-      <path id="mp-mangistau" d="M10 130 L80 140 L70 200 L5 180 Z" fill="#E74C3C" stroke="white" stroke-width="2" onclick="mapClickRegion('Мангистауская')" style="cursor:pointer"/>
-      <path id="mp-kyzylorda" d="M80 140 L160 130 L180 210 L90 220 Z" fill="#F39C12" stroke="white" stroke-width="2" onclick="mapClickRegion('Кызылординская')" style="cursor:pointer"/>
-      <path id="mp-turkestan" d="M90 220 L180 210 L190 280 L85 270 Z" fill="#1ABC9C" stroke="white" stroke-width="2" onclick="mapClickRegion('Туркестанская')" style="cursor:pointer"/>
-      <path id="mp-zhambyl" d="M180 210 L260 200 L270 275 L190 280 Z" fill="#2980B9" stroke="white" stroke-width="2" onclick="mapClickRegion('Жамбылская')" style="cursor:pointer"/>
-      <path id="mp-almaty" d="M260 200 L340 190 L360 270 L270 275 Z" fill="#8E44AD" stroke="white" stroke-width="2" onclick="mapClickRegion('Алматинская')" style="cursor:pointer"/>
-      <path id="mp-zhetisu" d="M340 190 L400 185 L410 255 L360 270 Z" fill="#E67E22" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Жетісу')" style="cursor:pointer"/>
-      <path id="mp-karagandy" d="M160 130 L280 120 L290 200 L180 210 Z" fill="#16A085" stroke="white" stroke-width="2" onclick="mapClickRegion('Карагандинская')" style="cursor:pointer"/>
-      <path id="mp-ulytau" d="M155 125 L175 200 L165 210 L90 215 L78 140 Z" fill="#D35400" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Ұлытау')" style="cursor:pointer"/>
-      <path id="mp-pavlodar" d="M280 60 L380 55 L390 130 L290 130 Z" fill="#C0392B" stroke="white" stroke-width="2" onclick="mapClickRegion('Павлодарская')" style="cursor:pointer"/>
-      <path id="mp-eko" d="M380 55 L470 50 L480 170 L390 165 Z" fill="#7D3C98" stroke="white" stroke-width="2" onclick="mapClickRegion('Восточно-Казахстанская')" style="cursor:pointer"/>
-      <path id="mp-abay" d="M390 130 L480 130 L480 200 L400 195 Z" fill="#117A65" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Абай')" style="cursor:pointer"/>
-      <path id="mp-akmola" d="M160 30 L280 25 L285 125 L165 125 Z" fill="#2471A3" stroke="white" stroke-width="2" onclick="mapClickRegion('Ақмолинская')" style="cursor:pointer"/>
-      <path id="mp-sko" d="M160 10 L280 10 L280 30 L160 30 Z" fill="#117864" stroke="white" stroke-width="2" onclick="mapClickRegion('Северо-Казахстанская')" style="cursor:pointer"/>
-      <path id="mp-kostanay" d="M120 10 L160 10 L160 130 L115 130 Z" fill="#884EA0" stroke="white" stroke-width="2" onclick="mapClickRegion('Костанайская')" style="cursor:pointer"/>
-      <!-- Астана маркер -->
-      <circle cx="210" cy="65" r="6" fill="#FFD700" stroke="#FF6B35" stroke-width="2"/>
-      <text x="218" y="62" font-size="9" fill="white" font-weight="bold">Астана</text>
-    </svg>
-  </div>
-
-  <!-- Список регионов -->
-  <div id="regionListCards"></div>
 </div>
 
-<!-- MEMORY -->
-<div class="page" id="page-memory">
-  <button class="back-btn" onclick="goBack()">← <span id="back_mem">Артқа</span></button>
-  <div class="section-title" id="mem_title">Карта ойыны</div>
-  <div class="section-sub" id="mem_sub">Бірдей карталарды тауып жұпта</div>
-  <div class="game-header">
-    <div class="stat-chip"><span class="stat-num" id="memMoves">0</span><span class="stat-lbl" id="ml_moves">Қадам</span></div>
-    <div class="stat-chip"><span class="stat-num" id="memMatches">0</span><span class="stat-lbl" id="ml_match">Жұп</span></div>
-    <div class="stat-chip"><span class="stat-num" id="memCoins">0</span><span class="stat-lbl">BC</span></div>
+<!-- PUZZLE GAME -->
+<div id="screen-puzzle" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Пазл 🧩</h2>
+      <div class="score-badge">Ұпай: <span id="puzzle-score">0</span></div>
+    </div>
+    <div class="puzzle-levels" id="puzzle-levels">
+      <button class="level-btn" onclick="startPuzzle('easy')">🟢 Оңай</button>
+      <button class="level-btn" onclick="startPuzzle('medium')">🟡 Орта</button>
+      <button class="level-btn" onclick="startPuzzle('hard')">🔴 Қиын</button>
+    </div>
+    <div id="puzzle-board" class="puzzle-board hidden"></div>
   </div>
-  <div class="memory-grid" id="memGrid"></div>
-  <br>
-  <button class="big-btn" id="mem_restart" onclick="initMemory()">Жаңадан</button>
 </div>
 
-<!-- QUIZ -->
-<div class="page" id="page-quiz">
-  <button class="back-btn" onclick="goBack()">← <span id="back_quiz">Артқа</span></button>
-  <div class="section-title" id="quiz_title">Қазақ тілі тесті</div>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-    <div class="section-sub" id="quizScoreLabel" style="margin-bottom:0">Сұрақ 1/10</div>
-    <div style="font-size:13px;font-weight:800;color:var(--gold2)" id="quizCoinsLabel">0 BC</div>
+<!-- MATH GAME -->
+<div id="screen-math" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Математика 🔢</h2>
+      <div class="score-badge">Ұпай: <span id="math-score">0</span></div>
+    </div>
+    <div class="math-question" id="math-question"></div>
+    <div class="math-choices" id="math-choices"></div>
+    <div class="math-feedback" id="math-feedback"></div>
   </div>
-  <div class="progress-outer"><div class="progress-inner" id="quizProg" style="width:10%"></div></div>
-  <div class="quiz-bubble"><div class="quiz-q-text" id="quizQ">Жүктелуде...</div></div>
-  <div class="quiz-options" id="quizOpts"></div>
 </div>
 
-<!-- MATH -->
-<div class="page" id="page-math">
-  <button class="back-btn" onclick="goBack()">← <span id="back_math">Артқа</span></button>
-  <div class="section-title" id="math_title">Математика</div>
-  <div class="section-sub" id="math_sub">Дұрыс жауапты тап</div>
-  <div class="game-header">
-    <div class="stat-chip"><span class="stat-num" id="mathScore">0</span><span class="stat-lbl" id="ml_score">Ұпай</span></div>
-    <div class="stat-chip"><span class="stat-num" id="mathStreak">0</span><span class="stat-lbl" id="ml_streak">Қатар</span></div>
-    <div class="stat-chip"><span class="stat-num" id="mathCoins">0</span><span class="stat-lbl">BC</span></div>
-  </div>
-  <div class="math-box">
-    <div class="math-expr" id="mathExpr">?</div>
-    <div class="math-streak-badge" id="mathStreakBadge" style="display:none"></div>
-  </div>
-  <div class="math-answers" id="mathAnswers"></div>
-</div>
-
-<!-- PUZZLE -->
-<div class="page" id="page-puzzle">
-  <button class="back-btn" onclick="goBack()">← <span id="back_puz">Артқа</span></button>
-  <div class="section-title" id="puz_title">Пазл</div>
-  <div class="puzzle-levels">
-    <button class="level-btn active" id="lv1" onclick="setPuzzleLevel(3,this)">Оңай</button>
-    <button class="level-btn" id="lv2" onclick="setPuzzleLevel(4,this)">Орта</button>
-    <button class="level-btn" id="lv3" onclick="setPuzzleLevel(5,this)">Қиын</button>
-  </div>
-  <div class="game-header">
-    <div class="stat-chip"><span class="stat-num" id="puzMoves">0</span><span class="stat-lbl" id="ml_pmoves">Қадам</span></div>
-    <div class="stat-chip"><span class="stat-num" id="puzTime">0</span><span class="stat-lbl" id="ml_ptime">Сек</span></div>
-    <div class="stat-chip"><span class="stat-num" id="puzCoins">0</span><span class="stat-lbl">BC</span></div>
-  </div>
-  <div class="puzzle-board" id="puzzleBoard"></div>
-  <button class="big-btn" id="puz_restart" onclick="initPuzzle()">Жаңадан</button>
-</div>
-
-<!-- WORD -->
-<div class="page" id="page-word">
-  <button class="back-btn" onclick="goBack()">← <span id="back_word">Артқа</span></button>
-  <div class="section-title" id="word_title">Сөз табу</div>
-  <div class="section-sub" id="word_sub">Шатастырылған сөзді тап</div>
-  <div class="game-header">
-    <div class="stat-chip"><span class="stat-num" id="wordScore">0</span><span class="stat-lbl" id="ml_correct">Дұрыс</span></div>
-    <div class="stat-chip"><span class="stat-num" id="wordSkips">3</span><span class="stat-lbl" id="ml_skip">Өткізу</span></div>
-    <div class="stat-chip"><span class="stat-num" id="wordCoins">0</span><span class="stat-lbl">BC</span></div>
-  </div>
-  <div class="word-scramble-box">
-    <div class="scrambled" id="scrambledDisplay">-</div>
-    <div class="word-hint-txt" id="wordHintTxt">Кеңес: -</div>
-  </div>
-  <input class="word-input" id="wordInput" placeholder="ЖАУАПТЫ ЖАЗ..." maxlength="15" oninput="checkWordLive()">
-  <div style="display:flex;gap:10px;margin-top:10px">
-    <button class="outline-btn" style="flex:1" id="skip_btn" onclick="skipWord()">Өткізу</button>
-    <button class="big-btn" style="flex:2" id="submit_word" onclick="submitWord()">Тексеру</button>
+<!-- WORD GUESS GAME -->
+<div id="screen-wordguess" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Сөз Табу 🔤</h2>
+      <div class="score-badge">Ұпай: <span id="word-score">0</span></div>
+    </div>
+    <div class="word-clue" id="word-clue"></div>
+    <div class="word-letters" id="word-letters"></div>
+    <div class="word-input-row">
+      <input type="text" id="word-input" class="setup-input" placeholder="Жауабың..." />
+      <button class="btn-primary" onclick="checkWord()">Тексеру</button>
+    </div>
+    <div id="word-feedback" class="math-feedback"></div>
+    <button class="btn-secondary" id="word-next-btn" style="display:none" onclick="nextWord()">Келесі ➜</button>
   </div>
 </div>
 
 <!-- SNAKE GAME -->
-<div class="page" id="page-snake">
-  <button class="back-btn" onclick="stopSnake();goBack()">← <span>Артқа</span></button>
-  <div class="section-title">🐍 Жылан</div>
-  <div class="snake-info">
-    <div class="snake-badge">⭐ <span id="snakeScore">0</span></div>
-    <div class="snake-badge">🏆 <span id="snakeBest">0</span></div>
-    <div class="snake-badge">🪙 <span id="snakeCoins">0</span> BC</div>
+<div id="screen-snake" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Жылан 🐍</h2>
+      <div class="score-badge">Ұпай: <span id="snake-score">0</span></div>
+    </div>
+    <canvas id="snake-canvas" width="400" height="400"></canvas>
+    <div id="snake-controls" class="snake-controls">
+      <button class="btn-primary" onclick="startSnake()">▶ Бастау</button>
+    </div>
+    <div class="dpad">
+      <button class="dpad-btn" onclick="snakeDir('up')">▲</button>
+      <div class="dpad-row">
+        <button class="dpad-btn" onclick="snakeDir('left')">◀</button>
+        <button class="dpad-btn" onclick="snakeDir('right')">▶</button>
+      </div>
+      <button class="dpad-btn" onclick="snakeDir('down')">▼</button>
+    </div>
   </div>
-  <div class="snake-canvas-wrap">
-    <canvas id="snakeCanvas" width="320" height="320"></canvas>
-  </div>
-  <div class="snake-controls">
-    <div></div>
-    <button class="snake-btn" onclick="snakeDir('up')">▲</button>
-    <div></div>
-    <button class="snake-btn" onclick="snakeDir('left')">◀</button>
-    <button class="snake-btn" onclick="snakePauseToggle()" id="snakePauseBtn">⏸</button>
-    <button class="snake-btn" onclick="snakeDir('right')">▶</button>
-    <div></div>
-    <button class="snake-btn" onclick="snakeDir('down')">▼</button>
-    <div></div>
-  </div>
-  <button class="big-btn" onclick="initSnake()" style="margin-top:8px" id="snakeStartBtn">Бастау</button>
 </div>
 
-<!-- SHOP -->
-<div class="page" id="page-shop">
-  <div class="section-title" id="shop_title">Дүкен</div>
-  <div class="section-sub" id="shop_sub">Ботакоинмен сатып ал</div>
-  <div class="shop-tabs">
-    <button class="shop-tab active" id="st1" onclick="switchShopTab('cases',this)">Кейстер</button>
-    <button class="shop-tab" id="st2" onclick="switchShopTab('icons',this)">Иконкалар</button>
-    <button class="shop-tab" id="st3" onclick="switchShopTab('promo',this)">Промокод</button>
-    <button class="shop-tab" id="st4" onclick="switchShopTab('lb',this)">Рейтинг</button>
-  </div>
-
-  <!-- CASES -->
-  <div id="shop-cases">
-    <div class="case-card bronze" onclick="buyCase('bronze')">
-      <div class="case-icon-box bronze-bg">
-        <svg width="44" height="44" viewBox="0 0 56 56"><rect x="8" y="14" width="40" height="30" rx="8" fill="rgba(255,255,255,0.25)"/><rect x="6" y="18" width="44" height="6" rx="3" fill="rgba(255,255,255,0.15)"/><rect x="24" y="10" width="8" height="8" rx="3" fill="rgba(255,255,255,0.4)"/><polygon points="28,20 31,28 39,28 33,33 35,41 28,36 21,41 23,33 17,28 25,28" fill="#FFD700"/></svg>
-      </div>
-      <div class="case-info">
-        <div class="case-name" id="cn1">Қола кейс</div>
-        <div class="case-desc" id="cd1">Стандартты кейс</div>
-        <div class="odds-row">
-          <span class="odds-badge badge-common">60%</span>
-          <span class="odds-badge badge-rare">30%</span>
-          <span class="odds-badge badge-epic">9%</span>
-          <span class="odds-badge badge-legendary">1%</span>
+<!-- POPUP OVERLAY -->
+<div id="popup-overlay" class="popup-overlay hidden">
+  <div class="popup-box">
+    <div class="popup-bot">
+      <div class="bot-body sm">
+        <div class="bot-face">
+          <div class="bot-eyes">
+            <div class="bot-eye sm"><div class="pupil"></div></div>
+            <div class="bot-eye sm"><div class="pupil"></div></div>
+          </div>
+          <div class="bot-mouth smile"></div>
         </div>
-      </div>
-      <div class="case-price-tag">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>100
+        <div class="bot-antenna sm"><div class="antenna-ball sm"></div></div>
       </div>
     </div>
-    <div class="case-card silver" onclick="buyCase('silver')">
-      <div class="case-icon-box silver-bg">
-        <svg width="44" height="44" viewBox="0 0 56 56"><rect x="8" y="14" width="40" height="30" rx="8" fill="rgba(255,255,255,0.3)"/><rect x="6" y="18" width="44" height="6" rx="3" fill="rgba(255,255,255,0.2)"/><rect x="24" y="10" width="8" height="8" rx="3" fill="rgba(255,255,255,0.5)"/><polygon points="28,20 31,28 39,28 33,33 35,41 28,36 21,41 23,33 17,28 25,28" fill="white"/></svg>
-      </div>
-      <div class="case-info">
-        <div class="case-name" id="cn2">Күміс кейс</div>
-        <div class="case-desc" id="cd2">Жақсы шанстар</div>
-        <div class="odds-row">
-          <span class="odds-badge badge-common">40%</span>
-          <span class="odds-badge badge-rare">35%</span>
-          <span class="odds-badge badge-epic">20%</span>
-          <span class="odds-badge badge-legendary">5%</span>
-        </div>
-      </div>
-      <div class="case-price-tag">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>250
-      </div>
-    </div>
-    <div class="case-card gold-case" onclick="buyCase('gold')">
-      <div class="case-icon-box gold-bg">
-        <svg width="44" height="44" viewBox="0 0 56 56"><rect x="8" y="14" width="40" height="30" rx="8" fill="rgba(255,255,255,0.3)"/><rect x="6" y="18" width="44" height="6" rx="3" fill="rgba(255,255,255,0.25)"/><rect x="24" y="10" width="8" height="8" rx="3" fill="rgba(255,255,255,0.6)"/><polygon points="28,18 32,29 43,29 34,36 37,47 28,40 19,47 22,36 13,29 24,29" fill="white"/></svg>
-      </div>
-      <div class="case-info">
-        <div class="case-name" id="cn3">Алтын кейс</div>
-        <div class="case-desc" id="cd3">Ең жоғары шанс</div>
-        <div class="odds-row">
-          <span class="odds-badge badge-common">20%</span>
-          <span class="odds-badge badge-rare">35%</span>
-          <span class="odds-badge badge-epic">30%</span>
-          <span class="odds-badge badge-legendary">15%</span>
-        </div>
-      </div>
-      <div class="case-price-tag">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>500
-      </div>
-    </div>
-    <!-- DISCOUNT CASE (Баян Сұлу скидки) -->
-    <div class="case-card discount-case" onclick="buyDiscountCase()">
-      <div class="case-icon-box discount-bg">
-        <svg width="44" height="44" viewBox="0 0 56 56"><rect x="8" y="14" width="40" height="30" rx="8" fill="rgba(255,255,255,0.2)"/><text x="28" y="34" text-anchor="middle" font-size="20" font-family="Fredoka One,cursive" fill="white">%</text><rect x="24" y="10" width="8" height="8" rx="3" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="18" r="3" fill="rgba(255,255,255,0.4)"/><circle cx="40" cy="38" r="3" fill="rgba(255,255,255,0.4)"/></svg>
-      </div>
-      <div class="case-info">
-        <div class="case-name" style="color:#E91E8C">Жеңілдік кейсі</div>
-        <div class="case-desc">Баян Сұлу шоколадтарына жеңілдік</div>
-        <div class="odds-row">
-          <span class="odds-badge" style="background:rgba(233,30,140,0.1);color:#E91E8C">10%→100% жеңілдік</span>
-        </div>
-      </div>
-      <div class="case-price-tag" style="color:#E91E8C">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>5000
-      </div>
-    </div>
-  </div>
-
-  <!-- ICONS -->
-  <div id="shop-icons" style="display:none">
-    <div class="icons-grid" id="iconsGrid"></div>
-  </div>
-
-  <!-- PROMO -->
-  <div id="shop-promo" style="display:none">
-    <div class="promo-section">
-      <div class="promo-title" id="promo_title">Промокод</div>
-      <div class="promo-desc" id="promo_desc">Промокодты енгіз және Ботакоин жина</div>
-      <input class="promo-input" id="promoIn" placeholder="BOTAOY2026" maxlength="25">
-      <button class="big-btn" id="promo_btn" onclick="redeemPromo()">Активтендіру</button>
-      <div class="promo-msg" id="promoMsg"></div>
-    </div>
-    <div style="margin-top:14px;background:white;border-radius:18px;padding:16px;box-shadow:0 4px 16px rgba(0,0,0,0.07)">
-      <div style="font-size:11px;font-weight:800;color:var(--text2);margin-bottom:10px" id="promo_list_title">ПРОМОКОДТАР</div>
-      <div style="display:grid;gap:8px" id="promoListDisplay"></div>
-    </div>
-  </div>
-
-  <!-- LEADERBOARD -->
-  <div id="shop-lb" style="display:none">
-    <div class="lb-card" id="lbCard"></div>
+    <div id="popup-message" class="popup-message"></div>
+    <button class="btn-primary" onclick="closePopup()">Жарайды! 👍</button>
   </div>
 </div>
-
-<!-- PROFILE -->
-<div class="page" id="page-profile">
-  <div class="section-title" id="prof_title">Менің профилім</div>
-  <div class="section-sub" id="prof_sub" style="margin-bottom:16px">Менің статистикам</div>
-  <div class="profile-card">
-    <div class="avatar-ring" id="profileAvatarRing" onclick="openAvatarModal()">
-      <svg id="profileAvatarSvg" width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#FFF3E0"/><text x="32" y="40" text-anchor="middle" font-size="28" font-family="Fredoka One,cursive" fill="#FF6B35">?</text></svg>
-    </div>
-    <div class="profile-name-txt" id="pName">Қолданушы</div>
-    <div class="profile-rank-txt" id="pRank">Жаңадан бастаушы</div>
-    <div class="profile-stats">
-      <div class="p-stat-card"><div class="p-stat-num" id="pGames">0</div><div class="p-stat-lbl" id="ps_games">Ойын</div></div>
-      <div class="p-stat-card"><div class="p-stat-num" id="pWins">0</div><div class="p-stat-lbl" id="ps_wins">Жеңіс</div></div>
-      <div class="p-stat-card"><div class="p-stat-num" id="pItems">0</div><div class="p-stat-lbl" id="ps_items">Зат</div></div>
-    </div>
-  </div>
-  <div class="inv-section">
-    <div class="inv-title" id="inv_title">Инвентарь</div>
-    <div class="inv-grid" id="invGrid"></div>
-  </div>
-  <button class="outline-btn" style="width:100%;margin-bottom:10px" id="changename_btn" onclick="openNameModal()">Атымды өзгерту</button>
-</div>
-
-<!-- NAV -->
-<nav id="mainNav" style="display:none">
-  <button class="nav-btn active" id="nav-menu" onclick="switchPage('menu');setActiveNav(this);scrollToTop()">
-    <div class="nav-icon-wrap">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    </div>
-    <span id="nav1">Басты</span>
-  </button>
-  <button class="nav-btn" id="nav-daily" onclick="switchPage('daily');setActiveNav(this);renderDailyPage();scrollToTop()">
-    <div class="nav-icon-wrap">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    </div>
-    <span id="nav4">Тапсырма</span>
-  </button>
-  <button class="nav-btn" id="nav-shop" onclick="switchPage('shop');setActiveNav(this);scrollToTop()">
-    <div class="nav-icon-wrap">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-    </div>
-    <span id="nav2">Дүкен</span>
-  </button>
-  <button class="nav-btn" id="nav-profile" onclick="switchPage('profile');updateProfileUI();setActiveNav(this);scrollToTop()">
-    <div class="nav-icon-wrap">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    </div>
-    <span id="nav3">Профиль</span>
-  </button>
-  <button class="nav-btn" id="nav-parent" onclick="openParentMode();scrollToTop()">
-    <div class="nav-icon-wrap">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-    </div>
-    <span id="nav5">Ата-ана</span>
-  </button>
-</nav>
-
-<!-- MODALS -->
-<!-- WIN MODAL -->
-<div class="modal-overlay" id="winModal">
-  <div class="modal-sheet">
-    <div class="win-burst">
-      <span class="win-icon-big" id="winEmoji">🏆</span>
-      <div class="win-title-big" id="winTitle">Керемет!</div>
-      <div style="font-size:14px;color:var(--text2);font-weight:700;margin-bottom:12px" id="winMsg"></div>
-      <div class="win-coins-big" id="winCoinsDisp"></div>
-    </div>
-    <button class="big-btn" style="margin-top:20px" id="win_ok" onclick="closeModal('winModal')">Жарайды!</button>
-  </div>
-</div>
-
-<!-- CASE MODAL -->
-<div class="modal-overlay" id="caseModal">
-  <div class="modal-sheet">
-    <div class="modal-title" id="case_spinning">Кейс ашылуда...</div>
-    <div class="roulette-track-wrap">
-      <div class="roulette-pointer"></div>
-      <div class="roulette-track" id="rouletteTrack"></div>
-    </div>
-    <div id="caseRevealSection" style="text-align:center;display:none;padding:10px 0">
-      <div id="caseRevealIcon" style="width:90px;height:90px;border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;animation:bounceIn 0.5s cubic-bezier(0.34,1.56,0.64,1)"></div>
-      <div id="caseRevealRarity" style="font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:4px"></div>
-      <div id="caseRevealName" style="font-size:14px;font-weight:700;color:var(--text2)"></div>
-    </div>
-    <button class="big-btn" id="case_close_btn" onclick="closeModal('caseModal')" style="display:none;margin-top:16px">Алу!</button>
-  </div>
-</div>
-
-<!-- DISCOUNT CASE MODAL -->
-<div class="modal-overlay" id="discountModal">
-  <div class="modal-sheet">
-    <div class="modal-title">🎁 Баян Сұлу жеңілдігі!</div>
-    <div style="text-align:center;margin-bottom:12px;font-size:13px;color:var(--text2);font-weight:700">Сіз жеңіп алдыңыз:</div>
-    <div id="discountReveal" style="text-align:center;padding:20px;background:linear-gradient(135deg,#FFF0F8,#FFE0F0);border-radius:18px;border:3px solid #E91E8C;margin-bottom:16px">
-      <div style="font-family:'Fredoka One',cursive;font-size:48px;color:#E91E8C" id="discountPct">50%</div>
-      <div style="font-size:14px;font-weight:800;color:#E91E8C">Баян Сұлу шоколадтарына жеңілдік</div>
-      <div style="font-size:12px;color:var(--text2);margin-top:6px">1 ай ішінде жарамды</div>
-    </div>
-    <button class="big-btn" onclick="closeModal('discountModal')" style="background:linear-gradient(135deg,#E91E8C,#FF6B9D)">Рахмет! 🎉</button>
-  </div>
-</div>
-
-<!-- NAME MODAL -->
-<div class="modal-overlay" id="nameModal">
-  <div class="modal-sheet">
-    <div class="modal-title" id="nm_title">Атымды өзгерту</div>
-    <input class="fancy-input" id="nameChangeInput" placeholder="Жаңа атыңды жаз" maxlength="20">
-    <div style="display:flex;gap:10px">
-      <button class="outline-btn" style="flex:1" onclick="closeModal('nameModal')" id="nm_cancel">Бас тарту</button>
-      <button class="big-btn" style="flex:2" onclick="saveName()" id="nm_save">Сақтау</button>
-    </div>
-  </div>
-</div>
-
-<!-- AVATAR MODAL -->
-<div class="modal-overlay" id="avatarModal">
-  <div class="modal-sheet">
-    <div class="modal-title" id="av_title">Аватар таңда</div>
-    <div class="avatar-pick-grid" id="avatarPickGrid"></div>
-    <div style="display:flex;gap:10px">
-      <button class="outline-btn" style="flex:1" onclick="closeModal('avatarModal')" id="av_cancel">Бас тарту</button>
-      <button class="big-btn" style="flex:2" onclick="saveAvatarPick()" id="av_save">Сақтау</button>
-    </div>
-  </div>
-</div>
-
-<!-- PARENT MODE MODAL -->
-<div class="modal-overlay" id="parentModal">
-  <div class="modal-sheet" style="max-height:85vh;overflow-y:auto">
-    <!-- PIN экран -->
-    <div id="parentPinScreen">
-      <div style="font-family:'Fredoka One',cursive;font-size:22px;text-align:center;margin-bottom:8px">🔒 Ата-ана режимі</div>
-      <div style="font-size:13px;color:var(--text2);font-weight:700;text-align:center;margin-bottom:16px" id="parentPinHint">4 таңбалы PIN-код енгіз</div>
-      <div class="pin-dots" id="pinDots">
-        <div class="pin-dot" id="pd0"></div>
-        <div class="pin-dot" id="pd1"></div>
-        <div class="pin-dot" id="pd2"></div>
-        <div class="pin-dot" id="pd3"></div>
-      </div>
-      <div class="pin-keypad">
-        <button class="pin-key" onclick="pinPress('1')">1</button>
-        <button class="pin-key" onclick="pinPress('2')">2</button>
-        <button class="pin-key" onclick="pinPress('3')">3</button>
-        <button class="pin-key" onclick="pinPress('4')">4</button>
-        <button class="pin-key" onclick="pinPress('5')">5</button>
-        <button class="pin-key" onclick="pinPress('6')">6</button>
-        <button class="pin-key" onclick="pinPress('7')">7</button>
-        <button class="pin-key" onclick="pinPress('8')">8</button>
-        <button class="pin-key" onclick="pinPress('9')">9</button>
-        <button class="pin-key" onclick="pinClear()" style="font-size:14px">🗑</button>
-        <button class="pin-key" onclick="pinPress('0')">0</button>
-        <button class="pin-key" onclick="pinBack()" style="font-size:14px">⌫</button>
-      </div>
-      <button class="outline-btn" style="width:100%;margin-top:12px" onclick="closeModal('parentModal')">Жабу</button>
-    </div>
-    <!-- Панель ата-аны -->
-    <div id="parentPanel" style="display:none">
-      <div style="font-family:'Fredoka One',cursive;font-size:20px;text-align:center;margin-bottom:16px">👨‍👩‍👧 Ата-ана панелі</div>
-      <!-- Прогресс ребёнка -->
-      <div class="parent-section">
-        <div class="parent-section-title">📊 Баланың прогресі</div>
-        <div class="progress-child">
-          <div class="progress-row"><span>👤 Аты:</span><span id="pParentName">-</span></div>
-          <div class="progress-row"><span>🎂 Жасы:</span><span id="pParentAge">-</span></div>
-          <div class="progress-row"><span>📍 Облысы:</span><span id="pParentRegion">-</span></div>
-          <div class="progress-row"><span>🪙 BotaCoins:</span><span id="pParentCoins">0</span></div>
-          <div class="progress-row"><span>🎮 Ойындар:</span><span id="pParentGames">0</span></div>
-          <div class="progress-row"><span>🏆 Жеңістер:</span><span id="pParentWins">0</span></div>
-        </div>
-      </div>
-      <!-- Экран уақыты -->
-      <div class="parent-section">
-        <div class="parent-section-title">⏱ Экран уақыты (бүгін)</div>
-        <div class="timer-display" id="parentTimerDisplay">0 мин</div>
-        <div style="text-align:center;font-size:11px;color:var(--text2);font-weight:700;margin-top:4px">Ұсынылатын: 45 мин/күн</div>
-      </div>
-      <!-- Сменить/установить PIN -->
-      <div class="parent-section">
-        <div class="parent-section-title">🔑 PIN-кодты өзгерту</div>
-        <input class="fancy-input" id="newPinInput" placeholder="Жаңа 4 таңбалы PIN" maxlength="4" type="password" inputmode="numeric" style="margin-bottom:8px">
-        <button class="big-btn" onclick="saveNewPin()" style="font-size:14px;padding:12px">Сақтау</button>
-      </div>
-      <button class="outline-btn" style="width:100%;margin-top:8px" onclick="closeParentPanel()">Жабу</button>
-    </div>
-  </div>
-</div>
-
-<!-- REGION INFO MODAL -->
-<div class="modal-overlay" id="regionInfoModal">
-  <div class="modal-sheet" style="max-height:85vh;overflow-y:auto">
-    <div id="regionInfoContent"></div>
-    <button class="big-btn" onclick="closeModal('regionInfoModal')" style="margin-top:16px">Жабу</button>
-  </div>
-</div>
-
 
 <script src="script.js"></script>
 </body>
