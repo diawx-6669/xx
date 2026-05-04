@@ -1,3 +1,1348 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BotaOy — Баян Сұлу</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FFF9F0;
+  --surface: #FFFFFF;
+  --surface2: #FFF3E0;
+  --primary: #FF6B35;
+  --primary2: #FF8C5A;
+  --secondary: #4ECDC4;
+  --secondary2: #7EDDD8;
+  --gold: #FFD700;
+  --gold2: #FFA500;
+  --purple: #9B59B6;
+  --purple2: #C39BD3;
+  --green: #27AE60;
+  --green2: #58D68D;
+  --blue: #2980B9;
+  --blue2: #5DADE2;
+  --red: #E74C3C;
+  --border: #FFE0B2;
+  --text: #2C3E50;
+  --text2: #7F8C8D;
+  --shadow: 0 4px 20px rgba(255,107,53,0.15);
+  --shadow2: 0 8px 32px rgba(255,107,53,0.25);
+  --legendary: #FFD700;
+  --epic: #9B59B6;
+  --rare: #2980B9;
+  --common: #95A5A6;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255,107,53,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(78,205,196,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255,215,0,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.stars-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.star {
+  position: absolute; width: 8px; height: 8px; background: var(--gold);
+  clip-path: polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+  animation: floatStar linear infinite; opacity: 0.4;
+}
+@keyframes floatStar {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.4; } 90% { opacity: 0.4; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+.top-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  background: linear-gradient(135deg, var(--primary), var(--primary2));
+  padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;
+  z-index: 99; box-shadow: 0 4px 20px rgba(255,107,53,0.4);
+}
+.logo-text { font-family: 'Fredoka One', cursive; font-size: 24px; color: white; text-shadow: 2px 2px 0px rgba(0,0,0,0.15); letter-spacing: 1px; }
+.logo-sub { font-size: 10px; color: rgba(255,255,255,0.8); display: block; margin-top: -2px; }
+.coin-pill {
+  background: rgba(255,255,255,0.25); border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 30px; padding: 6px 14px; display: flex; align-items: center; gap: 6px; backdrop-filter: blur(10px);
+}
+.coin-star { width: 22px; height: 22px; }
+.coin-count { font-size: 16px; font-weight: 900; color: white; font-family: 'Fredoka One', cursive; }
+.lang-bar { position: fixed; top: 66px; right: 12px; display: flex; gap: 4px; z-index: 98; }
+.lang-btn {
+  background: white; border: 2px solid var(--border); border-radius: 10px;
+  padding: 4px 8px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s;
+  font-family: 'Nunito', sans-serif; color: var(--text2);
+}
+.lang-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+.page { display: none; padding: 130px 16px 100px; position: relative; z-index: 1; min-height: 100vh; }
+.page.active { display: block; }
+
+/* WELCOME */
+#page-welcome {
+  padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 100vh; background: linear-gradient(160deg, #FF6B35 0%, #FF8C5A 30%, #FFD700 70%, #4ECDC4 100%); text-align: center;
+}
+#page-welcome.active { display: flex; }
+.welcome-hero { margin-bottom: 32px; animation: bounceIn 0.8s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes bounceIn { from { transform: scale(0.3) translateY(50px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+.welcome-title { font-family: 'Fredoka One', cursive; font-size: 52px; color: white; text-shadow: 4px 4px 0 rgba(0,0,0,0.15); margin-bottom: 8px; animation: slideDown 0.6s ease 0.2s both; }
+.welcome-sub { font-size: 18px; color: rgba(255,255,255,0.9); margin-bottom: 40px; font-weight: 700; animation: slideDown 0.6s ease 0.4s both; }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+.welcome-btn {
+  background: white; color: var(--primary); border: none; border-radius: 30px; padding: 18px 48px;
+  font-size: 22px; font-weight: 900; font-family: 'Fredoka One', cursive; cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2); transition: all 0.2s; animation: slideUp 0.6s ease 0.6s both; letter-spacing: 1px;
+}
+.welcome-btn:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 16px 40px rgba(0,0,0,0.25); }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.cambot-svg { width: 160px; height: 160px; filter: drop-shadow(0 12px 24px rgba(0,0,0,0.2)); }
+
+/* ONBOARD */
+#page-onboard {
+  padding: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 100vh; background: linear-gradient(160deg, #4ECDC4, #FFD700 60%, #FF6B35); text-align: center;
+  overflow-y: auto;
+}
+#page-onboard.active { display: flex; }
+.onboard-card { background: white; border-radius: 28px; padding: 28px 24px; max-width: 380px; width: 94%; box-shadow: 0 16px 48px rgba(0,0,0,0.15); margin: 20px 0; }
+.onboard-step { display: none; }
+.onboard-step.active { display: block; }
+.onboard-greeting { font-size: 20px; font-weight: 800; color: var(--secondary); margin-bottom: 8px; }
+
+/* Kazakhstan SVG Map */
+.kz-map-wrap { position: relative; margin: 0 auto 12px; cursor: pointer; }
+.kz-map-wrap svg path { transition: fill 0.2s, opacity 0.2s; cursor: pointer; }
+.kz-map-wrap svg path:hover { opacity: 0.8; }
+.kz-map-wrap svg path.region-selected { fill: #FF6B35 !important; }
+.kz-map-wrap svg path.region-locked { fill: #ccc !important; cursor: not-allowed; }
+.region-label { font-size: 12px; font-weight: 800; color: var(--text2); margin-top: 6px; min-height: 18px; }
+
+/* Region select dropdown */
+.region-select {
+  width: 100%; background: var(--surface2); border: 3px solid var(--border); border-radius: 16px;
+  padding: 12px 16px; font-size: 14px; font-family: 'Nunito', sans-serif; font-weight: 700;
+  color: var(--text); outline: none; margin-bottom: 14px; cursor: pointer;
+}
+.region-select:focus { border-color: var(--primary); }
+
+/* Profile preview */
+.profile-preview { background: linear-gradient(135deg, #FFF5F2, #FFE8E0); border-radius: 20px; padding: 16px; margin-bottom: 16px; }
+.profile-preview-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--text); }
+.profile-preview-row:last-child { margin-bottom: 0; }
+.onboard-title { font-family: 'Fredoka One', cursive; font-size: 26px; color: var(--primary); margin-bottom: 20px; }
+.fancy-input {
+  width: 100%; background: var(--surface2); border: 3px solid var(--border); border-radius: 16px;
+  padding: 14px 18px; font-size: 16px; font-family: 'Nunito', sans-serif; font-weight: 700;
+  color: var(--text); outline: none; transition: border-color 0.2s; margin-bottom: 16px;
+}
+.fancy-input:focus { border-color: var(--primary); }
+.age-grid { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+.age-btn {
+  width: 50px; height: 50px; border-radius: 14px; background: var(--surface2); border: 3px solid var(--border);
+  font-size: 18px; font-weight: 900; cursor: pointer; transition: all 0.2s; font-family: 'Fredoka One', cursive; color: var(--text);
+}
+.age-btn.selected { background: var(--primary); border-color: var(--primary); color: white; transform: scale(1.1); }
+.big-btn {
+  background: linear-gradient(135deg, var(--primary), var(--primary2)); border: none; border-radius: 20px;
+  padding: 16px 32px; font-size: 18px; font-weight: 900; color: white; cursor: pointer; width: 100%;
+  font-family: 'Fredoka One', cursive; box-shadow: 0 6px 20px rgba(255,107,53,0.4); transition: all 0.2s; letter-spacing: 0.5px;
+}
+.big-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(255,107,53,0.5); }
+.big-btn:active { transform: translateY(0); }
+
+/* MENU */
+.section-title { font-family: 'Fredoka One', cursive; font-size: 24px; color: var(--text); margin-bottom: 4px; }
+.section-sub { font-size: 14px; color: var(--text2); margin-bottom: 20px; font-weight: 600; }
+.menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+.game-card {
+  background: white; border-radius: 22px; padding: 20px 14px; text-align: center; cursor: pointer;
+  transition: all 0.25s; box-shadow: 0 4px 16px rgba(0,0,0,0.08); border: 3px solid transparent;
+  position: relative; overflow: hidden;
+}
+.game-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0) 60%, rgba(255,255,255,0.6)); }
+.game-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+.game-card.color-1 { border-color: #FF6B35; background: linear-gradient(135deg, #FFF5F2, white); }
+.game-card.color-2 { border-color: #4ECDC4; background: linear-gradient(135deg, #F0FFFD, white); }
+.game-card.color-3 { border-color: #9B59B6; background: linear-gradient(135deg, #FAF0FF, white); }
+.game-card.color-4 { border-color: #27AE60; background: linear-gradient(135deg, #F0FFF7, white); }
+.game-card.color-5 { border-color: #2980B9; background: linear-gradient(135deg, #F0F8FF, white); }
+.game-card.color-6 { border-color: #E74C3C; background: linear-gradient(135deg, #FFF0F0, white); }
+.game-icon-wrap { width: 64px; height: 64px; border-radius: 18px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; }
+.game-title-card { font-family: 'Fredoka One', cursive; font-size: 14px; margin-bottom: 4px; color: var(--text); }
+.game-reward-tag { display: inline-block; background: var(--gold); color: #7a5000; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 10px; }
+
+/* GAME PAGES */
+.back-btn {
+  display: flex; align-items: center; gap: 8px; background: white; border: 2px solid var(--border);
+  border-radius: 14px; padding: 8px 16px; font-size: 14px; font-weight: 800; cursor: pointer;
+  margin-bottom: 16px; color: var(--text); font-family: 'Nunito', sans-serif; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.game-header {
+  background: white; border-radius: 20px; padding: 16px 20px; display: flex; justify-content: space-around;
+  margin-bottom: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+.stat-chip { text-align: center; }
+.stat-num { font-family: 'Fredoka One', cursive; font-size: 24px; color: var(--primary); display: block; }
+.stat-lbl { font-size: 11px; color: var(--text2); font-weight: 700; }
+
+/* MEMORY */
+.memory-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; max-width: 380px; margin: 0 auto; }
+.mem-card { aspect-ratio: 1; border-radius: 16px; cursor: pointer; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); position: relative; transform-style: preserve-3d; }
+.mem-card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.4s; border-radius: 16px; }
+.mem-card.flipped .mem-card-inner { transform: rotateY(180deg); }
+.mem-face { position: absolute; inset: 0; border-radius: 16px; display: flex; align-items: center; justify-content: center; backface-visibility: hidden; }
+.mem-back { background: linear-gradient(135deg, var(--secondary), var(--secondary2)); border: 3px solid rgba(255,255,255,0.5); }
+.mem-front { background: white; border: 3px solid var(--border); transform: rotateY(180deg); font-size: 28px; }
+.mem-card.matched .mem-front { background: linear-gradient(135deg, #ECFFF8, #D5F5E3); border-color: var(--green); animation: matchPop 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes matchPop { 0% { transform: rotateY(180deg) scale(0.8); } 60% { transform: rotateY(180deg) scale(1.15); } 100% { transform: rotateY(180deg) scale(1); } }
+
+/* QUIZ */
+.quiz-bubble { background: white; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); position: relative; }
+.quiz-bubble::after { content: ''; position: absolute; bottom: -14px; left: 40px; border: 14px solid transparent; border-top: 14px solid white; }
+.quiz-q-text { font-size: 16px; font-weight: 800; line-height: 1.5; color: var(--text); }
+.quiz-options { margin-top: 20px; display: grid; gap: 10px; }
+.quiz-opt-btn {
+  background: white; border: 3px solid var(--border); border-radius: 16px; padding: 14px 18px;
+  font-size: 15px; font-weight: 700; cursor: pointer; text-align: left; transition: all 0.2s;
+  font-family: 'Nunito', sans-serif; color: var(--text); display: flex; align-items: center; gap: 12px;
+}
+.quiz-opt-btn:hover:not(:disabled) { border-color: var(--secondary); background: #F0FFFD; transform: translateX(4px); }
+.quiz-opt-letter { width: 30px; height: 30px; border-radius: 10px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-family: 'Fredoka One', cursive; font-size: 14px; flex-shrink: 0; }
+.quiz-opt-btn.correct { border-color: var(--green); background: linear-gradient(135deg, #ECFFF8, #D5F5E3); animation: correctShake 0.5s ease; }
+.quiz-opt-btn.correct .quiz-opt-letter { background: var(--green); color: white; }
+@keyframes correctShake { 0% { transform: scale(1); } 25% { transform: scale(1.06) translateX(4px); } 50% { transform: scale(1.06) translateX(-4px); } 75% { transform: scale(1.03); } 100% { transform: scale(1); } }
+.quiz-opt-btn.wrong { border-color: var(--red); background: linear-gradient(135deg, #FFF5F5, #FFE0E0); }
+.quiz-opt-btn.wrong .quiz-opt-letter { background: var(--red); color: white; }
+
+/* MATH */
+.math-box { background: white; border-radius: 28px; padding: 40px 24px; text-align: center; margin-bottom: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border: 3px solid var(--border); }
+.math-expr { font-family: 'Fredoka One', cursive; font-size: 40px; color: var(--text); margin-bottom: 8px; }
+.math-streak-badge { display: inline-block; background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #7a5000; font-size: 12px; font-weight: 800; padding: 4px 12px; border-radius: 12px; }
+.math-answers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.math-ans-btn {
+  background: white; border: 3px solid var(--border); border-radius: 20px; padding: 22px;
+  font-family: 'Fredoka One', cursive; font-size: 28px; cursor: pointer; transition: all 0.2s; color: var(--text);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.math-ans-btn:hover:not(:disabled) { border-color: var(--secondary); background: #F0FFFD; transform: scale(1.05); }
+.math-ans-btn.correct { border-color: var(--green); background: linear-gradient(135deg, #ECFFF8, #D5F5E3); animation: bigPop 0.4s cubic-bezier(0.34,1.56,0.64,1); color: var(--green); }
+.math-ans-btn.wrong { border-color: var(--red); background: linear-gradient(135deg, #FFF5F5, #FFE0E0); animation: shake 0.3s ease; color: var(--red); }
+@keyframes bigPop { 0% { transform: scale(0.9); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+@keyframes shake { 0% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } 100% { transform: translateX(0); } }
+
+/* PUZZLE */
+.puzzle-board { display: grid; gap: 6px; margin: 0 auto 20px; }
+.puzzle-board.size-3 { grid-template-columns: repeat(3,1fr); max-width: 300px; }
+.puzzle-board.size-4 { grid-template-columns: repeat(4,1fr); max-width: 360px; }
+.puzzle-board.size-5 { grid-template-columns: repeat(5,1fr); max-width: 400px; }
+.p-tile {
+  aspect-ratio: 1; background: white; border: 3px solid var(--border); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; font-family: 'Fredoka One', cursive;
+  font-size: 24px; color: var(--text); cursor: pointer; transition: all 0.15s; box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+.p-tile:hover:not(.empty) { border-color: var(--secondary); transform: scale(1.05); }
+.p-tile.empty { background: var(--surface2); border-style: dashed; cursor: default; box-shadow: none; }
+.p-tile.solved { background: linear-gradient(135deg, #ECFFF8, #D5F5E3); border-color: var(--green); color: var(--green); animation: solvedPop 0.4s ease; }
+@keyframes solvedPop { 0% { transform: scale(0.9); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+.puzzle-levels { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
+.level-btn { padding: 8px 18px; border-radius: 14px; border: 3px solid var(--border); background: white; font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; }
+.level-btn.active { background: linear-gradient(135deg, var(--secondary), var(--secondary2)); border-color: var(--secondary); color: white; }
+
+/* WORD GAME */
+.word-scramble-box { background: white; border-radius: 24px; padding: 28px 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); border: 3px solid var(--border); }
+.scrambled { font-family: 'Fredoka One', cursive; font-size: 36px; letter-spacing: 10px; color: var(--purple); margin-bottom: 10px; }
+.word-hint-txt { font-size: 13px; color: var(--text2); font-weight: 600; }
+.word-input {
+  width: 100%; background: white; border: 3px solid var(--border); border-radius: 18px;
+  padding: 16px 20px; font-size: 20px; font-family: 'Fredoka One', cursive; letter-spacing: 6px;
+  text-transform: uppercase; outline: none; margin-bottom: 12px; text-align: center;
+  transition: border-color 0.2s; color: var(--text); box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.word-input:focus { border-color: var(--purple); }
+.word-input.correct-input { border-color: var(--green); background: #ECFFF8; animation: bigPop 0.4s ease; }
+
+/* SNAKE GAME */
+#page-snake { display: none; }
+#page-snake.active { display: block; }
+.snake-canvas-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+#snakeCanvas { border-radius: 16px; border: 4px solid var(--secondary); box-shadow: 0 8px 32px rgba(78,205,196,0.3); background: #0d1f2d; }
+.snake-controls { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; max-width: 220px; margin: 0 auto 16px; }
+.snake-btn {
+  background: white; border: 3px solid var(--secondary); border-radius: 14px; padding: 14px;
+  font-size: 22px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.snake-btn:active { transform: scale(0.92); background: var(--secondary); }
+.snake-info { display: flex; gap: 12px; justify-content: center; margin-bottom: 12px; }
+.snake-badge {
+  background: white; border-radius: 14px; padding: 8px 18px; font-family: 'Fredoka One', cursive;
+  font-size: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.07); border: 2px solid var(--border);
+}
+
+/* SHOP */
+.shop-tabs { display: flex; background: white; border-radius: 18px; padding: 5px; gap: 4px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+.shop-tab { flex: 1; padding: 10px 6px; border: none; border-radius: 13px; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif; color: var(--text2); background: transparent; }
+.shop-tab.active { background: linear-gradient(135deg, var(--primary), var(--primary2)); color: white; box-shadow: 0 4px 12px rgba(255,107,53,0.3); }
+
+/* CASE CARDS */
+.case-card { background: white; border-radius: 22px; padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px rgba(0,0,0,0.08); border: 3px solid transparent; margin-bottom: 12px; }
+.case-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.12); }
+.case-card.bronze { border-color: #CD7F32; }
+.case-card.silver { border-color: #C0C0C0; }
+.case-card.gold-case { border-color: #FFD700; }
+.case-card.discount-case { border-color: #E91E8C; background: linear-gradient(135deg, #FFF0F8, white); }
+.case-icon-box { width: 72px; height: 72px; border-radius: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.case-icon-box.bronze-bg { background: linear-gradient(135deg, #CD7F32, #E8A45A); }
+.case-icon-box.silver-bg { background: linear-gradient(135deg, #7F8C8D, #BDC3C7); }
+.case-icon-box.gold-bg { background: linear-gradient(135deg, #F39C12, #FFD700); }
+.case-icon-box.discount-bg { background: linear-gradient(135deg, #E91E8C, #FF6B9D); }
+.case-name { font-family: 'Fredoka One', cursive; font-size: 17px; margin-bottom: 4px; }
+.case-desc { font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 10px; }
+.odds-row { display: flex; gap: 5px; flex-wrap: wrap; }
+.odds-badge { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 8px; }
+.badge-common { background: rgba(149,165,166,0.2); color: var(--common); }
+.badge-rare { background: rgba(41,128,185,0.15); color: var(--blue); }
+.badge-epic { background: rgba(155,89,182,0.15); color: var(--purple); }
+.badge-legendary { background: rgba(255,215,0,0.2); color: #B8860B; }
+.case-price-tag { display: flex; align-items: center; gap: 4px; font-family: 'Fredoka One', cursive; font-size: 18px; color: #B8860B; white-space: nowrap; }
+
+/* DISCOUNT CASE REVEAL */
+.discount-reveal-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin: 16px 0; }
+.discount-cell {
+  background: linear-gradient(135deg, #FFF0F8, #FFE0F0); border: 2px solid #E91E8C; border-radius: 12px;
+  padding: 10px 4px; text-align: center; font-size: 11px; font-weight: 800; color: #E91E8C;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.discount-cell.empty-cell { background: #f5f5f5; border-color: #ddd; color: #aaa; }
+.discount-pct { font-family: 'Fredoka One', cursive; font-size: 18px; }
+
+/* ICONS SHOP */
+.icons-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.icon-shop-item { background: white; border-radius: 18px; padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 3px 10px rgba(0,0,0,0.07); border: 3px solid transparent; }
+.icon-shop-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.icon-shop-item.owned-item { border-color: var(--green); }
+.icon-shop-item.equipped-item { border-color: var(--gold2); background: #FFFBEB; }
+.icon-shop-item.locked-item { opacity: 0.5; cursor: not-allowed; }
+.icon-svg-wrap { width: 56px; height: 56px; margin: 0 auto 8px; }
+.icon-shop-name { font-size: 11px; font-weight: 800; margin-bottom: 3px; }
+.icon-shop-rarity { font-size: 10px; font-weight: 800; margin-bottom: 5px; }
+.icon-shop-price { font-size: 12px; font-weight: 900; color: #B8860B; }
+
+/* PROMO */
+.promo-section { background: white; border-radius: 22px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+.promo-title { font-family: 'Fredoka One', cursive; font-size: 18px; margin-bottom: 6px; color: var(--text); }
+.promo-desc { font-size: 13px; color: var(--text2); font-weight: 600; margin-bottom: 16px; }
+.promo-input { width: 100%; background: var(--surface2); border: 3px solid var(--border); border-radius: 14px; padding: 13px 16px; font-size: 15px; font-family: 'Fredoka One', cursive; letter-spacing: 3px; text-transform: uppercase; outline: none; margin-bottom: 10px; transition: border-color 0.2s; color: var(--text); }
+.promo-input:focus { border-color: var(--primary); }
+.promo-msg { padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 700; margin-top: 10px; display: none; }
+.promo-msg.ok { background: #ECFFF8; color: var(--green); display: block; }
+.promo-msg.fail { background: #FFF5F5; color: var(--red); display: block; }
+
+/* PROFILE */
+.profile-card { background: white; border-radius: 24px; padding: 28px 22px; text-align: center; margin-bottom: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+.avatar-ring { width: 88px; height: 88px; border-radius: 50%; border: 4px solid var(--primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; background: var(--surface2); overflow: hidden; cursor: pointer; transition: transform 0.2s; }
+.avatar-ring:hover { transform: scale(1.05); }
+.profile-name-txt { font-family: 'Fredoka One', cursive; font-size: 22px; margin-bottom: 4px; }
+.profile-rank-txt { font-size: 13px; color: var(--gold2); font-weight: 800; margin-bottom: 16px; }
+.profile-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.p-stat-card { background: var(--surface2); border-radius: 14px; padding: 12px 6px; }
+.p-stat-num { font-family: 'Fredoka One', cursive; font-size: 20px; color: var(--primary); }
+.p-stat-lbl { font-size: 10px; font-weight: 700; color: var(--text2); }
+.inv-section { background: white; border-radius: 22px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.07); margin-bottom: 14px; }
+.inv-title { font-family: 'Fredoka One', cursive; font-size: 16px; margin-bottom: 14px; }
+.inv-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.inv-slot { aspect-ratio: 1; background: var(--surface2); border: 2px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; }
+.rarity-dot { position: absolute; bottom: 3px; right: 3px; width: 7px; height: 7px; border-radius: 50%; }
+.dot-legendary { background: var(--legendary); }
+.dot-epic { background: var(--epic); }
+.dot-rare { background: var(--rare); }
+.dot-common { background: var(--common); }
+
+/* LEADERBOARD */
+.lb-card { background: white; border-radius: 22px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.lb-row { display: flex; align-items: center; gap: 14px; padding: 12px 10px; border-radius: 14px; margin-bottom: 6px; transition: background 0.2s; }
+.lb-row:hover { background: var(--surface2); }
+.lb-row.me { background: linear-gradient(135deg, #FFF5F2, #FFE8E0); border: 2px solid var(--primary); }
+.lb-rank { font-family: 'Fredoka One', cursive; font-size: 20px; width: 36px; text-align: center; }
+.lb-rank.gold-rank { color: #FFD700; }
+.lb-rank.silver-rank { color: #C0C0C0; }
+.lb-rank.bronze-rank { color: #CD7F32; }
+.lb-name { flex: 1; font-weight: 800; font-size: 15px; }
+.lb-score { font-family: 'Fredoka One', cursive; font-size: 16px; color: var(--primary); }
+.lb-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 18px; border: 2px solid var(--border); overflow: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 3px solid var(--border);
+  display: flex; justify-content: space-around; padding: 10px 0 16px; z-index: 100; box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+}
+.nav-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; font-weight: 800; color: var(--text2); transition: color 0.2s; font-family: 'Nunito', sans-serif; padding: 4px 12px; }
+.nav-btn.active { color: var(--primary); }
+.nav-icon-wrap { width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.nav-btn.active .nav-icon-wrap { background: linear-gradient(135deg, var(--primary), var(--primary2)); }
+.nav-btn.active .nav-icon-wrap svg { stroke: white; }
+
+/* MODALS */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 200; display: none; align-items: flex-end; justify-content: center; padding: 16px; }
+.modal-overlay.open { display: flex; }
+.modal-sheet { background: white; border-radius: 28px 28px 20px 20px; padding: 28px 24px 32px; width: 100%; max-width: 420px; animation: slideSheet 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes slideSheet { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-title { font-family: 'Fredoka One', cursive; font-size: 20px; text-align: center; margin-bottom: 20px; color: var(--text); }
+
+/* CASE ROULETTE */
+.roulette-track-wrap { overflow: hidden; border-radius: 16px; border: 4px solid var(--gold); position: relative; margin-bottom: 20px; background: var(--surface2); height: 100px; }
+.roulette-track-wrap::before,.roulette-track-wrap::after { content: ''; position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2; }
+.roulette-track-wrap::before { left: 0; background: linear-gradient(to right, white, transparent); }
+.roulette-track-wrap::after { right: 0; background: linear-gradient(to left, white, transparent); }
+.roulette-pointer { position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); width: 4px; background: var(--red); z-index: 3; border-radius: 2px; }
+.roulette-pointer::before,.roulette-pointer::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); border-left: 8px solid transparent; border-right: 8px solid transparent; }
+.roulette-pointer::before { top: 0; border-top: 12px solid var(--red); }
+.roulette-pointer::after { bottom: 0; border-bottom: 12px solid var(--red); }
+.roulette-track { display: flex; align-items: center; height: 100%; gap: 8px; padding: 0 8px; will-change: transform; }
+.roulette-item { min-width: 80px; height: 80px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border: 3px solid transparent; flex-shrink: 0; }
+.roulette-item.rarity-common { background: rgba(149,165,166,0.1); border-color: var(--common); }
+.roulette-item.rarity-rare { background: rgba(41,128,185,0.1); border-color: var(--blue); }
+.roulette-item.rarity-epic { background: rgba(155,89,182,0.1); border-color: var(--purple); }
+.roulette-item.rarity-legendary { background: rgba(255,215,0,0.15); border-color: var(--gold); }
+.roulette-item-label { font-size: 9px; font-weight: 800; }
+
+/* WIN */
+.win-burst { text-align: center; padding: 10px 0; }
+.win-icon-big { font-size: 64px; margin-bottom: 8px; animation: bounceIn 0.5s cubic-bezier(0.34,1.56,0.64,1); display: block; }
+.win-title-big { font-family: 'Fredoka One', cursive; font-size: 28px; color: var(--primary); margin-bottom: 6px; }
+.win-coins-big { font-family: 'Fredoka One', cursive; font-size: 36px; color: var(--gold2); text-shadow: 0 2px 8px rgba(255,165,0,0.3); }
+
+/* CONFETTI */
+.confetti-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 250; overflow: hidden; }
+.confetti-piece { position: absolute; top: -10px; width: 10px; height: 14px; opacity: 0; animation: confettiFall linear forwards; }
+@keyframes confettiFall { 0% { opacity: 1; transform: translateY(0) rotateZ(0deg) rotateX(0deg); } 100% { opacity: 0; transform: translateY(110vh) rotateZ(720deg) rotateX(360deg); } }
+
+/* COIN FLOAT */
+.coin-float { position: fixed; top: 70px; right: 24px; background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #7a5000; font-weight: 900; font-size: 18px; font-family: 'Fredoka One', cursive; padding: 8px 18px; border-radius: 20px; z-index: 300; opacity: 0; pointer-events: none; box-shadow: 0 4px 16px rgba(255,165,0,0.4); }
+.coin-float.show { animation: coinPop 1.8s ease forwards; }
+@keyframes coinPop { 0% { opacity: 0; transform: translateY(0) scale(0.5); } 20% { opacity: 1; transform: translateY(0) scale(1.2); } 40% { opacity: 1; transform: translateY(-10px) scale(1); } 80% { opacity: 1; transform: translateY(-50px) scale(1); } 100% { opacity: 0; transform: translateY(-80px) scale(0.8); } }
+
+/* TOAST */
+.toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--text); color: white; border-radius: 20px; padding: 12px 22px; font-size: 13px; font-weight: 800; z-index: 400; opacity: 0; transition: opacity 0.3s; white-space: nowrap; pointer-events: none; }
+.toast.show { opacity: 1; }
+
+/* PROGRESS BAR */
+.progress-outer { background: var(--surface2); border-radius: 10px; height: 10px; margin-bottom: 16px; overflow: hidden; border: 2px solid var(--border); }
+.progress-inner { height: 100%; background: linear-gradient(90deg, var(--secondary), var(--secondary2)); border-radius: 10px; transition: width 0.4s; }
+
+/* AVATAR PICKER */
+.avatar-pick-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 16px; }
+.avatar-pick-opt { aspect-ratio: 1; background: var(--surface2); border: 3px solid transparent; border-radius: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+.avatar-pick-opt:hover { border-color: var(--primary); transform: scale(1.05); }
+.avatar-pick-opt.sel { border-color: var(--primary); background: #FFF5F2; transform: scale(1.05); }
+
+/* OUTLINE BTN */
+.outline-btn { background: transparent; border: 3px solid var(--border); border-radius: 16px; padding: 12px 20px; font-size: 14px; font-weight: 800; cursor: pointer; font-family: 'Nunito', sans-serif; transition: all 0.2s; color: var(--text); }
+.outline-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+/* CAMBOT MINI / BOTA BOT */
+.bota-bot-wrap {
+  position: fixed; bottom: 80px; right: 16px; z-index: 150; cursor: pointer;
+  animation: botaBob 2s ease-in-out infinite;
+}
+@keyframes botaBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.bota-speech {
+  position: fixed; bottom: 150px; right: 14px; background: white; border: 3px solid var(--secondary);
+  border-radius: 18px 18px 4px 18px; padding: 10px 14px; font-size: 13px; font-weight: 800;
+  color: var(--text); box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 151;
+  max-width: 180px; line-height: 1.4; display: none; animation: fadeInPop 0.3s ease;
+}
+.bota-speech.show { display: block; }
+@keyframes fadeInPop { from { opacity:0; transform:scale(0.8) translateY(10px); } to { opacity:1; transform:scale(1) translateY(0); } }
+.bota-speech::after { content:''; position:absolute; bottom:-12px; right:14px; border:6px solid transparent; border-top:6px solid var(--secondary); }
+
+/* DAILY QUESTS */
+.daily-section { background: white; border-radius: 22px; padding: 18px 16px; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.daily-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.daily-title { font-family: 'Fredoka One', cursive; font-size: 18px; color: var(--text); }
+.daily-reset { font-size: 11px; color: var(--text2); font-weight: 700; }
+.quest-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface2); border-radius: 14px; margin-bottom: 8px; border: 2px solid transparent; }
+.quest-item.done { border-color: var(--green); background: #ECFFF8; }
+.quest-item.locked-quest { opacity: 0.5; }
+.quest-icon { font-size: 26px; }
+.quest-info { flex: 1; }
+.quest-name { font-weight: 800; font-size: 13px; color: var(--text); }
+.quest-reward { font-size: 11px; color: var(--gold2); font-weight: 800; }
+.quest-progress { width: 60px; text-align: right; }
+.quest-prog-bar { background: #eee; border-radius: 6px; height: 6px; overflow: hidden; margin-top: 4px; }
+.quest-prog-fill { background: linear-gradient(90deg, var(--green), var(--green2)); height: 100%; border-radius: 6px; transition: width 0.3s; }
+.quest-done-badge { background: var(--green); color: white; font-size: 10px; font-weight: 900; padding: 3px 8px; border-radius: 8px; }
+
+/* REGION BONUS CARD */
+.region-bonus-card { background: linear-gradient(135deg, #f0fff8, white); border: 2px solid var(--green); border-radius: 18px; padding: 14px 16px; margin-bottom: 14px; }
+.region-bonus-title { font-family: 'Fredoka One', cursive; font-size: 15px; color: var(--green); margin-bottom: 4px; }
+.region-coins-display { font-family: 'Fredoka One', cursive; font-size: 28px; color: var(--gold2); }
+
+/* MINI QUEST / STORY */
+.story-scene { background: white; border-radius: 22px; padding: 24px; box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
+.story-illustration { font-size: 80px; text-align: center; margin-bottom: 12px; animation: bounceIn 0.5s ease; }
+.story-text { font-size: 15px; font-weight: 700; line-height: 1.6; color: var(--text); margin-bottom: 20px; text-align: center; }
+.story-choices { display: grid; gap: 10px; }
+.story-choice-btn {
+  background: white; border: 3px solid var(--border); border-radius: 16px; padding: 14px 16px;
+  font-size: 14px; font-weight: 700; cursor: pointer; text-align: left; transition: all 0.2s;
+  font-family: 'Nunito', sans-serif; color: var(--text); display: flex; align-items: center; gap: 10px;
+}
+.story-choice-btn:hover { border-color: var(--secondary); background: #F0FFFD; transform: translateX(4px); }
+.story-choice-btn.chosen-correct { border-color: var(--green); background: #ECFFF8; }
+.story-choice-btn.chosen-wrong { border-color: var(--red); background: #FFF5F5; }
+.story-progress { display: flex; gap: 6px; justify-content: center; margin-bottom: 16px; }
+.story-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+.story-dot.done { background: var(--green); }
+.story-dot.active { background: var(--primary); }
+
+/* PARENT MODE */
+.parent-modal-content { }
+.parent-section { margin-bottom: 18px; }
+.parent-section-title { font-family: 'Fredoka One', cursive; font-size: 16px; color: var(--text); margin-bottom: 10px; }
+.timer-display { font-family: 'Fredoka One', cursive; font-size: 48px; color: var(--primary); text-align: center; }
+.progress-child { background: var(--surface2); border-radius: 18px; padding: 14px; }
+.progress-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; font-weight: 700; }
+.pin-dots { display: flex; gap: 10px; justify-content: center; margin: 12px 0; }
+.pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--border); transition: all 0.2s; }
+.pin-dot.filled { background: var(--primary); border-color: var(--primary); }
+.pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.pin-key { background: var(--surface2); border: 2px solid var(--border); border-radius: 14px; padding: 16px; font-family: 'Fredoka One', cursive; font-size: 22px; cursor: pointer; transition: all 0.15s; text-align: center; }
+.pin-key:active { transform: scale(0.92); background: var(--primary); color: white; }
+
+/* LOCKED GAME OVERLAY */
+.game-card.locked-game { opacity: 0.6; cursor: not-allowed; position: relative; }
+.game-card.locked-game::before { content: '🔒'; position: absolute; top: 8px; right: 8px; font-size: 16px; z-index: 10; }
+.daily-badge { display: inline-block; background: var(--red); color: white; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 8px; margin-left: 4px; }
+.today-played-tag { display: inline-block; background: var(--green); color: white; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 8px; }
+
+/* REGION INFO PAGE */
+.region-info-card { background: white; border-radius: 22px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); margin-bottom: 12px; }
+.region-info-title { font-family: 'Fredoka One', cursive; font-size: 20px; color: var(--primary); margin-bottom: 4px; }
+.region-info-pop { font-size: 13px; color: var(--text2); font-weight: 700; margin-bottom: 12px; }
+.city-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.city-chip { background: var(--surface2); border: 2px solid var(--border); border-radius: 10px; padding: 4px 10px; font-size: 12px; font-weight: 800; }
+.fact-item { background: linear-gradient(135deg, #FFF9F0, white); border-left: 4px solid var(--gold); border-radius: 0 12px 12px 0; padding: 10px 12px; margin-bottom: 8px; font-size: 13px; font-weight: 700; line-height: 1.5; }
+
+@media (max-width: 360px) {
+  .menu-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .math-expr { font-size: 32px; }
+  .scrambled { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- STARS BG -->
+<div class="stars-bg" id="starsBg"></div>
+
+<!-- COIN FLOAT -->
+<div class="coin-float" id="coinFloat">+0</div>
+
+<!-- CONFETTI -->
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- BOTA BOT (маленький верблюдик внизу) -->
+<div class="bota-bot-wrap" id="botaBot" onclick="toggleBotaSpeech()" style="display:none">
+  <svg width="56" height="56" viewBox="0 0 160 160">
+    <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/>
+    <rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
+    <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/>
+    <ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
+    <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/>
+    <ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+    <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+    <ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
+    <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/>
+    <circle cx="70" cy="69" r="6" fill="#2C3E50"/>
+    <circle cx="94" cy="69" r="6" fill="#2C3E50"/>
+    <circle cx="72" cy="67" r="2" fill="white"/>
+    <circle cx="96" cy="67" r="2" fill="white"/>
+    <ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
+    <circle cx="77" cy="80" r="2" fill="#C4956A"/>
+    <circle cx="83" cy="80" r="2" fill="#C4956A"/>
+    <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="62" cy="82" rx="14" ry="10" fill="#C8A876"/>
+    <ellipse cx="98" cy="82" rx="14" ry="10" fill="#C8A876"/>
+    <rect x="54" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
+    <rect x="94" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
+  </svg>
+</div>
+<div class="bota-speech" id="botaSpeech">Жарайсың! 🌟</div>
+
+<!-- TOP BAR -->
+<div class="top-bar" id="topBar" style="display:none">
+  <div>
+    <div class="logo-text">BotaOy</div>
+    <span class="logo-sub">Баян Сұлу</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="coin-pill">
+      <svg class="coin-star" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+      <span class="coin-count" id="coinDisplay">0</span>
+    </div>
+  </div>
+</div>
+
+<!-- LANG SWITCHER -->
+<div class="lang-bar" id="langBar" style="display:none">
+  <button class="lang-btn active" onclick="setLang('kk',this)">ҚАЗ</button>
+  <button class="lang-btn" onclick="setLang('ru',this)">РУС</button>
+  <button class="lang-btn" onclick="setLang('en',this)">ENG</button>
+</div>
+
+<!-- ========== PAGES ========== -->
+
+<!-- WELCOME (автоматически пропускается если уже зарегистрирован) -->
+<div class="page active" id="page-welcome">
+  <div class="stars-bg" style="position:absolute"></div>
+  <div class="welcome-hero">
+    <svg class="cambot-svg" viewBox="0 0 160 160">
+      <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/>
+      <rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
+      <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/>
+      <ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
+      <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/>
+      <ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+      <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+      <ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
+      <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/>
+      <circle cx="70" cy="69" r="6" fill="#2C3E50"/>
+      <circle cx="94" cy="69" r="6" fill="#2C3E50"/>
+      <circle cx="72" cy="67" r="2" fill="white"/>
+      <circle cx="96" cy="67" r="2" fill="white"/>
+      <ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
+      <circle cx="77" cy="80" r="2" fill="#C4956A"/>
+      <circle cx="83" cy="80" r="2" fill="#C4956A"/>
+      <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="62" cy="82" rx="14" ry="10" fill="#C8A876"/>
+      <ellipse cx="98" cy="82" rx="14" ry="10" fill="#C8A876"/>
+      <rect x="54" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
+      <rect x="94" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
+      <polygon points="20,30 22,36 28,36 23,40 25,46 20,42 15,46 17,40 12,36 18,36" fill="#FFD700" opacity="0.8"/>
+      <polygon points="140,20 141,24 145,24 142,27 143,31 140,29 137,31 138,27 135,24 139,24" fill="#FF6B35" opacity="0.8"/>
+      <polygon points="25,120 26,124 30,124 27,127 28,131 25,129 22,131 23,127 20,124 24,124" fill="#4ECDC4" opacity="0.8"/>
+    </svg>
+  </div>
+  <!-- Приветствие определяется по языку системы -->
+  <div class="welcome-title" id="wt">BotaOy</div>
+  <div class="welcome-sub" id="ws" style="font-size:22px;margin-bottom:10px">Сәлем! 👋</div>
+  <div style="font-size:16px;color:rgba(255,255,255,0.85);font-weight:700;margin-bottom:36px;animation:slideDown 0.6s ease 0.4s both" id="wsub2">Ботамен бірге оқы және ойна!</div>
+  <button class="welcome-btn" id="wbtn" onclick="goToOnboard()">Бастау!</button>
+</div>
+
+<!-- ONBOARD — пошаговый разговор с маскотом -->
+<div class="page" id="page-onboard">
+  <div class="onboard-card">
+
+    <!-- ШАГ 1: Имя — маскот спрашивает имя -->
+    <div class="onboard-step active" id="onboard-step1">
+      <div style="text-align:center;margin-bottom:8px">
+        <svg style="width:80px;height:80px;margin:0 auto;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.15));animation:botaBob 2s ease-in-out infinite" viewBox="0 0 160 160">
+          <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/><rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
+          <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/><ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
+          <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/><ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+          <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/><ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
+          <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/><circle cx="70" cy="69" r="6" fill="#2C3E50"/>
+          <circle cx="94" cy="69" r="6" fill="#2C3E50"/><circle cx="72" cy="67" r="2" fill="white"/>
+          <circle cx="96" cy="67" r="2" fill="white"/><ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
+          <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="62" cy="82" rx="14" ry="10" fill="#C8A876"/><ellipse cx="98" cy="82" rx="14" ry="10" fill="#C8A876"/>
+          <rect x="54" y="130" width="12" height="22" rx="6" fill="#C8A876"/><rect x="94" y="130" width="12" height="22" rx="6" fill="#C8A876"/>
+        </svg>
+      </div>
+      <!-- Пузырь с речью маскота -->
+      <div style="background:linear-gradient(135deg,#4ECDC4,#2CB5AC);border-radius:16px;padding:14px 18px;margin-bottom:16px;position:relative;text-align:center">
+        <div style="font-family:'Fredoka One',cursive;font-size:20px;color:white" id="onboardGreeting">Сәлем! 👋</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.9);font-weight:700;margin-top:4px" id="ob_title">Менің атым — Бота! Сенің атың кім?</div>
+        <div style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top:10px solid #2CB5AC"></div>
+      </div>
+      <input class="fancy-input" id="nameInputOnb" placeholder="Атыңды жаз..." maxlength="20" style="text-align:center;font-size:18px">
+      <button class="big-btn" id="ob_btn" onclick="goToOnboardStep2()" style="transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1)">Жалғастыру →</button>
+    </div>
+
+    <!-- ШАГ 2: Возраст — маскот спрашивает возраст, обращается по имени -->
+    <div class="onboard-step" id="onboard-step2-age">
+      <div style="text-align:center;margin-bottom:8px">
+        <svg style="width:70px;height:70px;margin:0 auto;display:block;animation:botaBob 2s ease-in-out infinite" viewBox="0 0 160 160">
+          <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/><rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
+          <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/><ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
+          <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/><ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+          <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/><ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
+          <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/><circle cx="70" cy="69" r="6" fill="#2C3E50"/>
+          <circle cx="94" cy="69" r="6" fill="#2C3E50"/><circle cx="72" cy="67" r="2" fill="white"/>
+          <circle cx="96" cy="67" r="2" fill="white"/><ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
+          <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="background:linear-gradient(135deg,#FF6B35,#FF8C5A);border-radius:16px;padding:14px 18px;margin-bottom:16px;position:relative;text-align:center">
+        <div style="font-size:13px;color:rgba(255,255,255,0.9);font-weight:700" id="ob_age_question">Жасаған! Ал, қанша жасындасың?</div>
+        <div style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top:10px solid #FF8C5A"></div>
+      </div>
+      <div class="age-grid">
+        <button class="age-btn" onclick="selectAge(5,this)">5</button>
+        <button class="age-btn" onclick="selectAge(6,this)">6</button>
+        <button class="age-btn" onclick="selectAge(7,this)">7</button>
+        <button class="age-btn" onclick="selectAge(8,this)">8</button>
+        <button class="age-btn" onclick="selectAge(9,this)">9</button>
+        <button class="age-btn" onclick="selectAge(10,this)">10</button>
+        <button class="age-btn" onclick="selectAge(11,this)">11</button>
+        <button class="age-btn" onclick="selectAge(12,this)">12</button>
+        <button class="age-btn" onclick="selectAge(13,this)">13</button>
+        <button class="age-btn" onclick="selectAge(14,this)">14</button>
+        <button class="age-btn" onclick="selectAge(15,this)">15</button>
+        <button class="age-btn" onclick="selectAge(16,this)">16</button>
+        <button class="age-btn" onclick="selectAge(17,this)">17</button>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:4px">
+        <button class="outline-btn" style="flex:1" onclick="backToStep1Onboard()">← Артқа</button>
+        <button class="big-btn" id="ob_age_btn" style="flex:2" onclick="goToOnboardStep3()">Жалғастыру →</button>
+      </div>
+    </div>
+
+    <!-- ШАГ 3: Регион + карта + превью профиля -->
+    <div class="onboard-step" id="onboard-step3">
+      <div style="text-align:center;margin-bottom:8px">
+        <svg style="width:60px;height:60px;margin:0 auto;display:block;animation:botaBob 2s ease-in-out infinite" viewBox="0 0 160 160">
+          <ellipse cx="80" cy="110" rx="40" ry="30" fill="#C8A876"/><rect x="45" y="80" width="70" height="48" rx="20" fill="#D4B896"/>
+          <ellipse cx="80" cy="72" rx="32" ry="30" fill="#D4B896"/><ellipse cx="52" cy="50" rx="10" ry="14" fill="#D4B896"/>
+          <ellipse cx="108" cy="50" rx="10" ry="14" fill="#D4B896"/><ellipse cx="52" cy="50" rx="6" ry="9" fill="#FFCBA4"/>
+          <ellipse cx="108" cy="50" rx="6" ry="9" fill="#FFCBA4"/><ellipse cx="68" cy="68" rx="9" ry="10" fill="white"/>
+          <ellipse cx="92" cy="68" rx="9" ry="10" fill="white"/><circle cx="70" cy="69" r="6" fill="#2C3E50"/>
+          <circle cx="94" cy="69" r="6" fill="#2C3E50"/><circle cx="72" cy="67" r="2" fill="white"/>
+          <circle cx="96" cy="67" r="2" fill="white"/><ellipse cx="80" cy="80" rx="8" ry="5" fill="#FFCBA4"/>
+          <path d="M72 86 Q80 92 88 86" stroke="#8B6349" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="background:linear-gradient(135deg,#9B59B6,#C39BD3);border-radius:16px;padding:12px 16px;margin-bottom:12px;position:relative;text-align:center">
+        <div style="font-size:13px;color:rgba(255,255,255,0.95);font-weight:700" id="ob2_title">Тамаша! Қай облыстан екенсің?</div>
+        <div style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top:10px solid #C39BD3"></div>
+      </div>
+
+      <!-- Карта Казахстана (SVG) -->
+      <div class="kz-map-wrap" id="kzMapWrap">
+        <svg viewBox="0 0 520 340" width="100%" style="max-height:180px" id="kzMapSvg">
+          <!-- Актюбинская -->
+          <path id="reg-aktobe" data-region="Актюбинская" d="M60 60 L150 55 L160 130 L80 140 Z" fill="#4ECDC4" stroke="white" stroke-width="2" onclick="selectRegionMap('Актюбинская')"/>
+          <!-- ЗКО -->
+          <path id="reg-wko" data-region="Западно-Казахстанская" d="M30 35 L120 30 L150 55 L60 60 L30 80 Z" fill="#27AE60" stroke="white" stroke-width="2" onclick="selectRegionMap('Западно-Казахстанская')"/>
+          <!-- Атырауская -->
+          <path id="reg-atyrau" data-region="Атырауская" d="M10 80 L60 60 L80 140 L20 130 Z" fill="#9B59B6" stroke="white" stroke-width="2" onclick="selectRegionMap('Атырауская')"/>
+          <!-- Мангистауская -->
+          <path id="reg-mangistau" data-region="Мангистауская" d="M10 130 L80 140 L70 200 L5 180 Z" fill="#E74C3C" stroke="white" stroke-width="2" onclick="selectRegionMap('Мангистауская')"/>
+          <!-- Кызылординская -->
+          <path id="reg-kyzylorda" data-region="Кызылординская" d="M80 140 L160 130 L180 210 L90 220 Z" fill="#F39C12" stroke="white" stroke-width="2" onclick="selectRegionMap('Кызылординская')"/>
+          <!-- Туркестанская -->
+          <path id="reg-turkestan" data-region="Туркестанская" d="M90 220 L180 210 L190 280 L85 270 Z" fill="#1ABC9C" stroke="white" stroke-width="2" onclick="selectRegionMap('Туркестанская')"/>
+          <!-- Жамбылская -->
+          <path id="reg-zhambyl" data-region="Жамбылская" d="M180 210 L260 200 L270 275 L190 280 Z" fill="#2980B9" stroke="white" stroke-width="2" onclick="selectRegionMap('Жамбылская')"/>
+          <!-- Алматинская -->
+          <path id="reg-almaty-r" data-region="Алматинская" d="M260 200 L340 190 L360 270 L270 275 Z" fill="#8E44AD" stroke="white" stroke-width="2" onclick="selectRegionMap('Алматинская')"/>
+          <!-- Жетісу -->
+          <path id="reg-zhetisu" data-region="Область Жетісу" d="M340 190 L400 185 L410 255 L360 270 Z" fill="#E67E22" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Жетісу')"/>
+          <!-- Карагандинская -->
+          <path id="reg-karagandy" data-region="Карагандинская" d="M160 130 L280 120 L290 200 L180 210 Z" fill="#16A085" stroke="white" stroke-width="2" onclick="selectRegionMap('Карагандинская')"/>
+          <!-- Улытау -->
+          <path id="reg-ulytau" data-region="Область Ұлытау" d="M155 125 L175 200 L165 210 L90 215 L78 140 Z" fill="#D35400" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Ұлытау')"/>
+          <!-- Павлодарская -->
+          <path id="reg-pavlodar" data-region="Павлодарская" d="M280 60 L380 55 L390 130 L290 130 Z" fill="#C0392B" stroke="white" stroke-width="2" onclick="selectRegionMap('Павлодарская')"/>
+          <!-- ВКО -->
+          <path id="reg-eko" data-region="Восточно-Казахстанская" d="M380 55 L470 50 L480 170 L390 165 Z" fill="#7D3C98" stroke="white" stroke-width="2" onclick="selectRegionMap('Восточно-Казахстанская')"/>
+          <!-- Абай -->
+          <path id="reg-abay" data-region="Область Абай" d="M390 130 L480 130 L480 200 L400 195 Z" fill="#117A65" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Абай')"/>
+          <!-- Акмолинская -->
+          <path id="reg-akmola" data-region="Ақмолинская" d="M160 30 L280 25 L285 125 L165 125 Z" fill="#2471A3" stroke="white" stroke-width="2" onclick="selectRegionMap('Ақмолинская')"/>
+          <!-- СКО -->
+          <path id="reg-sko" data-region="Северо-Казахстанская" d="M160 10 L280 10 L280 30 L160 30 Z" fill="#117864" stroke="white" stroke-width="2" onclick="selectRegionMap('Северо-Казахстанская')"/>
+          <!-- Костанайская -->
+          <path id="reg-kostanay" data-region="Костанайская" d="M120 10 L160 10 L160 130 L115 130 Z" fill="#884EA0" stroke="white" stroke-width="2" onclick="selectRegionMap('Костанайская')"/>
+          
+          <!-- Метки городов (звёздочки) -->
+          <circle cx="210" cy="65" r="4" fill="#FFD700" stroke="#FF6B35" stroke-width="1.5"/>
+          <text x="215" y="60" font-size="8" fill="white" font-weight="bold">Астана</text>
+        </svg>
+      </div>
+
+      <div class="region-label" id="regionSelectedLabel">👆 Картадан облысты таңда немесе төменде таңда</div>
+      
+      <select class="region-select" id="regionSelect" onchange="selectRegionDrop(this.value)">
+        <option value="">— Облысты таңда —</option>
+        <option value="Ақмолинская">Ақмолинская обл. (Астана)</option>
+        <option value="Алматинская">Алматинская обл. (Алматы)</option>
+        <option value="Атырауская">Атырауская обл.</option>
+        <option value="Актюбинская">Актюбинская обл.</option>
+        <option value="Восточно-Казахстанская">Шығыс Қазақстан обл.</option>
+        <option value="Жамбылская">Жамбылская обл.</option>
+        <option value="Западно-Казахстанская">Батыс Қазақстан обл.</option>
+        <option value="Карагандинская">Қарағанды обл.</option>
+        <option value="Костанайская">Қостанай обл.</option>
+        <option value="Кызылординская">Қызылорда обл.</option>
+        <option value="Мангистауская">Маңғыстау обл.</option>
+        <option value="Павлодарская">Павлодар обл.</option>
+        <option value="Северо-Казахстанская">Солтүстік Қазақстан обл.</option>
+        <option value="Туркестанская">Түркістан обл. (Шымкент)</option>
+        <option value="Область Жетісу">Жетісу обл.</option>
+        <option value="Область Абай">Абай обл.</option>
+        <option value="Область Ұлытау">Ұлытау обл.</option>
+      </select>
+
+      <!-- Превью профиля -->
+      <div class="profile-preview" id="profilePreview" style="display:none">
+        <div class="profile-preview-row"><span>👤</span><span id="pp_name">-</span></div>
+        <div class="profile-preview-row"><span>🎂</span><span id="pp_age">-</span></div>
+        <div class="profile-preview-row"><span>📍</span><span id="pp_region">-</span></div>
+        <div class="profile-preview-row"><span>🪙</span><span id="pp_coins">0 BotaКоин</span></div>
+      </div>
+
+      <div style="display:flex;gap:10px">
+        <button class="outline-btn" style="flex:1" onclick="backToAgeStep()">← Артқа</button>
+        <button class="big-btn" style="flex:2" id="ob2_btn" onclick="finishOnboard()">Бастайық! 🎉</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN MENU -->
+<div class="page" id="page-menu">
+  <div class="section-title" id="menu_title">Ойын таңда</div>
+  <div class="section-sub" id="menu_sub">Ботакоин жина!</div>
+  
+  <!-- Карта прогресса (кнопка-баннер) -->
+  <div onclick="switchPage('map');setActiveNav(null);scrollToTop()" style="background:linear-gradient(135deg,#2980B9,#4ECDC4);border-radius:20px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 6px 20px rgba(41,128,185,0.3);transition:all 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+    <div style="font-size:36px">🗺️</div>
+    <div>
+      <div style="font-family:'Fredoka One',cursive;font-size:18px;color:white" id="mapBtnTitle">Қазақстан картасы</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:700" id="mapBtnSub">Облыстарды ашып, BotaCoin жина!</div>
+    </div>
+    <div style="margin-left:auto;color:white;font-size:22px">→</div>
+  </div>
+
+  <div class="menu-grid">
+    <div class="game-card color-1" onclick="openGame('memory')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#FFE8E0,#FFD0C0)">
+        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="6" y="8" width="20" height="28" rx="4" fill="#FF6B35"/><rect x="8" y="10" width="16" height="12" rx="2" fill="rgba(255,255,255,0.4)"/><rect x="30" y="8" width="20" height="28" rx="4" fill="#FF8C5A"/><rect x="32" y="10" width="16" height="12" rx="2" fill="rgba(255,255,255,0.4)"/><circle cx="16" cy="32" r="3" fill="white" opacity="0.8"/><circle cx="40" cy="32" r="3" fill="white" opacity="0.8"/></svg>
+      </div>
+      <div class="game-title-card" id="gc1">Карта ойыны</div>
+      <div class="game-reward-tag">+10 BC</div>
+    </div>
+    <div class="game-card color-2" onclick="openGame('quiz')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#E0FFF9,#C0FFF5)">
+        <svg width="40" height="40" viewBox="0 0 56 56"><circle cx="28" cy="24" r="16" fill="#4ECDC4"/><text x="28" y="30" text-anchor="middle" font-size="18" font-family="Fredoka One,cursive" fill="white">?</text><rect x="14" y="42" width="28" height="6" rx="3" fill="#4ECDC4" opacity="0.5"/><rect x="18" y="50" width="20" height="4" rx="2" fill="#4ECDC4" opacity="0.3"/></svg>
+      </div>
+      <div class="game-title-card" id="gc2">Қазақ тілі</div>
+      <div class="game-reward-tag">+15 BC</div>
+    </div>
+    <div class="game-card color-3" onclick="openGame('math')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#F5E8FF,#EBD0FF)">
+        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="8" y="8" width="40" height="40" rx="8" fill="#9B59B6"/><text x="15" y="26" font-size="14" font-family="Fredoka One,cursive" fill="white">2</text><text x="25" y="26" font-size="12" font-family="Fredoka One,cursive" fill="#C39BD3">+</text><text x="33" y="26" font-size="14" font-family="Fredoka One,cursive" fill="white">3</text><line x1="14" y1="32" x2="42" y2="32" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><text x="22" y="44" font-size="14" font-family="Fredoka One,cursive" fill="#FFD700">5</text></svg>
+      </div>
+      <div class="game-title-card" id="gc3">Математика</div>
+      <div class="game-reward-tag">+12 BC</div>
+    </div>
+    <div class="game-card color-4" onclick="openGame('puzzle')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#E0FFF0,#C0FFE0)">
+        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="6" y="6" width="20" height="20" rx="4" fill="#27AE60"/><text x="16" y="22" text-anchor="middle" font-size="14" font-family="Fredoka One,cursive" fill="white">1</text><rect x="30" y="6" width="20" height="20" rx="4" fill="#2ECC71"/><text x="40" y="22" text-anchor="middle" font-size="14" font-family="Fredoka One,cursive" fill="white">2</text><rect x="6" y="30" width="20" height="20" rx="4" fill="#2ECC71"/><text x="16" y="46" text-anchor="middle" font-size="14" font-family="Fredoka One,cursive" fill="white">3</text><rect x="30" y="30" width="20" height="20" rx="4" fill="#A9DFBF" stroke="#27AE60" stroke-width="2" stroke-dasharray="4"/></svg>
+      </div>
+      <div class="game-title-card" id="gc4">Пазл</div>
+      <div class="game-reward-tag">+25 BC</div>
+    </div>
+    <div class="game-card color-5" onclick="openGame('word')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#E0F0FF,#C0E0FF)">
+        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="6" y="14" width="44" height="30" rx="6" fill="#2980B9"/><rect x="10" y="18" width="36" height="4" rx="2" fill="rgba(255,255,255,0.4)"/><rect x="10" y="26" width="26" height="4" rx="2" fill="rgba(255,255,255,0.3)"/><rect x="10" y="34" width="18" height="4" rx="2" fill="rgba(255,255,255,0.2)"/><polygon points="42,34 50,8 44,8 36,34" fill="#FFD700"/><polygon points="44,8 50,8 48,14 42,14" fill="#FFA500"/></svg>
+      </div>
+      <div class="game-title-card" id="gc5">Сөз табу</div>
+      <div class="game-reward-tag">+20 BC</div>
+    </div>
+    <div class="game-card color-6" onclick="openGame('snake')">
+      <div class="game-icon-wrap" style="background:linear-gradient(135deg,#FFE0E0,#FFC0C0)">
+        <svg width="40" height="40" viewBox="0 0 56 56"><rect x="6" y="6" width="44" height="44" rx="8" fill="#0d1f2d"/><rect x="10" y="20" width="8" height="8" rx="2" fill="#4ECDC4"/><rect x="18" y="20" width="8" height="8" rx="2" fill="#4ECDC4"/><rect x="26" y="20" width="8" height="8" rx="2" fill="#4ECDC4"/><rect x="26" y="28" width="8" height="8" rx="2" fill="#4ECDC4"/><rect x="26" y="36" width="8" height="8" rx="2" fill="#4ECDC4" opacity="0.6"/><circle cx="13" cy="18" r="2" fill="#FF6B35"/></svg>
+      </div>
+      <div class="game-title-card" id="gc6">Жылан ойыны</div>
+      <div class="game-reward-tag">+30 BC</div>
+    </div>
+  </div>
+</div>
+
+<!-- KAZAKHSTAN MAP PAGE -->
+<div class="page" id="page-map">
+  <button class="back-btn" onclick="switchPage('menu');setActiveNav(document.getElementById('nav-menu'));scrollToTop()">← <span id="back_map">Артқа</span></button>
+  <div class="section-title">🗺️ <span id="map_title">Қазақстан картасы</span></div>
+  <div class="section-sub" id="map_sub">Облысты таңдап, ашу туралы біліміңді кеңейт!</div>
+
+  <!-- Инфо о текущем регионе -->
+  <div style="background:linear-gradient(135deg,#FF6B35,#FF8C5A);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+    <div style="font-size:32px">🏠</div>
+    <div>
+      <div style="font-family:'Fredoka One',cursive;font-size:15px;color:white" id="homeRegionLabel">Туған өлке</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:700" id="homeRegionName">-</div>
+    </div>
+    <div style="margin-left:auto">
+      <div style="background:rgba(255,255,255,0.25);border-radius:12px;padding:6px 12px;font-family:'Fredoka One',cursive;font-size:14px;color:white" id="homeRegionCoins">0 BC</div>
+    </div>
+  </div>
+
+  <!-- Интерактивная карта -->
+  <div style="background:white;border-radius:22px;padding:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:16px">
+    <svg viewBox="0 0 520 340" width="100%" id="mapPageSvg" style="border-radius:12px">
+      <rect width="520" height="340" fill="#E3F2FD" rx="12"/>
+      <!-- Regions — color changes based on lock status -->
+      <path id="mp-aktobe" d="M60 60 L150 55 L160 130 L80 140 Z" fill="#4ECDC4" stroke="white" stroke-width="2" onclick="mapClickRegion('Актюбинская')" style="cursor:pointer"/>
+      <path id="mp-wko" d="M30 35 L120 30 L150 55 L60 60 L30 80 Z" fill="#27AE60" stroke="white" stroke-width="2" onclick="mapClickRegion('Западно-Казахстанская')" style="cursor:pointer"/>
+      <path id="mp-atyrau" d="M10 80 L60 60 L80 140 L20 130 Z" fill="#9B59B6" stroke="white" stroke-width="2" onclick="mapClickRegion('Атырауская')" style="cursor:pointer"/>
+      <path id="mp-mangistau" d="M10 130 L80 140 L70 200 L5 180 Z" fill="#E74C3C" stroke="white" stroke-width="2" onclick="mapClickRegion('Мангистауская')" style="cursor:pointer"/>
+      <path id="mp-kyzylorda" d="M80 140 L160 130 L180 210 L90 220 Z" fill="#F39C12" stroke="white" stroke-width="2" onclick="mapClickRegion('Кызылординская')" style="cursor:pointer"/>
+      <path id="mp-turkestan" d="M90 220 L180 210 L190 280 L85 270 Z" fill="#1ABC9C" stroke="white" stroke-width="2" onclick="mapClickRegion('Туркестанская')" style="cursor:pointer"/>
+      <path id="mp-zhambyl" d="M180 210 L260 200 L270 275 L190 280 Z" fill="#2980B9" stroke="white" stroke-width="2" onclick="mapClickRegion('Жамбылская')" style="cursor:pointer"/>
+      <path id="mp-almaty" d="M260 200 L340 190 L360 270 L270 275 Z" fill="#8E44AD" stroke="white" stroke-width="2" onclick="mapClickRegion('Алматинская')" style="cursor:pointer"/>
+      <path id="mp-zhetisu" d="M340 190 L400 185 L410 255 L360 270 Z" fill="#E67E22" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Жетісу')" style="cursor:pointer"/>
+      <path id="mp-karagandy" d="M160 130 L280 120 L290 200 L180 210 Z" fill="#16A085" stroke="white" stroke-width="2" onclick="mapClickRegion('Карагандинская')" style="cursor:pointer"/>
+      <path id="mp-ulytau" d="M155 125 L175 200 L165 210 L90 215 L78 140 Z" fill="#D35400" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Ұлытау')" style="cursor:pointer"/>
+      <path id="mp-pavlodar" d="M280 60 L380 55 L390 130 L290 130 Z" fill="#C0392B" stroke="white" stroke-width="2" onclick="mapClickRegion('Павлодарская')" style="cursor:pointer"/>
+      <path id="mp-eko" d="M380 55 L470 50 L480 170 L390 165 Z" fill="#7D3C98" stroke="white" stroke-width="2" onclick="mapClickRegion('Восточно-Казахстанская')" style="cursor:pointer"/>
+      <path id="mp-abay" d="M390 130 L480 130 L480 200 L400 195 Z" fill="#117A65" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Абай')" style="cursor:pointer"/>
+      <path id="mp-akmola" d="M160 30 L280 25 L285 125 L165 125 Z" fill="#2471A3" stroke="white" stroke-width="2" onclick="mapClickRegion('Ақмолинская')" style="cursor:pointer"/>
+      <path id="mp-sko" d="M160 10 L280 10 L280 30 L160 30 Z" fill="#117864" stroke="white" stroke-width="2" onclick="mapClickRegion('Северо-Казахстанская')" style="cursor:pointer"/>
+      <path id="mp-kostanay" d="M120 10 L160 10 L160 130 L115 130 Z" fill="#884EA0" stroke="white" stroke-width="2" onclick="mapClickRegion('Костанайская')" style="cursor:pointer"/>
+      <!-- Астана маркер -->
+      <circle cx="210" cy="65" r="6" fill="#FFD700" stroke="#FF6B35" stroke-width="2"/>
+      <text x="218" y="62" font-size="9" fill="white" font-weight="bold">Астана</text>
+    </svg>
+  </div>
+
+  <!-- Список регионов -->
+  <div id="regionListCards"></div>
+</div>
+
+<!-- MEMORY -->
+<div class="page" id="page-memory">
+  <button class="back-btn" onclick="goBack()">← <span id="back_mem">Артқа</span></button>
+  <div class="section-title" id="mem_title">Карта ойыны</div>
+  <div class="section-sub" id="mem_sub">Бірдей карталарды тауып жұпта</div>
+  <div class="game-header">
+    <div class="stat-chip"><span class="stat-num" id="memMoves">0</span><span class="stat-lbl" id="ml_moves">Қадам</span></div>
+    <div class="stat-chip"><span class="stat-num" id="memMatches">0</span><span class="stat-lbl" id="ml_match">Жұп</span></div>
+    <div class="stat-chip"><span class="stat-num" id="memCoins">0</span><span class="stat-lbl">BC</span></div>
+  </div>
+  <div class="memory-grid" id="memGrid"></div>
+  <br>
+  <button class="big-btn" id="mem_restart" onclick="initMemory()">Жаңадан</button>
+</div>
+
+<!-- QUIZ -->
+<div class="page" id="page-quiz">
+  <button class="back-btn" onclick="goBack()">← <span id="back_quiz">Артқа</span></button>
+  <div class="section-title" id="quiz_title">Қазақ тілі тесті</div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div class="section-sub" id="quizScoreLabel" style="margin-bottom:0">Сұрақ 1/10</div>
+    <div style="font-size:13px;font-weight:800;color:var(--gold2)" id="quizCoinsLabel">0 BC</div>
+  </div>
+  <div class="progress-outer"><div class="progress-inner" id="quizProg" style="width:10%"></div></div>
+  <div class="quiz-bubble"><div class="quiz-q-text" id="quizQ">Жүктелуде...</div></div>
+  <div class="quiz-options" id="quizOpts"></div>
+</div>
+
+<!-- MATH -->
+<div class="page" id="page-math">
+  <button class="back-btn" onclick="goBack()">← <span id="back_math">Артқа</span></button>
+  <div class="section-title" id="math_title">Математика</div>
+  <div class="section-sub" id="math_sub">Дұрыс жауапты тап</div>
+  <div class="game-header">
+    <div class="stat-chip"><span class="stat-num" id="mathScore">0</span><span class="stat-lbl" id="ml_score">Ұпай</span></div>
+    <div class="stat-chip"><span class="stat-num" id="mathStreak">0</span><span class="stat-lbl" id="ml_streak">Қатар</span></div>
+    <div class="stat-chip"><span class="stat-num" id="mathCoins">0</span><span class="stat-lbl">BC</span></div>
+  </div>
+  <div class="math-box">
+    <div class="math-expr" id="mathExpr">?</div>
+    <div class="math-streak-badge" id="mathStreakBadge" style="display:none"></div>
+  </div>
+  <div class="math-answers" id="mathAnswers"></div>
+</div>
+
+<!-- PUZZLE -->
+<div class="page" id="page-puzzle">
+  <button class="back-btn" onclick="goBack()">← <span id="back_puz">Артқа</span></button>
+  <div class="section-title" id="puz_title">Пазл</div>
+  <div class="puzzle-levels">
+    <button class="level-btn active" id="lv1" onclick="setPuzzleLevel(3,this)">Оңай</button>
+    <button class="level-btn" id="lv2" onclick="setPuzzleLevel(4,this)">Орта</button>
+    <button class="level-btn" id="lv3" onclick="setPuzzleLevel(5,this)">Қиын</button>
+  </div>
+  <div class="game-header">
+    <div class="stat-chip"><span class="stat-num" id="puzMoves">0</span><span class="stat-lbl" id="ml_pmoves">Қадам</span></div>
+    <div class="stat-chip"><span class="stat-num" id="puzTime">0</span><span class="stat-lbl" id="ml_ptime">Сек</span></div>
+    <div class="stat-chip"><span class="stat-num" id="puzCoins">0</span><span class="stat-lbl">BC</span></div>
+  </div>
+  <div class="puzzle-board" id="puzzleBoard"></div>
+  <button class="big-btn" id="puz_restart" onclick="initPuzzle()">Жаңадан</button>
+</div>
+
+<!-- WORD -->
+<div class="page" id="page-word">
+  <button class="back-btn" onclick="goBack()">← <span id="back_word">Артқа</span></button>
+  <div class="section-title" id="word_title">Сөз табу</div>
+  <div class="section-sub" id="word_sub">Шатастырылған сөзді тап</div>
+  <div class="game-header">
+    <div class="stat-chip"><span class="stat-num" id="wordScore">0</span><span class="stat-lbl" id="ml_correct">Дұрыс</span></div>
+    <div class="stat-chip"><span class="stat-num" id="wordSkips">3</span><span class="stat-lbl" id="ml_skip">Өткізу</span></div>
+    <div class="stat-chip"><span class="stat-num" id="wordCoins">0</span><span class="stat-lbl">BC</span></div>
+  </div>
+  <div class="word-scramble-box">
+    <div class="scrambled" id="scrambledDisplay">-</div>
+    <div class="word-hint-txt" id="wordHintTxt">Кеңес: -</div>
+  </div>
+  <input class="word-input" id="wordInput" placeholder="ЖАУАПТЫ ЖАЗ..." maxlength="15" oninput="checkWordLive()">
+  <div style="display:flex;gap:10px;margin-top:10px">
+    <button class="outline-btn" style="flex:1" id="skip_btn" onclick="skipWord()">Өткізу</button>
+    <button class="big-btn" style="flex:2" id="submit_word" onclick="submitWord()">Тексеру</button>
+  </div>
+</div>
+
+<!-- SNAKE GAME -->
+<div class="page" id="page-snake">
+  <button class="back-btn" onclick="stopSnake();goBack()">← <span>Артқа</span></button>
+  <div class="section-title">🐍 Жылан</div>
+  <div class="snake-info">
+    <div class="snake-badge">⭐ <span id="snakeScore">0</span></div>
+    <div class="snake-badge">🏆 <span id="snakeBest">0</span></div>
+    <div class="snake-badge">🪙 <span id="snakeCoins">0</span> BC</div>
+  </div>
+  <div class="snake-canvas-wrap">
+    <canvas id="snakeCanvas" width="320" height="320"></canvas>
+  </div>
+  <div class="snake-controls">
+    <div></div>
+    <button class="snake-btn" onclick="snakeDir('up')">▲</button>
+    <div></div>
+    <button class="snake-btn" onclick="snakeDir('left')">◀</button>
+    <button class="snake-btn" onclick="snakePauseToggle()" id="snakePauseBtn">⏸</button>
+    <button class="snake-btn" onclick="snakeDir('right')">▶</button>
+    <div></div>
+    <button class="snake-btn" onclick="snakeDir('down')">▼</button>
+    <div></div>
+  </div>
+  <button class="big-btn" onclick="initSnake()" style="margin-top:8px" id="snakeStartBtn">Бастау</button>
+</div>
+
+<!-- SHOP -->
+<div class="page" id="page-shop">
+  <div class="section-title" id="shop_title">Дүкен</div>
+  <div class="section-sub" id="shop_sub">Ботакоинмен сатып ал</div>
+  <div class="shop-tabs">
+    <button class="shop-tab active" id="st1" onclick="switchShopTab('cases',this)">Кейстер</button>
+    <button class="shop-tab" id="st2" onclick="switchShopTab('icons',this)">Иконкалар</button>
+    <button class="shop-tab" id="st3" onclick="switchShopTab('promo',this)">Промокод</button>
+    <button class="shop-tab" id="st4" onclick="switchShopTab('lb',this)">Рейтинг</button>
+  </div>
+
+  <!-- CASES -->
+  <div id="shop-cases">
+    <div class="case-card bronze" onclick="buyCase('bronze')">
+      <div class="case-icon-box bronze-bg">
+        <svg width="44" height="44" viewBox="0 0 56 56"><rect x="8" y="14" width="40" height="30" rx="8" fill="rgba(255,255,255,0.25)"/><rect x="6" y="18" width="44" height="6" rx="3" fill="rgba(255,255,255,0.15)"/><rect x="24" y="10" width="8" height="8" rx="3" fill="rgba(255,255,255,0.4)"/><polygon points="28,20 31,28 39,28 33,33 35,41 28,36 21,41 23,33 17,28 25,28" fill="#FFD700"/></svg>
+      </div>
+      <div class="case-info">
+        <div class="case-name" id="cn1">Қола кейс</div>
+        <div class="case-desc" id="cd1">Стандартты кейс</div>
+        <div class="odds-row">
+          <span class="odds-badge badge-common">60%</span>
+          <span class="odds-badge badge-rare">30%</span>
+          <span class="odds-badge badge-epic">9%</span>
+          <span class="odds-badge badge-legendary">1%</span>
+        </div>
+      </div>
+      <div class="case-price-tag">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>100
+      </div>
+    </div>
+    <div class="case-card silver" onclick="buyCase('silver')">
+      <div class="case-icon-box silver-bg">
+        <svg width="44" height="44" viewBox="0 0 56 56"><rect x="8" y="14" width="40" height="30" rx="8" fill="rgba(255,255,255,0.3)"/><rect x="6" y="18" width="44" height="6" rx="3" fill="rgba(255,255,255,0.2)"/><rect x="24" y="10" width="8" height="8" rx="3" fill="rgba(255,255,255,0.5)"/><polygon points="28,20 31,28 39,28 33,33 35,41 28,36 21,41 23,33 17,28 25,28" fill="white"/></svg>
+      </div>
+      <div class="case-info">
+        <div class="case-name" id="cn2">Күміс кейс</div>
+        <div class="case-desc" id="cd2">Жақсы шанстар</div>
+        <div class="odds-row">
+          <span class="odds-badge badge-common">40%</span>
+          <span class="odds-badge badge-rare">35%</span>
+          <span class="odds-badge badge-epic">20%</span>
+          <span class="odds-badge badge-legendary">5%</span>
+        </div>
+      </div>
+      <div class="case-price-tag">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>250
+      </div>
+    </div>
+    <div class="case-card gold-case" onclick="buyCase('gold')">
+      <div class="case-icon-box gold-bg">
+        <svg width="44" height="44" viewBox="0 0 56 56"><rect x="8" y="14" width="40" height="30" rx="8" fill="rgba(255,255,255,0.3)"/><rect x="6" y="18" width="44" height="6" rx="3" fill="rgba(255,255,255,0.25)"/><rect x="24" y="10" width="8" height="8" rx="3" fill="rgba(255,255,255,0.6)"/><polygon points="28,18 32,29 43,29 34,36 37,47 28,40 19,47 22,36 13,29 24,29" fill="white"/></svg>
+      </div>
+      <div class="case-info">
+        <div class="case-name" id="cn3">Алтын кейс</div>
+        <div class="case-desc" id="cd3">Ең жоғары шанс</div>
+        <div class="odds-row">
+          <span class="odds-badge badge-common">20%</span>
+          <span class="odds-badge badge-rare">35%</span>
+          <span class="odds-badge badge-epic">30%</span>
+          <span class="odds-badge badge-legendary">15%</span>
+        </div>
+      </div>
+      <div class="case-price-tag">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>500
+      </div>
+    </div>
+    <!-- DISCOUNT CASE (Баян Сұлу скидки) -->
+    <div class="case-card discount-case" onclick="buyDiscountCase()">
+      <div class="case-icon-box discount-bg">
+        <svg width="44" height="44" viewBox="0 0 56 56"><rect x="8" y="14" width="40" height="30" rx="8" fill="rgba(255,255,255,0.2)"/><text x="28" y="34" text-anchor="middle" font-size="20" font-family="Fredoka One,cursive" fill="white">%</text><rect x="24" y="10" width="8" height="8" rx="3" fill="rgba(255,255,255,0.5)"/><circle cx="16" cy="18" r="3" fill="rgba(255,255,255,0.4)"/><circle cx="40" cy="38" r="3" fill="rgba(255,255,255,0.4)"/></svg>
+      </div>
+      <div class="case-info">
+        <div class="case-name" style="color:#E91E8C">Жеңілдік кейсі</div>
+        <div class="case-desc">Баян Сұлу шоколадтарына жеңілдік</div>
+        <div class="odds-row">
+          <span class="odds-badge" style="background:rgba(233,30,140,0.1);color:#E91E8C">10%→100% жеңілдік</span>
+        </div>
+      </div>
+      <div class="case-price-tag" style="color:#E91E8C">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#FFD700"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>5000
+      </div>
+    </div>
+  </div>
+
+  <!-- ICONS -->
+  <div id="shop-icons" style="display:none">
+    <div class="icons-grid" id="iconsGrid"></div>
+  </div>
+
+  <!-- PROMO -->
+  <div id="shop-promo" style="display:none">
+    <div class="promo-section">
+      <div class="promo-title" id="promo_title">Промокод</div>
+      <div class="promo-desc" id="promo_desc">Промокодты енгіз және Ботакоин жина</div>
+      <input class="promo-input" id="promoIn" placeholder="BOTAOY2026" maxlength="25">
+      <button class="big-btn" id="promo_btn" onclick="redeemPromo()">Активтендіру</button>
+      <div class="promo-msg" id="promoMsg"></div>
+    </div>
+    <div style="margin-top:14px;background:white;border-radius:18px;padding:16px;box-shadow:0 4px 16px rgba(0,0,0,0.07)">
+      <div style="font-size:11px;font-weight:800;color:var(--text2);margin-bottom:10px" id="promo_list_title">ПРОМОКОДТАР</div>
+      <div style="display:grid;gap:8px" id="promoListDisplay"></div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="shop-lb" style="display:none">
+    <div class="lb-card" id="lbCard"></div>
+  </div>
+</div>
+
+<!-- PROFILE -->
+<div class="page" id="page-profile">
+  <div class="section-title" id="prof_title">Менің профилім</div>
+  <div class="section-sub" id="prof_sub" style="margin-bottom:16px">Менің статистикам</div>
+  <div class="profile-card">
+    <div class="avatar-ring" id="profileAvatarRing" onclick="openAvatarModal()">
+      <svg id="profileAvatarSvg" width="64" height="64" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#FFF3E0"/><text x="32" y="40" text-anchor="middle" font-size="28" font-family="Fredoka One,cursive" fill="#FF6B35">?</text></svg>
+    </div>
+    <div class="profile-name-txt" id="pName">Қолданушы</div>
+    <div class="profile-rank-txt" id="pRank">Жаңадан бастаушы</div>
+    <div class="profile-stats">
+      <div class="p-stat-card"><div class="p-stat-num" id="pGames">0</div><div class="p-stat-lbl" id="ps_games">Ойын</div></div>
+      <div class="p-stat-card"><div class="p-stat-num" id="pWins">0</div><div class="p-stat-lbl" id="ps_wins">Жеңіс</div></div>
+      <div class="p-stat-card"><div class="p-stat-num" id="pItems">0</div><div class="p-stat-lbl" id="ps_items">Зат</div></div>
+    </div>
+  </div>
+  <div class="inv-section">
+    <div class="inv-title" id="inv_title">Инвентарь</div>
+    <div class="inv-grid" id="invGrid"></div>
+  </div>
+  <button class="outline-btn" style="width:100%;margin-bottom:10px" id="changename_btn" onclick="openNameModal()">Атымды өзгерту</button>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav" style="display:none">
+  <button class="nav-btn active" id="nav-menu" onclick="switchPage('menu');setActiveNav(this);scrollToTop()">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </div>
+    <span id="nav1">Басты</span>
+  </button>
+  <button class="nav-btn" id="nav-daily" onclick="switchPage('daily');setActiveNav(this);renderDailyPage();scrollToTop()">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </div>
+    <span id="nav4">Тапсырма</span>
+  </button>
+  <button class="nav-btn" id="nav-shop" onclick="switchPage('shop');setActiveNav(this);scrollToTop()">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    </div>
+    <span id="nav2">Дүкен</span>
+  </button>
+  <button class="nav-btn" id="nav-profile" onclick="switchPage('profile');updateProfileUI();setActiveNav(this);scrollToTop()">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <span id="nav3">Профиль</span>
+  </button>
+  <button class="nav-btn" id="nav-parent" onclick="openParentMode();scrollToTop()">
+    <div class="nav-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <span id="nav5">Ата-ана</span>
+  </button>
+</nav>
+
+<!-- MODALS -->
+<!-- WIN MODAL -->
+<div class="modal-overlay" id="winModal">
+  <div class="modal-sheet">
+    <div class="win-burst">
+      <span class="win-icon-big" id="winEmoji">🏆</span>
+      <div class="win-title-big" id="winTitle">Керемет!</div>
+      <div style="font-size:14px;color:var(--text2);font-weight:700;margin-bottom:12px" id="winMsg"></div>
+      <div class="win-coins-big" id="winCoinsDisp"></div>
+    </div>
+    <button class="big-btn" style="margin-top:20px" id="win_ok" onclick="closeModal('winModal')">Жарайды!</button>
+  </div>
+</div>
+
+<!-- CASE MODAL -->
+<div class="modal-overlay" id="caseModal">
+  <div class="modal-sheet">
+    <div class="modal-title" id="case_spinning">Кейс ашылуда...</div>
+    <div class="roulette-track-wrap">
+      <div class="roulette-pointer"></div>
+      <div class="roulette-track" id="rouletteTrack"></div>
+    </div>
+    <div id="caseRevealSection" style="text-align:center;display:none;padding:10px 0">
+      <div id="caseRevealIcon" style="width:90px;height:90px;border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;animation:bounceIn 0.5s cubic-bezier(0.34,1.56,0.64,1)"></div>
+      <div id="caseRevealRarity" style="font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:4px"></div>
+      <div id="caseRevealName" style="font-size:14px;font-weight:700;color:var(--text2)"></div>
+    </div>
+    <button class="big-btn" id="case_close_btn" onclick="closeModal('caseModal')" style="display:none;margin-top:16px">Алу!</button>
+  </div>
+</div>
+
+<!-- DISCOUNT CASE MODAL -->
+<div class="modal-overlay" id="discountModal">
+  <div class="modal-sheet">
+    <div class="modal-title">🎁 Баян Сұлу жеңілдігі!</div>
+    <div style="text-align:center;margin-bottom:12px;font-size:13px;color:var(--text2);font-weight:700">Сіз жеңіп алдыңыз:</div>
+    <div id="discountReveal" style="text-align:center;padding:20px;background:linear-gradient(135deg,#FFF0F8,#FFE0F0);border-radius:18px;border:3px solid #E91E8C;margin-bottom:16px">
+      <div style="font-family:'Fredoka One',cursive;font-size:48px;color:#E91E8C" id="discountPct">50%</div>
+      <div style="font-size:14px;font-weight:800;color:#E91E8C">Баян Сұлу шоколадтарына жеңілдік</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:6px">1 ай ішінде жарамды</div>
+    </div>
+    <button class="big-btn" onclick="closeModal('discountModal')" style="background:linear-gradient(135deg,#E91E8C,#FF6B9D)">Рахмет! 🎉</button>
+  </div>
+</div>
+
+<!-- NAME MODAL -->
+<div class="modal-overlay" id="nameModal">
+  <div class="modal-sheet">
+    <div class="modal-title" id="nm_title">Атымды өзгерту</div>
+    <input class="fancy-input" id="nameChangeInput" placeholder="Жаңа атыңды жаз" maxlength="20">
+    <div style="display:flex;gap:10px">
+      <button class="outline-btn" style="flex:1" onclick="closeModal('nameModal')" id="nm_cancel">Бас тарту</button>
+      <button class="big-btn" style="flex:2" onclick="saveName()" id="nm_save">Сақтау</button>
+    </div>
+  </div>
+</div>
+
+<!-- AVATAR MODAL -->
+<div class="modal-overlay" id="avatarModal">
+  <div class="modal-sheet">
+    <div class="modal-title" id="av_title">Аватар таңда</div>
+    <div class="avatar-pick-grid" id="avatarPickGrid"></div>
+    <div style="display:flex;gap:10px">
+      <button class="outline-btn" style="flex:1" onclick="closeModal('avatarModal')" id="av_cancel">Бас тарту</button>
+      <button class="big-btn" style="flex:2" onclick="saveAvatarPick()" id="av_save">Сақтау</button>
+    </div>
+  </div>
+</div>
+
+<!-- PARENT MODE MODAL -->
+<div class="modal-overlay" id="parentModal">
+  <div class="modal-sheet" style="max-height:85vh;overflow-y:auto">
+    <!-- PIN экран -->
+    <div id="parentPinScreen">
+      <div style="font-family:'Fredoka One',cursive;font-size:22px;text-align:center;margin-bottom:8px">🔒 Ата-ана режимі</div>
+      <div style="font-size:13px;color:var(--text2);font-weight:700;text-align:center;margin-bottom:16px" id="parentPinHint">4 таңбалы PIN-код енгіз</div>
+      <div class="pin-dots" id="pinDots">
+        <div class="pin-dot" id="pd0"></div>
+        <div class="pin-dot" id="pd1"></div>
+        <div class="pin-dot" id="pd2"></div>
+        <div class="pin-dot" id="pd3"></div>
+      </div>
+      <div class="pin-keypad">
+        <button class="pin-key" onclick="pinPress('1')">1</button>
+        <button class="pin-key" onclick="pinPress('2')">2</button>
+        <button class="pin-key" onclick="pinPress('3')">3</button>
+        <button class="pin-key" onclick="pinPress('4')">4</button>
+        <button class="pin-key" onclick="pinPress('5')">5</button>
+        <button class="pin-key" onclick="pinPress('6')">6</button>
+        <button class="pin-key" onclick="pinPress('7')">7</button>
+        <button class="pin-key" onclick="pinPress('8')">8</button>
+        <button class="pin-key" onclick="pinPress('9')">9</button>
+        <button class="pin-key" onclick="pinClear()" style="font-size:14px">🗑</button>
+        <button class="pin-key" onclick="pinPress('0')">0</button>
+        <button class="pin-key" onclick="pinBack()" style="font-size:14px">⌫</button>
+      </div>
+      <button class="outline-btn" style="width:100%;margin-top:12px" onclick="closeModal('parentModal')">Жабу</button>
+    </div>
+    <!-- Панель ата-аны -->
+    <div id="parentPanel" style="display:none">
+      <div style="font-family:'Fredoka One',cursive;font-size:20px;text-align:center;margin-bottom:16px">👨‍👩‍👧 Ата-ана панелі</div>
+      <!-- Прогресс ребёнка -->
+      <div class="parent-section">
+        <div class="parent-section-title">📊 Баланың прогресі</div>
+        <div class="progress-child">
+          <div class="progress-row"><span>👤 Аты:</span><span id="pParentName">-</span></div>
+          <div class="progress-row"><span>🎂 Жасы:</span><span id="pParentAge">-</span></div>
+          <div class="progress-row"><span>📍 Облысы:</span><span id="pParentRegion">-</span></div>
+          <div class="progress-row"><span>🪙 BotaCoins:</span><span id="pParentCoins">0</span></div>
+          <div class="progress-row"><span>🎮 Ойындар:</span><span id="pParentGames">0</span></div>
+          <div class="progress-row"><span>🏆 Жеңістер:</span><span id="pParentWins">0</span></div>
+        </div>
+      </div>
+      <!-- Экран уақыты -->
+      <div class="parent-section">
+        <div class="parent-section-title">⏱ Экран уақыты (бүгін)</div>
+        <div class="timer-display" id="parentTimerDisplay">0 мин</div>
+        <div style="text-align:center;font-size:11px;color:var(--text2);font-weight:700;margin-top:4px">Ұсынылатын: 45 мин/күн</div>
+      </div>
+      <!-- Сменить/установить PIN -->
+      <div class="parent-section">
+        <div class="parent-section-title">🔑 PIN-кодты өзгерту</div>
+        <input class="fancy-input" id="newPinInput" placeholder="Жаңа 4 таңбалы PIN" maxlength="4" type="password" inputmode="numeric" style="margin-bottom:8px">
+        <button class="big-btn" onclick="saveNewPin()" style="font-size:14px;padding:12px">Сақтау</button>
+      </div>
+      <button class="outline-btn" style="width:100%;margin-top:8px" onclick="closeParentPanel()">Жабу</button>
+    </div>
+  </div>
+</div>
+
+<!-- REGION INFO MODAL -->
+<div class="modal-overlay" id="regionInfoModal">
+  <div class="modal-sheet" style="max-height:85vh;overflow-y:auto">
+    <div id="regionInfoContent"></div>
+    <button class="big-btn" onclick="closeModal('regionInfoModal')" style="margin-top:16px">Жабу</button>
+  </div>
+</div>
+
+<script>
 // ============================================================
 // STATE & SAVE
 // ============================================================
@@ -13,9 +1358,6 @@ let state = {
   dailyCoinsToday: 0, dailyDate: ''
 };
 let currentLang = 'kk';
-
-function capitalize(s){ if(!s) return s; s=String(s).trim(); return s.charAt(0).toUpperCase()+s.slice(1).toLowerCase(); }
-
 let selectedAge = null;
 let tempAvIdx = 0;
 
@@ -289,7 +1631,6 @@ function applySystemLangGreeting() {
 }
 
 function applyLang() {
-  try { translateWelcomeScreen(); } catch(e){}
   const keys = Object.keys(T.kk);
   keys.forEach(k => { const el = document.getElementById(k); if (el) el.textContent = t(k); });
   ['lv1','lv2','lv3'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = t(id); });
@@ -397,7 +1738,7 @@ function launchSmallConfetti() {
 // ============================================================
 // NAVIGATION
 // ============================================================
-var switchPage = function(name) {
+function switchPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
 }
@@ -443,6 +1784,11 @@ function selectAge(age, btn) {
 // ============================================================
 // WELCOME & ONBOARD — 3-шаговый диалог с маскотом
 // ============================================================
+function selectAge(age, btn) {
+  selectedAge = age;
+  document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
 
 function backToStep1Onboard() {
   document.querySelectorAll('.onboard-step').forEach(s => s.classList.remove('active'));
@@ -463,9 +1809,9 @@ function goToOnboardStep2() {
   }
   // Маскот обращается по имени и спрашивает возраст
   const greets = {
-    kk: `Қош келдің, ${capitalize(name)}! 🎉 Қане, нешедесің?`,
-    ru: `Привет, ${capitalize(name)}! 🎉 А сколько тебе лет?`,
-    en: `Hi, ${capitalize(name)}! 🎉 How old are you?`
+    kk: `Жасаған, ${name}! 🎉 Ал, қанша жасындасың?`,
+    ru: `Отлично, ${name}! 🎉 А сколько тебе лет?`,
+    en: `Awesome, ${name}! 🎉 How old are you?`
   };
   const el = document.getElementById('ob_age_question');
   if (el) el.textContent = greets[currentLang] || greets.kk;
@@ -481,9 +1827,9 @@ function goToOnboardStep3() {
   }
   const name = document.getElementById('nameInputOnb').value.trim();
   const regionQ = {
-    kk: `Тамаша, ${capitalize(name)}! Сен қай облыстан боласың? 📍`,
-    ru: `Здорово, ${capitalize(name)}! Из какой ты области? 📍`,
-    en: `Great, ${capitalize(name)}! Which region are you from? 📍`
+    kk: `Керемет, ${name}! Қай облыстан екенсің? 📍`,
+    ru: `Здорово, ${name}! Из какой ты области? 📍`,
+    en: `Great, ${name}! Which region are you from? 📍`
   };
   const el = document.getElementById('ob2_title');
   if (el) el.textContent = regionQ[currentLang] || regionQ.kk;
@@ -535,8 +1881,7 @@ function generateStars() {
 // ============================================================
 // MEMORY GAME
 // ============================================================
-const MEM_CANDIES = ['candy1.png','candy2.png','candy3.png','candy4.png','candy5.png','candy6.png','candy7.png','candy8.png'];
-const MEM_EMOJIS = MEM_CANDIES; // совместимость
+const MEM_EMOJIS = ['A','K','Q','J','10','9','8','7'];
 let memCards=[], memFlipped=[], memMatchCount=0, memMoveCount=0, memLock=false, memEarned=0;
 
 function initMemory() {
@@ -550,7 +1895,7 @@ function initMemory() {
   pairs.forEach((sym,i) => {
     const card = document.createElement('div');
     card.className = 'mem-card';
-    card.innerHTML = `<div class="mem-card-inner"><div class="mem-face mem-back"><svg width="24" height="24" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="rgba(255,255,255,0.6)"/></svg></div><div class="mem-face mem-front"><img src="./bota/${sym}" alt="candy" style="width:80%;height:80%;object-fit:contain;pointer-events:none"></div></div>`;
+    card.innerHTML = `<div class="mem-card-inner"><div class="mem-face mem-back"><svg width="24" height="24" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="rgba(255,255,255,0.6)"/></svg></div><div class="mem-face mem-front" style="font-family:'Fredoka One',cursive;font-size:26px;color:var(--text)">${sym}</div></div>`;
     card.dataset.sym = sym;
     card.onclick = () => flipMem(card, i);
     grid.appendChild(card);
@@ -1460,10 +2805,10 @@ function mapClickRegion(region) {
 
 // Override switchPage to render map when needed
 const _origSwitchPage = switchPage;
-switchPage = function(name) {
+function switchPage(name) {
   _origSwitchPage(name);
   if (name === 'map') renderMapPage();
-};
+}
 
 function updateLeaderboard() { save(); schedulePush(); }
 
@@ -1809,31 +3154,6 @@ if (state.name) {
 }
 
 applyLang();
-
-// === translate welcome screen on lang change ===
-function translateWelcomeScreen(){
-  const wt = document.getElementById('wt'); if (wt) wt.textContent = 'BotaOy';
-  const ws = document.getElementById('ws');
-  if (ws) ws.textContent = currentLang==='kk'?'Сәлем! 👋':currentLang==='ru'?'Привет! 👋':'Hello! 👋';
-  const wsub2 = document.getElementById('wsub2');
-  if (wsub2) wsub2.textContent = currentLang==='kk'?'Ботамен бірге оқы және ойна!':currentLang==='ru'?'Учись и играй вместе с Ботой!':'Learn and play with Bota!';
-  const wbtn = document.getElementById('wbtn');
-  if (wbtn) wbtn.textContent = currentLang==='kk'?'Бастау!':currentLang==='ru'?'Начать!':'Start!';
-  // onboard greetings
-  const ob_title = document.getElementById('ob_title');
-  if (ob_title) ob_title.textContent = currentLang==='kk'?'Менің атым — Бота! Сенің атың кім?':currentLang==='ru'?'Меня зовут Бота! А тебя как?':"My name is Bota! What's your name?";
-  const ob_btn = document.getElementById('ob_btn');
-  if (ob_btn) ob_btn.textContent = currentLang==='kk'?'Жалғастыру →':currentLang==='ru'?'Продолжить →':'Continue →';
-  const ob_age_btn = document.getElementById('ob_age_btn');
-  if (ob_age_btn) ob_age_btn.textContent = currentLang==='kk'?'Жалғастыру →':currentLang==='ru'?'Продолжить →':'Continue →';
-  const ob2_btn = document.getElementById('ob2_btn');
-  if (ob2_btn) ob2_btn.textContent = currentLang==='kk'?'Бастайық! 🎉':currentLang==='ru'?'Поехали! 🎉':"Let's go! 🎉";
-  const inp = document.getElementById('nameInputOnb');
-  if (inp) inp.placeholder = currentLang==='kk'?'Атыңды жаз...':currentLang==='ru'?'Напиши имя...':'Type your name...';
-  const sel = document.getElementById('regionSelect');
-  if (sel && sel.options.length) {
-    sel.options[0].textContent = currentLang==='kk'?'— Облысты таңда —':currentLang==='ru'?'— Выбери область —':'— Choose region —';
-  }
-  const lbl = document.getElementById('regionSelectedLabel');
-  if (lbl && !lbl.dataset.set) lbl.textContent = currentLang==='kk'?'👆 Картадан облысты таңда':currentLang==='ru'?'👆 Выбери область на карте':'👆 Pick a region on map';
-}
+</script>
+</body>
+</html>
