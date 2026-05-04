@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BotaBot — Қазақстан Білім Платформасы</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<!-- ═══════════════ SCREEN 1: WELCOME ═══════════════ -->
+<div id="screen-welcome" class="screen active">
+  <div class="welcome-bg">
+    <div class="stars" id="stars"></div>
+    <div class="welcome-content">
+      <div class="bot-container big-bot">
+        <div class="bot-body">
+          <div class="bot-face">
+            <div class="bot-eyes">
+              <div class="bot-eye"><div class="pupil"></div></div>
+              <div class="bot-eye"><div class="pupil"></div></div>
+            </div>
+            <div class="bot-mouth smile"></div>
+          </div>
+          <div class="bot-antenna"><div class="antenna-ball"></div></div>
+        </div>
+        <div class="bot-name-tag">BotaBot</div>
+      </div>
+      <h1 class="welcome-title">Қазақстанды бірге зерттейік!</h1>
+      <p class="welcome-sub">Ойындар, тест, карта және жүлделер күтеді!</p>
+      <button class="btn-primary pulse" onclick="goToScreen('screen-setup')">🚀 Бастау</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SCREEN 2: SETUP ═══════════════ -->
+<div id="screen-setup" class="screen">
+  <div class="setup-wrap">
+    <div class="bot-small">
+      <div class="bot-body sm">
+        <div class="bot-face">
+          <div class="bot-eyes">
+            <div class="bot-eye sm"><div class="pupil"></div></div>
+            <div class="bot-eye sm"><div class="pupil"></div></div>
+          </div>
+          <div class="bot-mouth smile"></div>
+        </div>
+        <div class="bot-antenna sm"><div class="antenna-ball sm"></div></div>
+      </div>
+    </div>
+    <div class="setup-card" id="step-name">
+      <h2 id="bot-question">Сәлем! Мен — BotaBot! 👋<br>Есіміңді айтшы!</h2>
+      <input type="text" id="input-name" class="setup-input" placeholder="Есімің..." maxlength="20" />
+      <button class="btn-primary" onclick="submitName()">Келесі ➜</button>
+    </div>
+    <div class="setup-card hidden" id="step-age">
+      <h2 id="age-question"></h2>
+      <input type="number" id="input-age" class="setup-input" placeholder="Жасың..." min="5" max="18" />
+      <button class="btn-primary" onclick="submitAge()">Келесі ➜</button>
+    </div>
+    <div class="setup-card hidden" id="step-region">
+      <h2>Қай облыста тұрасың? 🏠</h2>
+      <select id="select-region" class="setup-select">
+        <option value="">— Таңда —</option>
+        <option value="Алматы">Алматы + Алматы қ.</option>
+        <option value="Түркістан">Түркістан + Шымкент</option>
+        <option value="Ақмола">Ақмола + Астана</option>
+        <option value="Жамбыл">Жамбыл</option>
+        <option value="Қарағанды">Қарағанды</option>
+        <option value="Ақтөбе">Ақтөбе</option>
+        <option value="Қызылорда">Қызылорда</option>
+        <option value="Қостанай">Қостанай</option>
+        <option value="Маңғыстау">Маңғыстау</option>
+        <option value="Павлодар">Павлодар</option>
+        <option value="Шығыс Қазақстан">Шығыс Қазақстан</option>
+        <option value="Атырау">Атырау</option>
+        <option value="Батыс Қазақстан">Батыс Қазақстан</option>
+        <option value="Жетісу">Жетісу</option>
+        <option value="Абай">Абай</option>
+        <option value="Солтүстік Қазақстан">Солтүстік Қазақстан</option>
+        <option value="Ұлытау">Ұлытау</option>
+      </select>
+      <button class="btn-primary" onclick="submitRegion()">Бастау! 🎉</button>
+    </div>
+    <div class="setup-card hidden" id="step-lang">
+      <h2>Тілді таңда 🌐</h2>
+      <div class="lang-btns">
+        <button class="lang-btn active" onclick="setLang('kk', this)">🇰🇿 Қазақша</button>
+        <button class="lang-btn" onclick="setLang('ru', this)">🇷🇺 Русский</button>
+      </div>
+      <button class="btn-primary" onclick="finishSetup()">Дайын! ✅</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SCREEN 3: MAIN HUB ═══════════════ -->
+<div id="screen-hub" class="screen">
+  <div class="hub-wrap">
+    <!-- Header -->
+    <div class="hub-header">
+      <div class="header-left">
+        <div class="bot-mini" onclick="goToScreen('screen-hub')">
+          <div class="bot-body xs">
+            <div class="bot-face">
+              <div class="bot-eyes">
+                <div class="bot-eye xs"><div class="pupil"></div></div>
+                <div class="bot-eye xs"><div class="pupil"></div></div>
+              </div>
+              <div class="bot-mouth smile xs"></div>
+            </div>
+            <div class="bot-antenna xs"><div class="antenna-ball xs"></div></div>
+          </div>
+        </div>
+        <span class="hub-logo">BotaBot</span>
+      </div>
+      <div class="header-right">
+        <div class="coin-display" onclick="goToScreen('screen-rating')">
+          <span class="coin-icon">🪙</span>
+          <span id="hub-coins">0</span>
+        </div>
+        <div class="header-user" id="header-user">Сәлем!</div>
+      </div>
+    </div>
+
+    <!-- Nav Tabs -->
+    <div class="hub-nav">
+      <button class="nav-tab active" onclick="showTab('tab-games')" data-tab="tab-games">🎮 Ойындар</button>
+      <button class="nav-tab" onclick="showTab('tab-map')" data-tab="tab-map">🗺️ Карта</button>
+      <button class="nav-tab" onclick="showTab('tab-daily')" data-tab="tab-daily">📅 Күнделік</button>
+      <button class="nav-tab" onclick="showTab('tab-cases')" data-tab="tab-cases">🎁 Кейстер</button>
+      <button class="nav-tab" onclick="showTab('tab-promo')" data-tab="tab-promo">🎟️ Промокод</button>
+      <button class="nav-tab" onclick="showTab('tab-rating')" data-tab="tab-rating">🏆 Рейтинг</button>
+      <button class="nav-tab" onclick="showTab('tab-parent')" data-tab="tab-parent">👨‍👩‍👧 Ата-ана</button>
+    </div>
+
+    <!-- GAMES TAB -->
+    <div id="tab-games" class="tab-content active">
+      <h2 class="section-title">Ойын таңда 🎮</h2>
+      <div class="games-grid">
+        <div class="game-card" onclick="startGame('cards')">
+          <div class="game-icon">🃏</div>
+          <div class="game-info">
+            <div class="game-name">Қазақ Тілі Карталары</div>
+            <div class="game-reward">+5 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-cards"></div>
+        </div>
+        <div class="game-card" onclick="startGame('match')">
+          <div class="game-icon">🔗</div>
+          <div class="game-info">
+            <div class="game-name">Карта Ойыны (Сәйкестендір)</div>
+            <div class="game-reward">+5 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-match"></div>
+        </div>
+        <div class="game-card" onclick="startGame('puzzle')">
+          <div class="game-icon">🧩</div>
+          <div class="game-info">
+            <div class="game-name">Пазл (3 деңгей)</div>
+            <div class="game-reward">+10 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-puzzle"></div>
+        </div>
+        <div class="game-card" onclick="startGame('math')">
+          <div class="game-icon">🔢</div>
+          <div class="game-info">
+            <div class="game-name">Математика</div>
+            <div class="game-reward">+20 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-math"></div>
+        </div>
+        <div class="game-card" onclick="startGame('wordguess')">
+          <div class="game-icon">🔤</div>
+          <div class="game-info">
+            <div class="game-name">Сөз Табу</div>
+            <div class="game-reward">+15 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-wordguess"></div>
+        </div>
+        <div class="game-card" onclick="startGame('snake')">
+          <div class="game-icon">🐍</div>
+          <div class="game-info">
+            <div class="game-name">Жылан Ойыны</div>
+            <div class="game-reward">+20 🪙</div>
+          </div>
+          <div class="daily-badge" id="daily-snake"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAP TAB -->
+    <div id="tab-map" class="tab-content">
+      <h2 class="section-title">Қазақстан Картасы 🗺️</h2>
+      <div id="kz-map-container">
+        <svg id="kz-map" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div id="region-info-panel" class="region-info hidden"></div>
+      </div>
+    </div>
+
+    <!-- DAILY TAB -->
+    <div id="tab-daily" class="tab-content">
+      <h2 class="section-title">Күнделікті Тапсырмалар 📅</h2>
+      <div id="daily-tasks-list"></div>
+    </div>
+
+    <!-- CASES TAB -->
+    <div id="tab-cases" class="tab-content">
+      <h2 class="section-title">Кейстер 🎁</h2>
+      <p class="section-sub">Монеталарға кейс сатып ал!</p>
+      <div class="cases-grid">
+        <div class="case-card bronze" onclick="openCase('bronze')">
+          <div class="case-icon">📦</div>
+          <div class="case-name">Қола кейс</div>
+          <div class="case-price">100 🪙</div>
+        </div>
+        <div class="case-card silver" onclick="openCase('silver')">
+          <div class="case-icon">🎁</div>
+          <div class="case-name">Күміс кейс</div>
+          <div class="case-price">250 🪙</div>
+        </div>
+        <div class="case-card gold" onclick="openCase('gold')">
+          <div class="case-icon">💎</div>
+          <div class="case-name">Алтын кейс</div>
+          <div class="case-price">500 🪙</div>
+        </div>
+      </div>
+      <div id="case-result" class="case-result hidden"></div>
+    </div>
+
+    <!-- PROMO TAB -->
+    <div id="tab-promo" class="tab-content">
+      <h2 class="section-title">Промокод 🎟️</h2>
+      <div class="promo-wrap">
+        <div class="bot-speech">Промокод бар ма? Енгізіп монета жина! 🪙</div>
+        <input type="text" id="promo-input" class="setup-input" placeholder="Промокодты енгіз..." style="text-transform:uppercase" />
+        <button class="btn-primary" onclick="redeemPromo()">Пайдалану ✅</button>
+        <div id="promo-result" class="promo-result"></div>
+      </div>
+    </div>
+
+    <!-- RATING TAB -->
+    <div id="tab-rating" class="tab-content">
+      <h2 class="section-title">Live Рейтинг 🏆</h2>
+      <div id="rating-list"></div>
+    </div>
+
+    <!-- PARENT TAB -->
+    <div id="tab-parent" class="tab-content">
+      <h2 class="section-title">Ата-ана Бақылауы 👨‍👩‍👧</h2>
+      <div id="parent-lock" class="parent-lock">
+        <p>4 таңбалы PIN-кодты енгізіңіз</p>
+        <div class="pin-inputs">
+          <input type="password" maxlength="1" class="pin-digit" oninput="pinInput(this,0)" />
+          <input type="password" maxlength="1" class="pin-digit" oninput="pinInput(this,1)" />
+          <input type="password" maxlength="1" class="pin-digit" oninput="pinInput(this,2)" />
+          <input type="password" maxlength="1" class="pin-digit" oninput="pinInput(this,3)" />
+        </div>
+        <button class="btn-secondary" onclick="checkPin()">Кіру</button>
+        <div id="pin-error" class="pin-error"></div>
+        <p style="font-size:0.8rem;color:#aaa;margin-top:8px">Әдепкі PIN: 1234</p>
+      </div>
+      <div id="parent-panel" class="hidden">
+        <div class="parent-stats">
+          <div class="parent-stat">
+            <div class="ps-label">Балл</div>
+            <div class="ps-val" id="ps-coins">0 🪙</div>
+          </div>
+          <div class="parent-stat">
+            <div class="ps-label">Ойналған ойындар</div>
+            <div class="ps-val" id="ps-games">0</div>
+          </div>
+          <div class="parent-stat">
+            <div class="ps-label">Экран уақыты</div>
+            <div class="ps-val" id="ps-time">0 мин</div>
+          </div>
+        </div>
+        <div class="timer-control">
+          <label>Күнделікті уақыт шегі (мин):</label>
+          <input type="number" id="time-limit" value="60" min="10" max="300" class="setup-input" style="width:80px" />
+          <button class="btn-secondary" onclick="saveTimeLimit()">Сақтау</button>
+        </div>
+        <button class="btn-secondary" onclick="lockParent()">Жабу 🔒</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ GAME SCREENS ═══════════════ -->
+
+<!-- CARD MATCHING GAME -->
+<div id="screen-match" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Сәйкестендір 🔗</h2>
+      <div class="score-badge">Ұпай: <span id="match-score">0</span></div>
+    </div>
+    <p style="text-align:center;color:#666;margin-bottom:12px">Қазақша — орысша сәйкестіктерді тап! Таңдалғандар жабылмайды.</p>
+    <div id="match-grid" class="match-grid"></div>
+    <button class="btn-primary" id="match-next-btn" style="display:none;margin-top:16px" onclick="nextMatchRound()">Келесі раунд ➜</button>
+  </div>
+</div>
+
+<!-- CARDS GAME (Flashcards) -->
+<div id="screen-cards" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Қазақ Тілі 🃏</h2>
+      <div class="score-badge">Ұпай: <span id="cards-score">0</span></div>
+    </div>
+    <div class="flashcard-wrap">
+      <div class="flashcard" id="flashcard" onclick="flipCard()">
+        <div class="card-front" id="card-front">?</div>
+        <div class="card-back" id="card-back">?</div>
+      </div>
+      <p class="card-hint">Картаны басу арқылы аудар</p>
+    </div>
+    <div class="card-choices" id="card-choices"></div>
+  </div>
+</div>
+
+<!-- PUZZLE GAME -->
+<div id="screen-puzzle" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Пазл 🧩</h2>
+      <div class="score-badge">Ұпай: <span id="puzzle-score">0</span></div>
+    </div>
+    <div class="puzzle-levels" id="puzzle-levels">
+      <button class="level-btn" onclick="startPuzzle('easy')">🟢 Оңай</button>
+      <button class="level-btn" onclick="startPuzzle('medium')">🟡 Орта</button>
+      <button class="level-btn" onclick="startPuzzle('hard')">🔴 Қиын</button>
+    </div>
+    <div id="puzzle-board" class="puzzle-board hidden"></div>
+  </div>
+</div>
+
+<!-- MATH GAME -->
+<div id="screen-math" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Математика 🔢</h2>
+      <div class="score-badge">Ұпай: <span id="math-score">0</span></div>
+    </div>
+    <div class="math-question" id="math-question"></div>
+    <div class="math-choices" id="math-choices"></div>
+    <div class="math-feedback" id="math-feedback"></div>
+  </div>
+</div>
+
+<!-- WORD GUESS GAME -->
+<div id="screen-wordguess" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Сөз Табу 🔤</h2>
+      <div class="score-badge">Ұпай: <span id="word-score">0</span></div>
+    </div>
+    <div class="word-clue" id="word-clue"></div>
+    <div class="word-letters" id="word-letters"></div>
+    <div class="word-input-row">
+      <input type="text" id="word-input" class="setup-input" placeholder="Жауабың..." />
+      <button class="btn-primary" onclick="checkWord()">Тексеру</button>
+    </div>
+    <div id="word-feedback" class="math-feedback"></div>
+    <button class="btn-secondary" id="word-next-btn" style="display:none" onclick="nextWord()">Келесі ➜</button>
+  </div>
+</div>
+
+<!-- SNAKE GAME -->
+<div id="screen-snake" class="screen game-screen">
+  <div class="game-wrap">
+    <div class="game-header">
+      <button class="btn-back" onclick="exitGame()">← Артқа</button>
+      <h2>Жылан 🐍</h2>
+      <div class="score-badge">Ұпай: <span id="snake-score">0</span></div>
+    </div>
+    <canvas id="snake-canvas" width="400" height="400"></canvas>
+    <div id="snake-controls" class="snake-controls">
+      <button class="btn-primary" onclick="startSnake()">▶ Бастау</button>
+    </div>
+    <div class="dpad">
+      <button class="dpad-btn" onclick="snakeDir('up')">▲</button>
+      <div class="dpad-row">
+        <button class="dpad-btn" onclick="snakeDir('left')">◀</button>
+        <button class="dpad-btn" onclick="snakeDir('right')">▶</button>
+      </div>
+      <button class="dpad-btn" onclick="snakeDir('down')">▼</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPUP OVERLAY -->
+<div id="popup-overlay" class="popup-overlay hidden">
+  <div class="popup-box">
+    <div class="popup-bot">
+      <div class="bot-body sm">
+        <div class="bot-face">
+          <div class="bot-eyes">
+            <div class="bot-eye sm"><div class="pupil"></div></div>
+            <div class="bot-eye sm"><div class="pupil"></div></div>
+          </div>
+          <div class="bot-mouth smile"></div>
+        </div>
+        <div class="bot-antenna sm"><div class="antenna-ball sm"></div></div>
+      </div>
+    </div>
+    <div id="popup-message" class="popup-message"></div>
+    <button class="btn-primary" onclick="closePopup()">Жарайды! 👍</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
