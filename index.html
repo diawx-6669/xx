@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <!-- STARS BG -->
 <div class="stars-bg" id="starsBg"></div>
 
@@ -199,46 +200,44 @@
 
       <!-- Карта Казахстана (SVG) -->
       <div class="kz-map-wrap" id="kzMapWrap">
-        <svg viewBox="0 0 520 340" width="100%" style="max-height:180px" id="kzMapSvg">
-          <!-- Актюбинская -->
-          <path id="reg-aktobe" data-region="Актюбинская" d="M60 60 L150 55 L160 130 L80 140 Z" fill="#4ECDC4" stroke="white" stroke-width="2" onclick="selectRegionMap('Актюбинская')"/>
-          <!-- ЗКО -->
-          <path id="reg-wko" data-region="Западно-Казахстанская" d="M30 35 L120 30 L150 55 L60 60 L30 80 Z" fill="#27AE60" stroke="white" stroke-width="2" onclick="selectRegionMap('Западно-Казахстанская')"/>
-          <!-- Атырауская -->
-          <path id="reg-atyrau" data-region="Атырауская" d="M10 80 L60 60 L80 140 L20 130 Z" fill="#9B59B6" stroke="white" stroke-width="2" onclick="selectRegionMap('Атырауская')"/>
-          <!-- Мангистауская -->
-          <path id="reg-mangistau" data-region="Мангистауская" d="M10 130 L80 140 L70 200 L5 180 Z" fill="#E74C3C" stroke="white" stroke-width="2" onclick="selectRegionMap('Мангистауская')"/>
-          <!-- Кызылординская -->
-          <path id="reg-kyzylorda" data-region="Кызылординская" d="M80 140 L160 130 L180 210 L90 220 Z" fill="#F39C12" stroke="white" stroke-width="2" onclick="selectRegionMap('Кызылординская')"/>
-          <!-- Туркестанская -->
-          <path id="reg-turkestan" data-region="Туркестанская" d="M90 220 L180 210 L190 280 L85 270 Z" fill="#1ABC9C" stroke="white" stroke-width="2" onclick="selectRegionMap('Туркестанская')"/>
-          <!-- Жамбылская -->
-          <path id="reg-zhambyl" data-region="Жамбылская" d="M180 210 L260 200 L270 275 L190 280 Z" fill="#2980B9" stroke="white" stroke-width="2" onclick="selectRegionMap('Жамбылская')"/>
-          <!-- Алматинская -->
-          <path id="reg-almaty-r" data-region="Алматинская" d="M260 200 L340 190 L360 270 L270 275 Z" fill="#8E44AD" stroke="white" stroke-width="2" onclick="selectRegionMap('Алматинская')"/>
-          <!-- Жетісу -->
-          <path id="reg-zhetisu" data-region="Область Жетісу" d="M340 190 L400 185 L410 255 L360 270 Z" fill="#E67E22" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Жетісу')"/>
-          <!-- Карагандинская -->
-          <path id="reg-karagandy" data-region="Карагандинская" d="M160 130 L280 120 L290 200 L180 210 Z" fill="#16A085" stroke="white" stroke-width="2" onclick="selectRegionMap('Карагандинская')"/>
-          <!-- Улытау -->
-          <path id="reg-ulytau" data-region="Область Ұлытау" d="M155 125 L175 200 L165 210 L90 215 L78 140 Z" fill="#D35400" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Ұлытау')"/>
-          <!-- Павлодарская -->
-          <path id="reg-pavlodar" data-region="Павлодарская" d="M280 60 L380 55 L390 130 L290 130 Z" fill="#C0392B" stroke="white" stroke-width="2" onclick="selectRegionMap('Павлодарская')"/>
-          <!-- ВКО -->
-          <path id="reg-eko" data-region="Восточно-Казахстанская" d="M380 55 L470 50 L480 170 L390 165 Z" fill="#7D3C98" stroke="white" stroke-width="2" onclick="selectRegionMap('Восточно-Казахстанская')"/>
-          <!-- Абай -->
-          <path id="reg-abay" data-region="Область Абай" d="M390 130 L480 130 L480 200 L400 195 Z" fill="#117A65" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Абай')"/>
-          <!-- Акмолинская -->
-          <path id="reg-akmola" data-region="Ақмолинская" d="M160 30 L280 25 L285 125 L165 125 Z" fill="#2471A3" stroke="white" stroke-width="2" onclick="selectRegionMap('Ақмолинская')"/>
-          <!-- СКО -->
-          <path id="reg-sko" data-region="Северо-Казахстанская" d="M160 10 L280 10 L280 30 L160 30 Z" fill="#117864" stroke="white" stroke-width="2" onclick="selectRegionMap('Северо-Казахстанская')"/>
-          <!-- Костанайская -->
-          <path id="reg-kostanay" data-region="Костанайская" d="M120 10 L160 10 L160 130 L115 130 Z" fill="#884EA0" stroke="white" stroke-width="2" onclick="selectRegionMap('Костанайская')"/>
-          
-          <!-- Метки городов (звёздочки) -->
-          <circle cx="210" cy="65" r="4" fill="#FFD700" stroke="#FF6B35" stroke-width="1.5"/>
-          <text x="215" y="60" font-size="8" fill="white" font-weight="bold">Астана</text>
-        </svg>
+        <svg viewBox="0 0 600 320" width="100%" style="max-height:220px" id="kzMapSvg" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="mapShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <g filter="url(#mapShadow)">
+    <!-- North row -->
+    <path id="reg-sko" data-region="Северо-Казахстанская" d="M180 20 L290 18 L300 55 L185 60 Z" fill="#117864" stroke="white" stroke-width="2" onclick="selectRegionMap('Северо-Казахстанская')"/>
+    <path id="reg-kostanay" data-region="Костанайская" d="M85 25 L180 20 L185 60 L185 130 L90 135 Z" fill="#884EA0" stroke="white" stroke-width="2" onclick="selectRegionMap('Костанайская')"/>
+    <path id="reg-pavlodar" data-region="Павлодарская" d="M380 25 L490 30 L500 105 L395 110 Z" fill="#C0392B" stroke="white" stroke-width="2" onclick="selectRegionMap('Павлодарская')"/>
+    <path id="reg-eko" data-region="Восточно-Казахстанская" d="M490 30 L580 70 L585 175 L500 180 L500 105 Z" fill="#7D3C98" stroke="white" stroke-width="2" onclick="selectRegionMap('Восточно-Казахстанская')"/>
+    <!-- Middle north -->
+    <path id="reg-akmola" data-region="Ақмолинская" d="M185 60 L300 55 L380 60 L380 25 L380 60 L385 135 L260 140 L185 130 Z" fill="#2471A3" stroke="white" stroke-width="2" onclick="selectRegionMap('Ақмолинская')"/>
+    <!-- West -->
+    <path id="reg-wko" data-region="Западно-Казахстанская" d="M20 60 L120 50 L125 110 L25 115 Z" fill="#27AE60" stroke="white" stroke-width="2" onclick="selectRegionMap('Западно-Казахстанская')"/>
+    <path id="reg-atyrau" data-region="Атырауская" d="M5 115 L125 110 L130 165 L10 175 Z" fill="#9B59B6" stroke="white" stroke-width="2" onclick="selectRegionMap('Атырауская')"/>
+    <path id="reg-mangistau" data-region="Мангистауская" d="M5 175 L100 175 L95 245 L8 240 Z" fill="#E74C3C" stroke="white" stroke-width="2" onclick="selectRegionMap('Мангистауская')"/>
+    <path id="reg-aktobe" data-region="Актюбинская" d="M120 50 L185 60 L185 130 L130 165 L125 110 Z" fill="#4ECDC4" stroke="white" stroke-width="2" onclick="selectRegionMap('Актюбинская')"/>
+    <!-- Center -->
+    <path id="reg-karagandy" data-region="Карагандинская" d="M260 140 L385 135 L500 180 L490 235 L350 240 L270 215 Z" fill="#16A085" stroke="white" stroke-width="2" onclick="selectRegionMap('Карагандинская')"/>
+    <path id="reg-ulytau" data-region="Область Ұлытау" d="M185 130 L260 140 L270 215 L195 215 L130 165 Z" fill="#D35400" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Ұлытау')"/>
+    <path id="reg-abay" data-region="Область Абай" d="M500 180 L585 175 L580 245 L490 235 Z" fill="#117A65" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Абай')"/>
+    <!-- South -->
+    <path id="reg-kyzylorda" data-region="Кызылординская" d="M100 175 L195 215 L200 270 L100 250 Z" fill="#F39C12" stroke="white" stroke-width="2" onclick="selectRegionMap('Кызылординская')"/>
+    <path id="reg-turkestan" data-region="Туркестанская" d="M200 270 L195 215 L270 215 L295 285 L210 300 Z" fill="#1ABC9C" stroke="white" stroke-width="2" onclick="selectRegionMap('Туркестанская')"/>
+    <path id="reg-zhambyl" data-region="Жамбылская" d="M295 285 L270 215 L350 240 L380 295 Z" fill="#2980B9" stroke="white" stroke-width="2" onclick="selectRegionMap('Жамбылская')"/>
+    <path id="reg-almaty-r" data-region="Алматинская" d="M350 240 L490 235 L495 290 L380 295 Z" fill="#8E44AD" stroke="white" stroke-width="2" onclick="selectRegionMap('Алматинская')"/>
+    <path id="reg-zhetisu" data-region="Область Жетісу" d="M490 235 L580 245 L585 300 L495 290 Z" fill="#E67E22" stroke="white" stroke-width="2" onclick="selectRegionMap('Область Жетісу')"/>
+    <!-- City labels -->
+    <circle cx="335" cy="80" r="4" fill="#FFD700" stroke="#B8860B" stroke-width="1.5"/>
+    <text x="343" y="84" font-size="10" font-weight="700" fill="#2C3E50">Астана</text>
+    <circle cx="450" cy="270" r="3" fill="white" stroke="#2C3E50" stroke-width="1"/>
+    <text x="455" y="273" font-size="9" fill="#2C3E50">Алматы</text>
+    <circle cx="245" cy="285" r="3" fill="white" stroke="#2C3E50" stroke-width="1"/>
+    <text x="250" y="288" font-size="9" fill="#2C3E50">Шымкент</text>
+  </g>
+</svg>
       </div>
 
       <div class="region-label" id="regionSelectedLabel">👆 Картадан облысты таңда немесе төменде таңда</div>
@@ -286,6 +285,8 @@
   <div class="section-sub" id="menu_sub">Ботакоин жина!</div>
   
   <!-- Карта прогресса (кнопка-баннер) -->
+  <div onclick="switchPage('map');setActiveNav(null);scrollToTop()" style="background:linear-gradient(135deg,#2980B9,#4ECDC4);border-radius:20px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 6px 20px rgba(41,128,185,0.3);transition:all 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+    <div style="font-size:36px">🗺️</div>
     <div>
       <div style="font-family:'Fredoka One',cursive;font-size:18px;color:white" id="mapBtnTitle">Қазақстан картасы</div>
       <div style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:700" id="mapBtnSub">Облыстарды ашып, BotaCoin жина!</div>
@@ -340,6 +341,54 @@
 </div>
 
 <!-- KAZAKHSTAN MAP PAGE -->
+<div class="page" id="page-map">
+  <button class="back-btn" onclick="switchPage('menu');setActiveNav(document.getElementById('nav-menu'));scrollToTop()">← <span id="back_map">Артқа</span></button>
+  <div class="section-title">🗺️ <span id="map_title">Қазақстан картасы</span></div>
+  <div class="section-sub" id="map_sub">Облысты таңдап, ашу туралы біліміңді кеңейт!</div>
+
+  <!-- Инфо о текущем регионе -->
+  <div style="background:linear-gradient(135deg,#FF6B35,#FF8C5A);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
+    <div style="font-size:32px">🏠</div>
+    <div>
+      <div style="font-family:'Fredoka One',cursive;font-size:15px;color:white" id="homeRegionLabel">Туған өлке</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:700" id="homeRegionName">-</div>
+    </div>
+    <div style="margin-left:auto">
+      <div style="background:rgba(255,255,255,0.25);border-radius:12px;padding:6px 12px;font-family:'Fredoka One',cursive;font-size:14px;color:white" id="homeRegionCoins">0 BC</div>
+    </div>
+  </div>
+
+  <!-- Интерактивная карта -->
+  <div style="background:white;border-radius:22px;padding:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:16px">
+    <svg viewBox="0 0 520 340" width="100%" id="mapPageSvg" style="border-radius:12px">
+      <rect width="520" height="340" fill="#E3F2FD" rx="12"/>
+      <!-- Regions — color changes based on lock status -->
+      <path id="mp-aktobe" d="M60 60 L150 55 L160 130 L80 140 Z" fill="#4ECDC4" stroke="white" stroke-width="2" onclick="mapClickRegion('Актюбинская')" style="cursor:pointer"/>
+      <path id="mp-wko" d="M30 35 L120 30 L150 55 L60 60 L30 80 Z" fill="#27AE60" stroke="white" stroke-width="2" onclick="mapClickRegion('Западно-Казахстанская')" style="cursor:pointer"/>
+      <path id="mp-atyrau" d="M10 80 L60 60 L80 140 L20 130 Z" fill="#9B59B6" stroke="white" stroke-width="2" onclick="mapClickRegion('Атырауская')" style="cursor:pointer"/>
+      <path id="mp-mangistau" d="M10 130 L80 140 L70 200 L5 180 Z" fill="#E74C3C" stroke="white" stroke-width="2" onclick="mapClickRegion('Мангистауская')" style="cursor:pointer"/>
+      <path id="mp-kyzylorda" d="M80 140 L160 130 L180 210 L90 220 Z" fill="#F39C12" stroke="white" stroke-width="2" onclick="mapClickRegion('Кызылординская')" style="cursor:pointer"/>
+      <path id="mp-turkestan" d="M90 220 L180 210 L190 280 L85 270 Z" fill="#1ABC9C" stroke="white" stroke-width="2" onclick="mapClickRegion('Туркестанская')" style="cursor:pointer"/>
+      <path id="mp-zhambyl" d="M180 210 L260 200 L270 275 L190 280 Z" fill="#2980B9" stroke="white" stroke-width="2" onclick="mapClickRegion('Жамбылская')" style="cursor:pointer"/>
+      <path id="mp-almaty" d="M260 200 L340 190 L360 270 L270 275 Z" fill="#8E44AD" stroke="white" stroke-width="2" onclick="mapClickRegion('Алматинская')" style="cursor:pointer"/>
+      <path id="mp-zhetisu" d="M340 190 L400 185 L410 255 L360 270 Z" fill="#E67E22" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Жетісу')" style="cursor:pointer"/>
+      <path id="mp-karagandy" d="M160 130 L280 120 L290 200 L180 210 Z" fill="#16A085" stroke="white" stroke-width="2" onclick="mapClickRegion('Карагандинская')" style="cursor:pointer"/>
+      <path id="mp-ulytau" d="M155 125 L175 200 L165 210 L90 215 L78 140 Z" fill="#D35400" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Ұлытау')" style="cursor:pointer"/>
+      <path id="mp-pavlodar" d="M280 60 L380 55 L390 130 L290 130 Z" fill="#C0392B" stroke="white" stroke-width="2" onclick="mapClickRegion('Павлодарская')" style="cursor:pointer"/>
+      <path id="mp-eko" d="M380 55 L470 50 L480 170 L390 165 Z" fill="#7D3C98" stroke="white" stroke-width="2" onclick="mapClickRegion('Восточно-Казахстанская')" style="cursor:pointer"/>
+      <path id="mp-abay" d="M390 130 L480 130 L480 200 L400 195 Z" fill="#117A65" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Абай')" style="cursor:pointer"/>
+      <path id="mp-akmola" d="M160 30 L280 25 L285 125 L165 125 Z" fill="#2471A3" stroke="white" stroke-width="2" onclick="mapClickRegion('Ақмолинская')" style="cursor:pointer"/>
+      <path id="mp-sko" d="M160 10 L280 10 L280 30 L160 30 Z" fill="#117864" stroke="white" stroke-width="2" onclick="mapClickRegion('Северо-Казахстанская')" style="cursor:pointer"/>
+      <path id="mp-kostanay" d="M120 10 L160 10 L160 130 L115 130 Z" fill="#884EA0" stroke="white" stroke-width="2" onclick="mapClickRegion('Костанайская')" style="cursor:pointer"/>
+      <!-- Астана маркер -->
+      <circle cx="210" cy="65" r="6" fill="#FFD700" stroke="#FF6B35" stroke-width="2"/>
+      <text x="218" y="62" font-size="9" fill="white" font-weight="bold">Астана</text>
+    </svg>
+  </div>
+
+  <!-- Список регионов -->
+  <div id="regionListCards"></div>
+</div>
 
 <!-- MEMORY -->
 <div class="page" id="page-memory">
@@ -450,14 +499,6 @@
   </div>
   <button class="big-btn" onclick="initSnake()" style="margin-top:8px" id="snakeStartBtn">Бастау</button>
 </div>
-
-<!-- DAILY TASKS PAGE -->
-<div class="page" id="page-daily">
-  <div class="section-title">📋 <span id="daily_title_txt">Күнделікті тапсырмалар</span></div>
-  <div class="section-sub" id="daily_sub_txt">Тапсырмаларды орындап, BotaCoin жина!</div>
-  <div id="dailyQuestContainer" style="padding-bottom:16px"></div>
-</div>
-
 
 <!-- SHOP -->
 <div class="page" id="page-shop">
@@ -764,6 +805,8 @@
     <button class="big-btn" onclick="closeModal('regionInfoModal')" style="margin-top:16px">Жабу</button>
   </div>
 </div>
-<script src="app.js"></script>
+
+
+<script src="script.js"></script>
 </body>
 </html>

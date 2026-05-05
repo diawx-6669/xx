@@ -531,3 +531,15 @@ nav {
   .math-expr { font-size: 32px; }
   .scrambled { font-size: 28px; }
 }
+
+/* === Bayan Sulu candies & matched-stays-open === */
+.mem-card.matched .mem-card-inner { transform: rotateY(180deg); }
+.mem-card.matched { box-shadow: 0 0 0 3px var(--green), 0 8px 24px rgba(39,174,96,0.35); }
+.mem-card.matched .mem-front { background: linear-gradient(135deg, #E8F8F0, #D4F4DD); }
+/* Bota-bot bigger */
+.bota-bot-wrap { transform: scale(1.35); transform-origin: bottom right; }
+/* Better KZ map look */
+#kzMapWrap svg path { transition: filter .2s, transform .2s; cursor: pointer; }
+#kzMapWrap svg path:hover { filter: brightness(1.1); }
+#kzMapWrap svg path.selected { stroke: var(--gold); stroke-width: 4; filter: drop-shadow(0 0 8px var(--gold)); }
+#kzMapWrap svg path.locked { fill: #bdc3c7 !important; opacity: .55; cursor: not-allowed; }
