@@ -1,107 +1,85 @@
 // ============================================================
-// DAILY TASKS PAGE
+// DAILY TASKS
 // ============================================================
 const DAILY_QUESTS = [
-  {id:'q1', icon:'🃏', name:{kk:'Карта ойынын ойна',ru:'Сыграй в карточки',en:'Play Memory Game'}, target:1, game:'memory', reward:50},
-  {id:'q2', icon:'📚', name:{kk:'Тест тапсыр (5 сұрақ)',ru:'Ответь на 5 вопросов',en:'Answer 5 quiz questions'}, target:5, game:'quiz', reward:75},
-  {id:'q3', icon:'🧮', name:{kk:'Математика (3 есеп шеш)',ru:'Реши 3 задачи',en:'Solve 3 math problems'}, target:3, game:'math', reward:60},
-  {id:'q4', icon:'🧩', name:{kk:'Пазлды шеш',ru:'Собери пазл',en:'Solve a puzzle'}, target:1, game:'puzzle', reward:80},
-  {id:'q5', icon:'🔤', name:{kk:'3 сөз тап',ru:'Угадай 3 слова',en:'Find 3 words'}, target:3, game:'word', reward:70},
-  {id:'q6', icon:'🐍', name:{kk:'Жылан (5 жеу)',ru:'Съешь 5 едой в змейке',en:'Eat 5 food in Snake'}, target:5, game:'snake', reward:90},
-  {id:'q7', icon:'🎮', name:{kk:'3 рет кез келген ойын',ru:'Сыграй 3 раза',en:'Play any game 3 times'}, target:3, game:'any', reward:100},
+  {id:'q1', icon:'🃏', name:{kk:'Карта ойынын ойна',ru:'Сыграй в карточки',en:'Play Memory'}, target:1, page:'memory', reward:50},
+  {id:'q2', icon:'📚', name:{kk:'Тест (5 сұрақ)',ru:'Ответь на 5 вопросов',en:'Answer 5 quiz Qs'}, target:5, page:'quiz', reward:75},
+  {id:'q3', icon:'🧮', name:{kk:'Математика (3 есеп)',ru:'Реши 3 задачи',en:'Solve 3 math'}, target:3, page:'math', reward:60},
+  {id:'q4', icon:'🧩', name:{kk:'Пазлды шеш',ru:'Собери пазл',en:'Solve puzzle'}, target:1, page:'puzzle', reward:80},
+  {id:'q5', icon:'🔤', name:{kk:'3 сөз тап',ru:'Угадай 3 слова',en:'Find 3 words'}, target:3, page:'word', reward:70},
+  {id:'q6', icon:'🐍', name:{kk:'Жылан (5 жеу)',ru:'Съешь 5 в змейке',en:'Eat 5 in Snake'}, target:5, page:'snake', reward:90},
+  {id:'q7', icon:'🎮', name:{kk:'3 рет кез келген ойын',ru:'Сыграй 3 раза',en:'Play any game x3'}, target:3, page:'any', reward:100},
 ];
 
-function getTodayStr() { return new Date().toISOString().slice(0,10); }
-
-function getDailyProgress() {
-  const today = getTodayStr();
-  if (!state.dailyQuestProgress || state.dailyQuestDate !== today) {
-    state.dailyQuestProgress = {};
-    state.dailyQuestDate = today;
-    save();
+function getDQToday() { return new Date().toISOString().slice(0,10); }
+function getDQProgress() {
+  const t = getDQToday();
+  if (!state.dailyQuestProgress || state.dailyQuestDate !== t) {
+    state.dailyQuestProgress = {}; state.dailyQuestDate = t; save();
   }
   return state.dailyQuestProgress;
 }
-
+function timeToMidnight() {
+  const now = new Date(), mn = new Date(now); mn.setHours(24,0,0,0);
+  const d = mn-now, h = Math.floor(d/3600000), m = Math.floor((d%3600000)/60000);
+  return h+'ч '+m+'м';
+}
 function renderDailyPage() {
   const container = document.getElementById('dailyQuestContainer');
   if (!container) return;
-  const progress = getDailyProgress();
-  const completedCount = DAILY_QUESTS.filter(q => (progress[q.id]||0) >= q.target).length;
-  const earnedReward = DAILY_QUESTS.filter(q => (progress[q.id]||0) >= q.target).reduce((s,q) => s + q.reward, 0);
-  const totalReward = DAILY_QUESTS.reduce((s,q) => s + q.reward, 0);
-
-  const subEl = document.getElementById('daily_page_sub');
-  if (subEl) subEl.textContent = (currentLang==='kk'?'Жаңарады: ':currentLang==='ru'?'Обновление через: ':'Resets in: ') + getTimeUntilMidnight();
-
-  container.innerHTML = '';
-
-  const summary = document.createElement('div');
-  summary.style.cssText = 'background:linear-gradient(135deg,#FF6B35,#FF8C5A);border-radius:22px;padding:18px 20px;margin-bottom:16px;color:white;display:flex;align-items:center;justify-content:space-between;box-shadow:0 6px 20px rgba(255,107,53,0.35)';
-  summary.innerHTML = `<div><div style="font-family:'Fredoka One',cursive;font-size:20px">${completedCount}/${DAILY_QUESTS.length} ${currentLang==='kk'?'орындалды':currentLang==='ru'?'выполнено':'done'}</div><div style="font-size:12px;opacity:0.9;font-weight:700;margin-top:2px">${currentLang==='kk'?'Сыйақы:':currentLang==='ru'?'Награды:':'Rewards:'} ${earnedReward}/${totalReward} BC</div></div><div style="font-size:42px">🏆</div>`;
-  container.appendChild(summary);
-
-  const pbWrap = document.createElement('div');
-  pbWrap.innerHTML = `<div class="progress-outer" style="margin-bottom:16px"><div class="progress-inner" style="width:${completedCount/DAILY_QUESTS.length*100}%"></div></div>`;
-  container.appendChild(pbWrap);
-
-  const section = document.createElement('div');
-  section.className = 'daily-section';
-  section.innerHTML = `<div class="daily-header"><div class="daily-title">${currentLang==='kk'?'🎯 Тапсырмалар':currentLang==='ru'?'🎯 Задания':'🎯 Quests'}</div><div class="daily-reset">${getTimeUntilMidnight()}</div></div>`;
-
-  DAILY_QUESTS.forEach(q => {
-    const curr = progress[q.id] || 0;
-    const done = curr >= q.target;
-    const pct = Math.min(100, Math.round(curr/q.target*100));
-    const name = q.name[currentLang] || q.name.kk;
-    const item = document.createElement('div');
-    item.className = 'quest-item' + (done ? ' done' : '');
-    item.innerHTML = `<div class="quest-icon">${q.icon}</div><div class="quest-info"><div class="quest-name">${name}</div><div class="quest-reward">+${q.reward} BC</div><div class="quest-prog-bar"><div class="quest-prog-fill" style="width:${pct}%"></div></div></div><div class="quest-progress">${done?'<span class="quest-done-badge">✓</span>':`<span style="font-family:'Fredoka One',cursive;font-size:13px;color:var(--text2)">${curr}/${q.target}</span>`}</div>`;
-    item.onclick = () => { switchPage(q.game !== 'any' ? q.game : 'menu'); setActiveNav(document.getElementById('nav-menu')); if(q.game!=='any') openGame(q.game); };
-    section.appendChild(item);
-  });
-  container.appendChild(section);
+  const prog = getDQProgress();
+  const done = DAILY_QUESTS.filter(q=>(prog[q.id]||0)>=q.target).length;
+  const earned = DAILY_QUESTS.filter(q=>(prog[q.id]||0)>=q.target).reduce((s,q)=>s+q.reward,0);
+  const total = DAILY_QUESTS.reduce((s,q)=>s+q.reward,0);
+  const lang = typeof currentLang!=='undefined' ? currentLang : 'kk';
+  const el = document.getElementById('daily_sub_txt');
+  if(el) el.textContent = (lang==='kk'?'Жаңарады: ':lang==='ru'?'Обновление через: ':'Resets in: ') + timeToMidnight();
+  container.innerHTML = `
+    <div style="background:linear-gradient(135deg,#FF6B35,#FF8C5A);border-radius:22px;padding:18px 20px;margin-bottom:14px;color:white;display:flex;align-items:center;justify-content:space-between;box-shadow:0 6px 20px rgba(255,107,53,.35)">
+      <div>
+        <div style="font-family:'Fredoka One',cursive;font-size:20px">${done}/${DAILY_QUESTS.length} ${lang==='kk'?'орындалды':lang==='ru'?'выполнено':'done'}</div>
+        <div style="font-size:12px;opacity:.9;font-weight:700;margin-top:2px">${lang==='kk'?'Сыйақы':lang==='ru'?'Награды':'Rewards'}: ${earned}/${total} BC</div>
+      </div>
+      <div style="font-size:42px">🏆</div>
+    </div>
+    <div class="progress-outer" style="margin-bottom:16px"><div class="progress-inner" style="width:${done/DAILY_QUESTS.length*100}%"></div></div>
+    <div class="daily-section">
+      <div class="daily-header">
+        <div class="daily-title">${lang==='kk'?'🎯 Тапсырмалар':lang==='ru'?'🎯 Задания':'🎯 Quests'}</div>
+        <div class="daily-reset">${timeToMidnight()}</div>
+      </div>
+      ${DAILY_QUESTS.map(q=>{
+        const curr=prog[q.id]||0, isDone=curr>=q.target, pct=Math.min(100,Math.round(curr/q.target*100));
+        const nm = q.name[lang]||q.name.kk;
+        return `<div class="quest-item${isDone?' done':''}" onclick="switchPage('${q.page==='any'?'menu':q.page}');${q.page!=='any'?`if(typeof init${q.page.charAt(0).toUpperCase()+q.page.slice(1)}==='function')init${q.page.charAt(0).toUpperCase()+q.page.slice(1)}();`:''}" style="cursor:pointer">
+          <div class="quest-icon">${q.icon}</div>
+          <div class="quest-info">
+            <div class="quest-name">${nm}</div>
+            <div class="quest-reward">+${q.reward} BC</div>
+            <div class="quest-prog-bar"><div class="quest-prog-fill" style="width:${pct}%"></div></div>
+          </div>
+          <div class="quest-progress">${isDone?'<span class="quest-done-badge">✓</span>':`<span style="font-family:'Fredoka One',cursive;font-size:13px;color:var(--text2)">${curr}/${q.target}</span>`}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
 }
-
-function getTimeUntilMidnight() {
-  const now = new Date();
-  const midnight = new Date(now); midnight.setHours(24,0,0,0);
-  const diff = midnight - now;
-  const h = Math.floor(diff/3600000);
-  const m = Math.floor((diff%3600000)/60000);
-  return h + 'ч ' + m + 'м';
-}
-
-function trackQuest(questId, amount) {
-  const progress = getDailyProgress();
-  const q = DAILY_QUESTS.find(x => x.id === questId);
-  if (!q) return;
-  const prev = progress[q.id] || 0;
-  if (prev >= q.target) return;
-  progress[q.id] = Math.min(q.target, prev + (amount || 1));
-  state.dailyQuestProgress = progress;
-  save();
-  if (progress[q.id] >= q.target) {
+function trackQuest(qid, amt) {
+  const prog = getDQProgress(), q = DAILY_QUESTS.find(x=>x.id===qid);
+  if(!q) return; const prev=prog[qid]||0; if(prev>=q.target) return;
+  prog[qid]=Math.min(q.target,prev+(amt||1)); state.dailyQuestProgress=prog; save();
+  if(prog[qid]>=q.target){
     addCoins(q.reward);
-    showToast('🎉 ' + (q.name[currentLang]||q.name.kk) + ' +' + q.reward + ' BC');
-    launchSmallConfetti();
+    const lang=typeof currentLang!=='undefined'?currentLang:'kk';
+    if(typeof showToast==='function') showToast('🎉 '+(q.name[lang]||q.name.kk)+' +'+q.reward+' BC');
+    if(typeof launchSmallConfetti==='function') launchSmallConfetti();
   }
   updateDailyBadge();
 }
-
 function updateDailyBadge() {
-  const progress = getDailyProgress();
-  const incomplete = DAILY_QUESTS.filter(q => (progress[q.id]||0) < q.target).length;
-  const btn = document.getElementById('nav-daily');
-  if (!btn) return;
-  const existing = btn.querySelector('.daily-badge');
-  if (existing) existing.remove();
-  if (incomplete > 0) {
-    const badge = document.createElement('span');
-    badge.className = 'daily-badge';
-    badge.textContent = incomplete;
-    btn.querySelector('.nav-icon-wrap').appendChild(badge);
-  }
+  const prog=getDQProgress(), inc=DAILY_QUESTS.filter(q=>(prog[q.id]||0)<q.target).length;
+  const btn=document.getElementById('nav-daily'); if(!btn) return;
+  const ex=btn.querySelector('.daily-badge'); if(ex) ex.remove();
+  if(inc>0){const b=document.createElement('span');b.className='daily-badge';b.textContent=inc;const iw=btn.querySelector('.nav-icon-wrap');if(iw)iw.appendChild(b);}
 }
 
 // ============================================================
@@ -345,7 +323,9 @@ function getDailyLimit(region) {
   return Math.floor(getRegionMaxCoins(region) * 0.20);
 }
 
-// getTodayStr defined in daily tasks
+function getTodayStr() {
+  return new Date().toISOString().slice(0,10);
+}
 
 function getRegionCoinsToday(region) {
   const k = normalizeRegion(region);
@@ -1475,102 +1455,6 @@ const REGION_SVG_IDS = {
   'Ақмолинская':'mp-akmola', 'Северо-Казахстанская':'mp-sko',
   'Костанайская':'mp-kostanay'
 };
-
-function renderMapPage() {
-  // Обновляем инфо о домашнем регионе
-  const home = state.homeRegion;
-  const rd = REGION_DATA[home] || {};
-  const label = document.getElementById('homeRegionLabel');
-  const nameEl = document.getElementById('homeRegionName');
-  const coinsEl = document.getElementById('homeRegionCoins');
-  if (label) label.textContent = currentLang==='kk'?'Туған өлке':currentLang==='ru'?'Родной регион':'Home Region';
-  if (nameEl) nameEl.textContent = rd[currentLang] || home || '-';
-  if (coinsEl) {
-    const todayCoins = getRegionCoinsToday(home);
-    const limit = getDailyLimit(home);
-    coinsEl.textContent = todayCoins + '/' + limit + ' BC';
-  }
-  // Закрашиваем карту
-  Object.entries(REGION_SVG_IDS).forEach(([region, svgId]) => {
-    const el = document.getElementById(svgId);
-    if (!el) return;
-    const isHome = region === home;
-    const isUnlocked = state.unlockedRegions.includes(region);
-    const isCompleted = state.completedRegions.includes(region);
-    if (isHome) {
-      el.style.stroke = '#FF6B35';
-      el.style.strokeWidth = '3';
-    }
-    if (!isUnlocked) {
-      el.style.filter = 'grayscale(100%) brightness(0.7)';
-      el.style.opacity = '0.5';
-    } else {
-      el.style.filter = '';
-      el.style.opacity = '1';
-    }
-    if (isCompleted) {
-      el.style.filter = 'none';
-      el.style.opacity = '1';
-    }
-  });
-  // Рендерим список регионов
-  renderRegionList();
-}
-
-function renderRegionList() {
-  const container = document.getElementById('regionListCards');
-  if (!container) return;
-  container.innerHTML = '';
-  Object.entries(REGION_DATA).forEach(([region]) => {
-    const rd = REGION_DATA[region];
-    const isUnlocked = state.unlockedRegions.includes(region);
-    const isHome = region === state.homeRegion;
-    const isCompleted = state.completedRegions.includes(region);
-    const todayCoins = getRegionCoinsToday(region);
-    const limit = getDailyLimit(region);
-    const pct = rd.maxCoins ? Math.round((todayCoins / rd.maxCoins) * 100) : 0;
-    const card = document.createElement('div');
-    card.style.cssText = `background:white;border-radius:16px;padding:14px 16px;margin-bottom:10px;box-shadow:0 3px 12px rgba(0,0,0,0.07);border:2px solid ${isHome?'#FF6B35':isCompleted?'#27AE60':isUnlocked?'#4ECDC4':'#eee'};opacity:${isUnlocked?1:0.55};cursor:pointer;transition:all 0.2s`;
-    card.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-        <div>
-          <div style="font-family:'Fredoka One',cursive;font-size:15px;color:var(--text)">
-            ${isHome?'🏠 ':''}${isCompleted?'✅ ':''}${!isUnlocked?'🔒 ':''}${rd[currentLang]||region}
-          </div>
-          <div style="font-size:11px;color:var(--text2);font-weight:700">👥 ${rd.pop.toLocaleString()} | 🪙 макс ${rd.maxCoins} BC</div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-family:'Fredoka One',cursive;font-size:14px;color:var(--gold2)">${todayCoins}/${limit}</div>
-          <div style="font-size:10px;color:var(--text2);font-weight:700">${currentLang==='kk'?'бүгін':currentLang==='ru'?'сегодня':'today'}</div>
-        </div>
-      </div>
-      <div class="progress-outer" style="height:6px;margin-bottom:0">
-        <div class="progress-inner" style="width:${Math.min(pct,100)}%"></div>
-      </div>
-    `;
-    card.onclick = () => { if (isUnlocked) showRegionInfo(region); else showToast(currentLang==='kk'?'Алдымен алдыңғы облысты аяқта!':currentLang==='ru'?'Сначала завершите предыдущую область!':'Complete previous region first!'); };
-    container.appendChild(card);
-  });
-}
-
-function mapClickRegion(region) {
-  const norm = normalizeRegion(region);
-  const isUnlocked = state.unlockedRegions.includes(norm);
-  if (isUnlocked) {
-    showRegionInfo(norm);
-  } else {
-    showToast(currentLang==='kk'?'🔒 Алдымен алдыңғы облысты аяқта!':currentLang==='ru'?'🔒 Завершите предыдущую область!':'🔒 Complete previous region!');
-  }
-}
-
-// Override switchPage to render map when needed
-const _origSwitchPage = switchPage;
-function switchPage(name) {
-  _origSwitchPage(name);
-  if (name === 'map') renderMapPage();
-}
-
-function updateLeaderboard() { save(); schedulePush(); }
 
 // ============================================================
 // PARENT MODE

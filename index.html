@@ -8,8 +8,6 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-
 <!-- STARS BG -->
 <div class="stars-bg" id="starsBg"></div>
 
@@ -286,6 +284,14 @@
 <div class="page" id="page-menu">
   <div class="section-title" id="menu_title">Ойын таңда</div>
   <div class="section-sub" id="menu_sub">Ботакоин жина!</div>
+  
+  <!-- Карта прогресса (кнопка-баннер) -->
+    <div>
+      <div style="font-family:'Fredoka One',cursive;font-size:18px;color:white" id="mapBtnTitle">Қазақстан картасы</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:700" id="mapBtnSub">Облыстарды ашып, BotaCoin жина!</div>
+    </div>
+    <div style="margin-left:auto;color:white;font-size:22px">→</div>
+  </div>
 
   <div class="menu-grid">
     <div class="game-card color-1" onclick="openGame('memory')">
@@ -333,6 +339,7 @@
   </div>
 </div>
 
+<!-- KAZAKHSTAN MAP PAGE -->
 
 <!-- MEMORY -->
 <div class="page" id="page-memory">
@@ -446,10 +453,11 @@
 
 <!-- DAILY TASKS PAGE -->
 <div class="page" id="page-daily">
-  <div class="section-title">📋 Күнделікті тапсырмалар</div>
-  <div class="section-sub" id="daily_page_sub">Тапсырмаларды орындап, BotaCoin жина!</div>
-  <div id="dailyQuestContainer"></div>
+  <div class="section-title">📋 <span id="daily_title_txt">Күнделікті тапсырмалар</span></div>
+  <div class="section-sub" id="daily_sub_txt">Тапсырмаларды орындап, BotaCoin жина!</div>
+  <div id="dailyQuestContainer" style="padding-bottom:16px"></div>
 </div>
+
 
 <!-- SHOP -->
 <div class="page" id="page-shop">
@@ -756,8 +764,6 @@
     <button class="big-btn" onclick="closeModal('regionInfoModal')" style="margin-top:16px">Жабу</button>
   </div>
 </div>
-
-
 <script src="app.js"></script>
 </body>
 </html>
