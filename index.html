@@ -820,16 +820,6 @@ nav {
   <div class="section-title" id="menu_title">Ойын таңда</div>
   <div class="section-sub" id="menu_sub">Ботакоин жина!</div>
   
-  <!-- Карта прогресса (кнопка-баннер) -->
-  <div onclick="switchPage('map');setActiveNav(null);scrollToTop()" style="background:linear-gradient(135deg,#2980B9,#4ECDC4);border-radius:20px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;cursor:pointer;box-shadow:0 6px 20px rgba(41,128,185,0.3);transition:all 0.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-    <div style="font-size:36px">🗺️</div>
-    <div>
-      <div style="font-family:'Fredoka One',cursive;font-size:18px;color:white" id="mapBtnTitle">Қазақстан картасы</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:700" id="mapBtnSub">Облыстарды ашып, BotaCoin жина!</div>
-    </div>
-    <div style="margin-left:auto;color:white;font-size:22px">→</div>
-  </div>
-
   <div class="menu-grid">
     <div class="game-card color-1" onclick="openGame('memory')">
       <div class="game-icon-wrap" style="background:linear-gradient(135deg,#FFE8E0,#FFD0C0)">
@@ -876,55 +866,6 @@ nav {
   </div>
 </div>
 
-<!-- KAZAKHSTAN MAP PAGE -->
-<div class="page" id="page-map">
-  <button class="back-btn" onclick="switchPage('menu');setActiveNav(document.getElementById('nav-menu'));scrollToTop()">← <span id="back_map">Артқа</span></button>
-  <div class="section-title">🗺️ <span id="map_title">Қазақстан картасы</span></div>
-  <div class="section-sub" id="map_sub">Облысты таңдап, ашу туралы біліміңді кеңейт!</div>
-
-  <!-- Инфо о текущем регионе -->
-  <div style="background:linear-gradient(135deg,#FF6B35,#FF8C5A);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:12px">
-    <div style="font-size:32px">🏠</div>
-    <div>
-      <div style="font-family:'Fredoka One',cursive;font-size:15px;color:white" id="homeRegionLabel">Туған өлке</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.85);font-weight:700" id="homeRegionName">-</div>
-    </div>
-    <div style="margin-left:auto">
-      <div style="background:rgba(255,255,255,0.25);border-radius:12px;padding:6px 12px;font-family:'Fredoka One',cursive;font-size:14px;color:white" id="homeRegionCoins">0 BC</div>
-    </div>
-  </div>
-
-  <!-- Интерактивная карта -->
-  <div style="background:white;border-radius:22px;padding:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);margin-bottom:16px">
-    <svg viewBox="0 0 520 340" width="100%" id="mapPageSvg" style="border-radius:12px">
-      <rect width="520" height="340" fill="#E3F2FD" rx="12"/>
-      <!-- Regions — color changes based on lock status -->
-      <path id="mp-aktobe" d="M60 60 L150 55 L160 130 L80 140 Z" fill="#4ECDC4" stroke="white" stroke-width="2" onclick="mapClickRegion('Актюбинская')" style="cursor:pointer"/>
-      <path id="mp-wko" d="M30 35 L120 30 L150 55 L60 60 L30 80 Z" fill="#27AE60" stroke="white" stroke-width="2" onclick="mapClickRegion('Западно-Казахстанская')" style="cursor:pointer"/>
-      <path id="mp-atyrau" d="M10 80 L60 60 L80 140 L20 130 Z" fill="#9B59B6" stroke="white" stroke-width="2" onclick="mapClickRegion('Атырауская')" style="cursor:pointer"/>
-      <path id="mp-mangistau" d="M10 130 L80 140 L70 200 L5 180 Z" fill="#E74C3C" stroke="white" stroke-width="2" onclick="mapClickRegion('Мангистауская')" style="cursor:pointer"/>
-      <path id="mp-kyzylorda" d="M80 140 L160 130 L180 210 L90 220 Z" fill="#F39C12" stroke="white" stroke-width="2" onclick="mapClickRegion('Кызылординская')" style="cursor:pointer"/>
-      <path id="mp-turkestan" d="M90 220 L180 210 L190 280 L85 270 Z" fill="#1ABC9C" stroke="white" stroke-width="2" onclick="mapClickRegion('Туркестанская')" style="cursor:pointer"/>
-      <path id="mp-zhambyl" d="M180 210 L260 200 L270 275 L190 280 Z" fill="#2980B9" stroke="white" stroke-width="2" onclick="mapClickRegion('Жамбылская')" style="cursor:pointer"/>
-      <path id="mp-almaty" d="M260 200 L340 190 L360 270 L270 275 Z" fill="#8E44AD" stroke="white" stroke-width="2" onclick="mapClickRegion('Алматинская')" style="cursor:pointer"/>
-      <path id="mp-zhetisu" d="M340 190 L400 185 L410 255 L360 270 Z" fill="#E67E22" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Жетісу')" style="cursor:pointer"/>
-      <path id="mp-karagandy" d="M160 130 L280 120 L290 200 L180 210 Z" fill="#16A085" stroke="white" stroke-width="2" onclick="mapClickRegion('Карагандинская')" style="cursor:pointer"/>
-      <path id="mp-ulytau" d="M155 125 L175 200 L165 210 L90 215 L78 140 Z" fill="#D35400" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Ұлытау')" style="cursor:pointer"/>
-      <path id="mp-pavlodar" d="M280 60 L380 55 L390 130 L290 130 Z" fill="#C0392B" stroke="white" stroke-width="2" onclick="mapClickRegion('Павлодарская')" style="cursor:pointer"/>
-      <path id="mp-eko" d="M380 55 L470 50 L480 170 L390 165 Z" fill="#7D3C98" stroke="white" stroke-width="2" onclick="mapClickRegion('Восточно-Казахстанская')" style="cursor:pointer"/>
-      <path id="mp-abay" d="M390 130 L480 130 L480 200 L400 195 Z" fill="#117A65" stroke="white" stroke-width="2" onclick="mapClickRegion('Область Абай')" style="cursor:pointer"/>
-      <path id="mp-akmola" d="M160 30 L280 25 L285 125 L165 125 Z" fill="#2471A3" stroke="white" stroke-width="2" onclick="mapClickRegion('Ақмолинская')" style="cursor:pointer"/>
-      <path id="mp-sko" d="M160 10 L280 10 L280 30 L160 30 Z" fill="#117864" stroke="white" stroke-width="2" onclick="mapClickRegion('Северо-Казахстанская')" style="cursor:pointer"/>
-      <path id="mp-kostanay" d="M120 10 L160 10 L160 130 L115 130 Z" fill="#884EA0" stroke="white" stroke-width="2" onclick="mapClickRegion('Костанайская')" style="cursor:pointer"/>
-      <!-- Астана маркер -->
-      <circle cx="210" cy="65" r="6" fill="#FFD700" stroke="#FF6B35" stroke-width="2"/>
-      <text x="218" y="62" font-size="9" fill="white" font-weight="bold">Астана</text>
-    </svg>
-  </div>
-
-  <!-- Список регионов -->
-  <div id="regionListCards"></div>
-</div>
 
 <!-- MEMORY -->
 <div class="page" id="page-memory">
@@ -1035,6 +976,14 @@ nav {
   </div>
   <button class="big-btn" onclick="initSnake()" style="margin-top:8px" id="snakeStartBtn">Бастау</button>
 </div>
+
+<!-- DAILY TASKS -->
+<div class="page" id="page-daily">
+  <div class="section-title">📋 <span id="daily_page_title">Күнделікті тапсырмалар</span></div>
+  <div class="section-sub" id="daily_page_sub">Тапсырмаларды орындап, BotaCoin жина!</div>
+  <div id="dailyQuestContainer"></div>
+</div>
+
 
 <!-- SHOP -->
 <div class="page" id="page-shop">
@@ -1355,7 +1304,8 @@ let state = {
   completedRegions: [], // Полностью завершённые регионы
   regionProgress: {}, // { regionKey: { tasksToday: 0, lastDate: '', totalCompleted: 0 } }
   parentPin: '', screenTimeStart: null, totalScreenTime: 0,
-  dailyCoinsToday: 0, dailyDate: ''
+  dailyCoinsToday: 0, dailyDate: '',
+  dailyQuestProgress: {}, dailyQuestDate: ''
 };
 let currentLang = 'kk';
 let selectedAge = null;
@@ -3126,6 +3076,151 @@ function updateInventoryUI() {
     slot.innerHTML = `<svg viewBox="0 0 56 56" width="38" height="38">${svgContent.replace(/<svg[^>]*>/,'').replace('</svg>','')}</svg><div class="rarity-dot dot-${item.rarity||'common'}"></div>`;
     grid.appendChild(slot);
   });
+}
+
+
+// ============================================================
+// DAILY TASKS PAGE
+// ============================================================
+const DAILY_QUESTS = [
+  {id:'q1', icon:'🃏', name:{kk:'Карта ойынын ойна',ru:'Сыграй в карточки',en:'Play Memory Game'}, target:1, game:'memory', reward:50},
+  {id:'q2', icon:'📚', name:{kk:'Тест тапсыр (5 сұрақ)',ru:'Ответь на 5 вопросов',en:'Answer 5 quiz questions'}, target:5, game:'quiz', reward:75},
+  {id:'q3', icon:'🧮', name:{kk:'Математика (3 есеп шеш)',ru:'Реши 3 задачи по математике',en:'Solve 3 math problems'}, target:3, game:'math', reward:60},
+  {id:'q4', icon:'🧩', name:{kk:'Пазлды шеш',ru:'Собери пазл',en:'Solve a puzzle'}, target:1, game:'puzzle', reward:80},
+  {id:'q5', icon:'🔤', name:{kk:'3 сөз тап',ru:'Угадай 3 слова',en:'Find 3 words'}, target:3, game:'word', reward:70},
+  {id:'q6', icon:'🐍', name:{kk:'Жылан ойынын ойна (5 жеу)',ru:'Съешь 5 едой в змейке',en:'Eat 5 food in Snake'}, target:5, game:'snake', reward:90},
+  {id:'q7', icon:'🎮', name:{kk:'Кез келген ойынды 3 рет ойна',ru:'Сыграй в любую игру 3 раза',en:'Play any game 3 times'}, target:3, game:'any', reward:100},
+];
+
+function getTodayStr2() { return new Date().toISOString().slice(0,10); }
+
+function getDailyProgress() {
+  const today = getTodayStr2();
+  if (!state.dailyQuestProgress || state.dailyQuestDate !== today) {
+    state.dailyQuestProgress = {};
+    state.dailyQuestDate = today;
+    save();
+  }
+  return state.dailyQuestProgress;
+}
+
+function renderDailyPage() {
+  const container = document.getElementById('dailyQuestContainer');
+  if (!container) return;
+  const progress = getDailyProgress();
+  const today = getTodayStr2();
+  const timeLeft = getTimeUntilMidnight();
+
+  // Update title
+  const titleEl = document.getElementById('daily_page_title');
+  const subEl = document.getElementById('daily_page_sub');
+  if (titleEl) titleEl.textContent = currentLang==='kk'?'Күнделікті тапсырмалар':currentLang==='ru'?'Ежедневные задания':'Daily Quests';
+  if (subEl) subEl.textContent = (currentLang==='kk'?'Жаңарады: ':currentLang==='ru'?'Обновление: ':'Resets in: ') + timeLeft;
+
+  const completedCount = DAILY_QUESTS.filter(q => (progress[q.id]||0) >= q.target).length;
+  const totalReward = DAILY_QUESTS.reduce((s,q) => s + q.reward, 0);
+  const earnedReward = DAILY_QUESTS.filter(q => (progress[q.id]||0) >= q.target).reduce((s,q) => s + q.reward, 0);
+
+  container.innerHTML = '';
+
+  // Summary card
+  const summary = document.createElement('div');
+  summary.style.cssText = 'background:linear-gradient(135deg,#FF6B35,#FF8C5A);border-radius:22px;padding:18px 20px;margin-bottom:16px;color:white;display:flex;align-items:center;justify-content:space-between;box-shadow:0 6px 20px rgba(255,107,53,0.35)';
+  summary.innerHTML = `
+    <div>
+      <div style="font-family:'Fredoka One',cursive;font-size:20px">${completedCount}/${DAILY_QUESTS.length} ${currentLang==='kk'?'орындалды':currentLang==='ru'?'выполнено':'done'}</div>
+      <div style="font-size:12px;opacity:0.9;font-weight:700;margin-top:2px">${currentLang==='kk'?'Жалпы сыйақы:':currentLang==='ru'?'Итого наград:':'Total reward:'} ${earnedReward}/${totalReward} BC</div>
+    </div>
+    <div style="font-size:42px">🏆</div>
+  `;
+  container.appendChild(summary);
+
+  // Progress bar
+  const pbWrap = document.createElement('div');
+  pbWrap.innerHTML = `<div class="progress-outer" style="margin-bottom:16px"><div class="progress-inner" style="width:${(completedCount/DAILY_QUESTS.length*100)}%"></div></div>`;
+  container.appendChild(pbWrap);
+
+  // Quest items section
+  const section = document.createElement('div');
+  section.className = 'daily-section';
+  const header = document.createElement('div');
+  header.className = 'daily-header';
+  header.innerHTML = `<div class="daily-title">${currentLang==='kk'?'🎯 Тапсырмалар':currentLang==='ru'?'🎯 Задания':'🎯 Quests'}</div><div class="daily-reset">${timeLeft}</div>`;
+  section.appendChild(header);
+
+  DAILY_QUESTS.forEach(q => {
+    const curr = progress[q.id] || 0;
+    const done = curr >= q.target;
+    const pct = Math.min(100, Math.round(curr/q.target*100));
+    const name = q.name[currentLang] || q.name.kk;
+    const item = document.createElement('div');
+    item.className = 'quest-item' + (done ? ' done' : '');
+    item.innerHTML = `
+      <div class="quest-icon">${q.icon}</div>
+      <div class="quest-info">
+        <div class="quest-name">${name}</div>
+        <div class="quest-reward">+${q.reward} BC</div>
+        <div class="quest-prog-bar"><div class="quest-prog-fill" style="width:${pct}%"></div></div>
+      </div>
+      <div class="quest-progress">
+        ${done
+          ? `<span class="quest-done-badge">✓</span>`
+          : `<span style="font-family:'Fredoka One',cursive;font-size:13px;color:var(--text2)">${curr}/${q.target}</span>`
+        }
+      </div>
+    `;
+    item.onclick = () => {
+      if (q.game !== 'any') { openGame(q.game); switchPage(q.game); setActiveNav(document.getElementById('nav-menu')); }
+      else { switchPage('menu'); setActiveNav(document.getElementById('nav-menu')); }
+    };
+    section.appendChild(item);
+  });
+  container.appendChild(section);
+}
+
+function getTimeUntilMidnight() {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24,0,0,0);
+  const diff = midnight - now;
+  const h = Math.floor(diff/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  return h + 'ч ' + m + 'м';
+}
+
+// Track quest progress — call after each game action
+function trackQuest(questId, amount) {
+  const progress = getDailyProgress();
+  const q = DAILY_QUESTS.find(x => x.id === questId);
+  if (!q) return;
+  const prev = progress[q.id] || 0;
+  if (prev >= q.target) return;
+  progress[q.id] = prev + (amount || 1);
+  state.dailyQuestProgress = progress;
+  save();
+  if (progress[q.id] >= q.target) {
+    addCoins(q.reward);
+    showToast('🎉 ' + (q.name[currentLang]||q.name.kk) + ' +' + q.reward + ' BC');
+    launchSmallConfetti();
+  }
+  // Update nav badge
+  updateDailyBadge();
+}
+
+function updateDailyBadge() {
+  const progress = getDailyProgress();
+  const incomplete = DAILY_QUESTS.filter(q => (progress[q.id]||0) < q.target).length;
+  const navDaily = document.getElementById('nav-daily');
+  if (navDaily) {
+    const existing = navDaily.querySelector('.daily-badge');
+    if (existing) existing.remove();
+    if (incomplete > 0) {
+      const badge = document.createElement('span');
+      badge.className = 'daily-badge';
+      badge.textContent = incomplete;
+      navDaily.querySelector('.nav-icon-wrap').appendChild(badge);
+    }
+  }
 }
 
 // ============================================================
